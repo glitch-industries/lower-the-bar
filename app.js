@@ -246,7 +246,7 @@ function renderIfitWidget(body){
   body.appendChild(sw);
 }
 
-var TAG_COLORS = { glute:"#5a9e8a", cardio:"#4a8ab5", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a" };
+var TAG_COLORS = { glute:"#5a9e8a", cardio:"#4a8ab5", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a", vacation:"#c4956a" };
 var DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAY_FULL = { Mon:"Monday", Tue:"Tuesday", Wed:"Wednesday", Thu:"Thursday", Fri:"Friday", Sat:"Saturday", Sun:"Sunday" };
 var DAY_ORDER = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
@@ -263,14 +263,41 @@ function parseYMD(s){ return new Date(s+"T00:00:00"); }
 
 // Apply the schedule shift: the effective date used for plan lookups.
 function effectiveDate(realDate){
-  var shift = (DATA.schedule.shiftDays||0);
+  var shift = (DATA.schedule.shiftDays||0) + (store.shiftOverride||0);
   var d = new Date(realDate); d.setDate(d.getDate() - shift);
   return d;
 }
 function weekdayOf(d){ return DAY_NAMES[d.getDay()]; }
 
+/* ---------- vacation ---------- */
+function isVacationDay(dateStr){
+  var v=store.vacation; if(!v||!v.startDate||!v.days) return false;
+  var start=parseYMD(v.startDate); var end=new Date(start); end.setDate(start.getDate()+v.days);
+  var d=parseYMD(dateStr); return d>=start && d<end;
+}
+function vacationDaysLeft(){
+  var v=store.vacation; if(!v||!v.startDate||!v.days) return 0;
+  var end=new Date(parseYMD(v.startDate)); end.setDate(end.getDate()+v.days);
+  return Math.max(0, Math.ceil((end-todayMidnight())/86400000));
+}
+function vacationTemplateForDate(dateStr){
+  // Deterministic random by date so it stays consistent on reopen
+  var hash=0; for(var i=0;i<dateStr.length;i++) hash=(hash*31+dateStr.charCodeAt(i))&0x7fffffff;
+  var opts=["vacation-minimum","vacation-bodyweight","vacation-flow"];
+  return opts[hash%3];
+}
+function checkVacationEnd(){
+  var v=store.vacation; if(!v||!v.startDate||!v.days) return;
+  var end=new Date(parseYMD(v.startDate)); end.setDate(end.getDate()+v.days);
+  if(todayMidnight()>=end){
+    store.shiftOverride=(store.shiftOverride||0)+v.days;
+    store.vacation=null; saveStore(store);
+  }
+}
+
 // Which template runs on a given REAL calendar date (honors overrides + shift).
 function templateIdForDate(realDateStr){
+  if(isVacationDay(realDateStr)) return vacationTemplateForDate(realDateStr);
   var ov = DATA.schedule.overrides || {};
   if(ov[realDateStr]) return ov[realDateStr];
   var eff = effectiveDate(parseYMD(realDateStr));
@@ -302,6 +329,7 @@ function phaseNumber(){ return currentPhase().order; }
 /* ---------- app state ---------- */
 var INFO = {};
 function recomputeInfo(){
+  checkVacationEnd();
   var tm = todayMidnight();
   INFO.todayKey = ymd(tm);
   INFO.dayIndex = (tm.getDay()===0?6:tm.getDay()-1); // Mon=0..Sun=6
@@ -322,7 +350,9 @@ var state = {
   seenBonusIds: [],
   refreshesLeft: 2,
   showUnlock: false,
-  refFilter: "all"
+  refFilter: "all",
+  vacationDays: 7,
+  vacationPickerOpen: false
 };
 
 /* date of the selected day in the rolling 7-day window (today = index 3) */
@@ -522,10 +552,71 @@ function renderDaySelector(){
   return bar;
 }
 
+function renderVacationSession(body, tpl){
+  var isToday=(selectedDateKey()===INFO.todayKey);
+  var isFuture=selectedIsFuture();
+  var dd=dayData();
+  var daysLeft=vacationDaysLeft();
+
+  // Vacation banner
+  var banner=el("div",{style:"background:#c4956a;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;text-align:center;"});
+  banner.appendChild(el("div",{style:"font-size:20px;margin-bottom:4px;"},"🌴"));
+  banner.appendChild(el("div",{style:"font-size:15px;font-weight:bold;margin-bottom:2px;"},"Vacation mode"));
+  banner.appendChild(el("div",{style:"font-size:12px;opacity:0.85;"},daysLeft>0?(daysLeft===1?"Last day — plan resumes tomorrow.":daysLeft+" days left. Plan resumes automatically."):"Wrapping up today."));
+  body.appendChild(banner);
+
+  // Ankle mob
+  var ANKLE_EX_IDS=["ankle-circles","wall-mobilisation","calf-stretch"];
+  var aDone=ankleDone();
+  var aWrap=el("div",{style:"margin-bottom:14px;"});
+  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(isFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;")),onclick:isFuture?null:toggleAnkle});
+  a.appendChild(el("span",{style:"font-size:22px;"},isFuture?"🔒":(aDone?"✅":"🦶")));
+  a.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:14px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#5a4010")+";"},"Ankle mobilisation — 5 min"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#8a6a20")+";"},aDone?"Done.":"Still the one non-negotiable.")]));
+  aWrap.appendChild(a);
+  if(!isFuture){
+    var aList=el("div",{style:"background:#fffdf5;border:1px solid #e8d8a0;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    ANKLE_EX_IDS.forEach(function(id){ var ex=DATA.exercises[id]; if(!ex)return; var row=el("div",null); row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#5a4010;"},ex.name+(ex.defaultDose?" — "+ex.defaultDose:""))); if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#8a7040;"},ex.cues[0])); aList.appendChild(row); });
+    aWrap.appendChild(aList);
+  }
+  body.appendChild(aWrap);
+
+  // Today's template exercises
+  if(!isFuture && tpl.note) body.appendChild(el("div",{style:"padding:9px 13px;margin-bottom:12px;background:#f9f4ee;border-radius:8px;font-size:12px;color:#6a5a4a;border-left:3px solid #c4956a;line-height:1.5;"},tpl.note));
+  var exIds=(tpl.warmup||[]).concat(tpl.exercises||[]);
+  if(exIds.length && !isFuture){
+    var mw=el("div",{style:"margin-bottom:14px;"}); mw.appendChild(sectionLabel("Today's moves"));
+    exIds.forEach(function(id,i){
+      var ex=DATA.exercises[id]; if(!ex)return;
+      var done=isChecked(i); var dose=doseFor(ex);
+      var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":"#c4956a")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
+      card.appendChild(el("span",{style:"font-size:15px;flex-shrink:0;"},done?"✅":"⬜"));
+      var txt=el("div",{style:"flex:1;"}); txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"},ex.name+(dose?" — "+dose:""))); if(ex.cues&&ex.cues.length) txt.appendChild(el("div",{style:"font-size:11px;color:#8a7a6a;margin-top:2px;"},ex.cues[0])); card.appendChild(txt);
+      mw.appendChild(card);
+    });
+    body.appendChild(mw);
+  }
+
+  // Done tap
+  if(!isFuture){
+    if(!dd.completed){
+      body.appendChild(el("button",{style:"width:100%;padding:14px;background:#c4956a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true}); render(); }},"Done for today ✓"));
+    } else {
+      var comp=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:14px 18px;text-align:center;margin-bottom:14px;"});
+      comp.appendChild(el("div",{style:"font-size:20px;margin-bottom:4px;"},"✨"));
+      comp.appendChild(el("div",{style:"font-size:14px;font-weight:bold;"},"Kept the thread. Well done."));
+      comp.appendChild(el("div",{style:"font-size:12px;color:#9ab090;margin-top:3px;"},"Plan resumes in "+daysLeft+(daysLeft===1?" day.":" days.")));
+      body.appendChild(comp);
+    }
+  }
+}
+
 function renderSession(body){
   var sel=selectedTemplate(); var tpl=sel.tpl; var tag=tpl.tag; var tagColor=TAG_COLORS[tag];
   var isToday=(selectedDateKey()===INFO.todayKey);
   var dd=dayData();
+
+  // Hand off to vacation renderer if this is a vacation day
+  if(tag==="vacation"){ renderVacationSession(body,tpl); return; }
 
   var dh=el("div",{style:"display:flex;align-items:center;gap:10px;margin-bottom:14px;"});
   dh.appendChild(el("span",{style:"font-size:24px;"},tpl.icon));
@@ -765,6 +856,39 @@ function renderHistory(body){
     row.appendChild(right);
     body.appendChild(row);
   });
+
+  // Vacation mode
+  var vac=store.vacation;
+  var vacCard=el("div",{style:"margin-top:18px;background:#fff;border:1px solid #e0d8cc;border-radius:12px;overflow:hidden;"});
+  if(vac && vac.startDate && vac.days){
+    var dLeft=vacationDaysLeft();
+    var vh=el("div",{style:"padding:14px 16px;display:flex;align-items:center;gap:12px;"});
+    vh.appendChild(el("span",{style:"font-size:22px;"},"\ud83c\udf34"));
+    var vt=el("div",{style:"flex:1;"}); vt.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;"},"Vacation mode active")); vt.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;"},dLeft===0?"Ends today \u2014 plan resumes tomorrow.":dLeft===1?"Last day tomorrow.":dLeft+" days remaining.")); vh.appendChild(vt);
+    vh.appendChild(el("button",{style:"padding:7px 12px;background:#f5ece6;border:1px solid #d0b8a8;border-radius:8px;font-size:12px;color:#8a4a30;",onclick:function(){ if(confirm("End vacation mode now? The plan will shift forward by the days you were away.")){ store.shiftOverride=(store.shiftOverride||0)+Math.floor((todayMidnight()-parseYMD(vac.startDate))/86400000); store.vacation=null; saveStore(store); render(); } }},"End early"));
+    vacCard.appendChild(vh);
+  } else if(state.vacationPickerOpen){
+    var vp=el("div",{style:"padding:14px 16px;"});
+    vp.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;margin-bottom:4px;"},"\ud83c\udf34 How many days away?"));
+    vp.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;margin-bottom:14px;"},"The plan auto-resumes when you're back. No toggle to remember."));
+    var stepper=el("div",{style:"display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:16px;"});
+    stepper.appendChild(el("button",{style:"width:40px;height:40px;border-radius:50%;border:2px solid #d0c8bc;background:#f5f0ea;font-size:20px;color:#3a3028;",onclick:function(){ if(state.vacationDays>1){ state.vacationDays--; render(); } }},"-"));
+    stepper.appendChild(el("div",{style:"font-size:26px;font-weight:bold;color:#2d3a2e;min-width:60px;text-align:center;"},state.vacationDays+(state.vacationDays===1?" day":" days")));
+    stepper.appendChild(el("button",{style:"width:40px;height:40px;border-radius:50%;border:2px solid #d0c8bc;background:#f5f0ea;font-size:20px;color:#3a3028;",onclick:function(){ if(state.vacationDays<21){ state.vacationDays++; render(); } }},"+"));
+    vp.appendChild(stepper);
+    var vbrow=el("div",{style:"display:flex;gap:8px;"});
+    vbrow.appendChild(el("button",{style:"flex:1;padding:12px;background:#c4956a;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;",onclick:function(){ store.vacation={startDate:INFO.todayKey,days:state.vacationDays}; saveStore(store); state.vacationPickerOpen=false; render(); }},"Start vacation \ud83c\udf34"));
+    vbrow.appendChild(el("button",{style:"padding:12px 16px;background:transparent;border:2px solid #d0c8bc;border-radius:10px;font-size:13px;color:#7a6a5a;",onclick:function(){ state.vacationPickerOpen=false; render(); }},"Cancel"));
+    vp.appendChild(vbrow);
+    vacCard.appendChild(vp);
+  } else {
+    var vb=el("button",{style:"width:100%;padding:13px 16px;background:transparent;border:none;display:flex;align-items:center;gap:10px;text-align:left;",onclick:function(){ state.vacationPickerOpen=true; render(); }});
+    vb.appendChild(el("span",{style:"font-size:20px;"},"\ud83c\udf34"));
+    var vbt=el("div",{style:"flex:1;"}); vbt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;"},"Going away?")); vbt.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;"},"Set vacation mode \u2014 plan shifts automatically when you're back."));
+    vb.appendChild(vbt); vb.appendChild(el("span",{style:"font-size:14px;color:#9a8a7a;"},"\u203a"));
+    vacCard.appendChild(vb);
+  }
+  body.appendChild(vacCard);
 
   body.appendChild(el("button",{style:"width:100%;margin-top:14px;padding:11px;background:#e8e0d4;border:1px solid #d0c8bc;border-radius:8px;font-size:12px;color:#6a5a4a;",onclick:exportData},"\u2b07\ufe0e Back up my data"));
   body.appendChild(el("div",{style:"margin-top:12px;padding:12px 14px;background:#ede8e0;border-radius:8px;font-size:11px;color:#9a8a7a;text-align:center;line-height:1.5;"},"Saved on this device. Functional beats perfect."));

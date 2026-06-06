@@ -55,6 +55,36 @@
       "cooldown": [],
       "note": "Modified Sun Salutation A — no chaturanga, ever. Flow: mountain → fold → half lift → low lunge → downward dog → repeat other side. Do 3 rounds, then settle into warrior work and floor poses. Move with your breath: inhale to lengthen, exhale to fold."
     },
+    "vacation-minimum": {
+      "label": "Minimum Upkeep",
+      "tag": "vacation",
+      "icon": "🌴",
+      "ifit": null,
+      "warmup": [],
+      "exercises": ["cat-cow", "supine-twist", "savasana"],
+      "cooldown": [],
+      "note": "Ankle mob plus a stretch. Ten minutes. That's the whole job today."
+    },
+    "vacation-bodyweight": {
+      "label": "Bodyweight",
+      "tag": "vacation",
+      "icon": "🏨",
+      "ifit": null,
+      "warmup": ["cat-cow"],
+      "exercises": ["glute-bridge", "clamshell", "bird-dog", "supine-twist"],
+      "cooldown": [],
+      "note": "Floor space only. Keep it easy, keep it short. You're still in the game."
+    },
+    "vacation-flow": {
+      "label": "Short Flow",
+      "tag": "vacation",
+      "icon": "🌊",
+      "ifit": null,
+      "warmup": ["cat-cow"],
+      "exercises": ["childs-pose", "supine-twist", "pigeon-prep", "seated-forward-fold", "savasana"],
+      "cooldown": [],
+      "note": "Floor space, no equipment. Follow your breath, not the clock."
+    },
     "rest": {
       "label": "Rest + Ankle Mob",
       "tag": "rest",
