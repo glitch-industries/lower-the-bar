@@ -413,12 +413,26 @@ function renderSession(body){
   }
 
   // Ankle mob (daily, persistent, locked on future)
+  var ANKLE_EX_IDS = ["ankle-circles", "wall-mobilisation", "calf-stretch"];
   var aDone=ankleDone(), aFuture=selectedIsFuture();
-  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;margin-bottom:16px;border-radius:10px;"+(aFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;box-shadow:0 1px 4px rgba(232,184,75,0.2);")),onclick:toggleAnkle});
+  var aWrap=el("div",{style:"margin-bottom:16px;"});
+  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(aFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;box-shadow:0 1px 4px rgba(232,184,75,0.2);")),onclick:toggleAnkle});
   a.appendChild(el("span",{style:"font-size:22px;"},aFuture?"\ud83d\udd12":(aDone?"\u2705":"\ud83e\uddb6")));
-  a.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:14px;font-weight:bold;color:"+(aFuture?"#8a8276":(aDone?"#2d6a4a":"#5a4010"))+";"},"Ankle mobilisation \u2014 5 min"), el("div",{style:"font-size:11px;color:"+(aFuture?"#a39a8a":(aDone?"#4a8a64":"#8a6a20"))+";"}, aFuture?"Comes around when the day does.":(aDone?"Done. The one non-negotiable \u2014 ticked.":"Circles \u00b7 wall mob \u00b7 calf stretch \u2014 every single day")) ]));
+  a.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:14px;font-weight:bold;color:"+(aFuture?"#8a8276":(aDone?"#2d6a4a":"#5a4010"))+";"},"Ankle mobilisation \u2014 5 min"), el("div",{style:"font-size:11px;color:"+(aFuture?"#a39a8a":(aDone?"#4a8a64":"#8a6a20"))+";"}, aFuture?"Comes around when the day does.":(aDone?"Done. The one non-negotiable \u2014 ticked.":"Every single day \u2014 tap when done.")) ]));
   if(!aDone&&!aFuture) a.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e8b84b;font-weight:bold;"},"daily"));
-  body.appendChild(a);
+  aWrap.appendChild(a);
+  if(!aFuture){
+    var aList=el("div",{style:"background:#fffdf5;border:1px solid #e8d8a0;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    ANKLE_EX_IDS.forEach(function(id){
+      var ex=DATA.exercises[id]; if(!ex) return;
+      var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
+      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#5a4010;"},ex.name+(ex.defaultDose?" \u2014 "+ex.defaultDose:"")));
+      if(ex.cues && ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#8a7040;"},ex.cues[0]));
+      aList.appendChild(row);
+    });
+    aWrap.appendChild(aList);
+  }
+  body.appendChild(aWrap);
 
   // Functional toggle
   if(tag!=="rest"){
@@ -468,6 +482,20 @@ function renderSession(body){
     body.appendChild(mw);
   } else if(tag!=="rest" && !tpl.isBike){
     body.appendChild(el("div",{style:"padding:11px 13px;background:#fff;border-radius:8px;font-size:13px;color:#7a6a5a;margin-bottom:14px;"},"No exercises listed for this phase."));
+  }
+
+  // Cool-down
+  if(tpl.cooldown && tpl.cooldown.length && !state.hardMode && !selectedIsFuture()){
+    var cw=el("div",{style:"margin-bottom:14px;"}); cw.appendChild(sectionLabel("Cool-Down"));
+    tpl.cooldown.forEach(function(id){
+      var ex=DATA.exercises[id]; if(!ex) return;
+      var dose=doseFor(ex);
+      var cd=el("div",{style:"padding:10px 12px;background:#eef4f8;border-radius:8px;font-size:13px;color:#3a4a5a;margin-bottom:5px;border-left:3px solid #7aadcc;"});
+      cd.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},ex.name+(dose?" — "+dose:"")));
+      if(ex.cues && ex.cues.length) cd.appendChild(el("div",{style:"font-size:11px;color:#6a8a9a;"},ex.cues[0]));
+      cw.appendChild(cd);
+    });
+    body.appendChild(cw);
   }
 
   // Completion + bonus

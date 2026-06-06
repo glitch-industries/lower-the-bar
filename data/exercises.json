@@ -257,6 +257,138 @@
       "howTo": "Stand near a wall for support. Place one foot to the opposite inner calf or thigh (not on the knee).",
       "cues": ["Wall support always available", "Never foot on the knee joint"],
       "defaultDose": "Hold 20\u201330 sec/side"
+    },
+
+    "hip-flexor-kneeling": {
+      "name": "Kneeling Hip Flexor Stretch",
+      "bodyParts": ["hip", "quad"],
+      "conditions": ["right-glute", "low-back"],
+      "goals": ["mobility"],
+      "howTo": "Half-kneeling: one knee on the floor, other foot flat forward. Tuck pelvis under gently and shift weight forward until you feel the stretch in the front of the back hip.",
+      "cues": ["Tuck pelvis \u2014 don't arch the low back", "Keep torso tall", "Hold steady, don't bounce"],
+      "defaultDose": "45 sec hold, both sides"
+    },
+
+    "pigeon-prep": {
+      "name": "Supine Pigeon (Figure-Four Stretch)",
+      "bodyParts": ["hip", "glute"],
+      "conditions": ["right-glute", "knees"],
+      "goals": ["mobility", "recovery"],
+      "howTo": "Lie on your back. Cross one ankle over the opposite thigh just above the knee. Flex that foot. Draw the bottom leg toward your chest until you feel the stretch in the outer hip.",
+      "cues": ["Flex the crossed foot \u2014 protects the knee", "Both hip bones stay grounded", "Right side will likely be tighter \u2014 be patient"],
+      "defaultDose": "90 sec each side"
+    },
+
+    "childs-pose": {
+      "name": "Child's Pose",
+      "bodyParts": ["back", "hip", "shoulder"],
+      "conditions": ["low-back"],
+      "goals": ["recovery", "mobility"],
+      "howTo": "Kneel and sit back toward your heels, walking hands forward on the mat. Forehead rests down. Knees can be wide for more comfort.",
+      "cues": ["Hips sink toward heels", "Breathe into the back body", "Block under forehead if neck is tight"],
+      "defaultDose": "1\u20132 min"
+    },
+
+    "seated-forward-fold": {
+      "name": "Seated Forward Fold",
+      "bodyParts": ["hamstring", "back"],
+      "conditions": ["low-back"],
+      "goals": ["mobility", "recovery"],
+      "howTo": "Sit with legs extended. Hinge forward from the hips \u2014 lead with the chest, not the forehead. Strap or towel around the feet if needed.",
+      "cues": ["Lead with chest \u2014 long spine", "Bend knees if hamstrings are very tight", "Never force"],
+      "defaultDose": "1\u20132 min"
+    },
+
+    "mountain-pose": {
+      "name": "Mountain Pose (Tadasana)",
+      "bodyParts": ["full-body"],
+      "goals": ["stability", "awareness"],
+      "howTo": "Stand tall, feet hip-width. Press all four corners of each foot into the floor. Thighs lightly engaged, arms relaxed at sides, shoulders rolled back and down.",
+      "cues": ["Equal weight both feet", "Lift through the crown of the head", "This is active standing \u2014 not just standing"],
+      "defaultDose": "5 breaths"
+    },
+
+    "forward-fold": {
+      "name": "Standing Forward Fold (Uttanasana)",
+      "bodyParts": ["hamstring", "back", "calf"],
+      "conditions": ["low-back"],
+      "goals": ["mobility"],
+      "howTo": "From standing, hinge at the hips and fold forward. Hands to the floor, a block, or your shins. Bend the knees as much as you need.",
+      "cues": ["Hinge at hips \u2014 not the waist", "Knees soft, never locked", "Shake the head yes and no to release the neck"],
+      "defaultDose": "5\u20138 breaths"
+    },
+
+    "half-lift": {
+      "name": "Half Lift (Ardha Uttanasana)",
+      "bodyParts": ["back", "hamstring"],
+      "goals": ["mobility"],
+      "howTo": "From forward fold, lift halfway. Fingertips to shins or thighs. Flat back, gaze forward and slightly down.",
+      "cues": ["Long spine \u2014 not a rounded back", "Shoulder blades draw together lightly", "This is a position, not a stretch \u2014 hold it"],
+      "defaultDose": "3 breaths"
+    },
+
+    "low-lunge": {
+      "name": "Low Lunge (Anjaneyasana)",
+      "bodyParts": ["hip", "quad"],
+      "conditions": ["knees"],
+      "goals": ["mobility"],
+      "minPhase": 2,
+      "howTo": "From all fours or downward dog, step one foot forward between your hands. Lower the back knee to the mat (pad it). Sink the hips gently.",
+      "cues": ["Pad under back knee if needed", "Front kneecap tracks over 2nd toe", "Hips square \u2014 don't let them open to one side"],
+      "defaultDose": "5\u20138 breaths each side"
+    },
+
+    "downward-dog": {
+      "name": "Downward Dog (Adho Mukha Svanasana)",
+      "bodyParts": ["hamstring", "calf", "shoulder", "back"],
+      "conditions": ["left-ankle"],
+      "goals": ["mobility", "strength"],
+      "minPhase": 2,
+      "howTo": "From all fours, tuck toes and lift hips up and back. Press firmly through all fingers. Pedal the heels gently.",
+      "cues": ["Bend knees generously if hamstrings are tight", "Left heel: don't force it to the floor", "Spread fingers wide, no collapsing into wrists"],
+      "defaultDose": "5\u20138 breaths"
+    },
+
+    "warrior-1": {
+      "name": "Warrior I (Modified)",
+      "bodyParts": ["hip", "quad", "shoulder"],
+      "conditions": ["left-ankle", "knees"],
+      "goals": ["strength", "stability"],
+      "minPhase": 3,
+      "howTo": "From low lunge, lift the torso and raise arms overhead. Back foot turns to 45\u00b0. Use the wall for balance as needed.",
+      "cues": ["Wall available \u2014 use it without shame", "Left foot: don't force heel flat", "Square the hips forward, even if the back foot protests"],
+      "defaultDose": "3\u20135 breaths each side"
+    },
+
+    "warrior-2": {
+      "name": "Warrior II (Modified)",
+      "bodyParts": ["hip", "glute", "quad"],
+      "conditions": ["knees"],
+      "goals": ["strength", "stability"],
+      "minPhase": 3,
+      "howTo": "From lunge, open hips to the side. Arms extend parallel to the floor, gaze over the front hand. Back foot turns parallel to the mat edge.",
+      "cues": ["Front knee tracks over 2nd toe \u2014 always", "Arms strong but shoulders relaxed away from ears", "Sink into the front hip without collapsing"],
+      "defaultDose": "3\u20135 breaths each side"
+    },
+
+    "pec-stretch": {
+      "name": "Doorway Chest Stretch",
+      "bodyParts": ["chest", "shoulder"],
+      "conditions": ["right-scapula"],
+      "goals": ["mobility"],
+      "howTo": "Stand in a doorway, arm at 90\u00b0, forearm resting on the frame. Gently rotate your body away until you feel the stretch across the chest. Keep the shoulder blade engaged down.",
+      "cues": ["Pain-free range only \u2014 always", "Scapula down, not shrugged", "Cycle flare: skip or do the gentlest version only"],
+      "defaultDose": "30\u201345 sec each side",
+      "cycleFlareSkip": true
+    },
+
+    "lat-stretch": {
+      "name": "Lat Stretch (Side Reach)",
+      "bodyParts": ["back", "shoulder"],
+      "goals": ["mobility"],
+      "howTo": "Stand or sit tall. Reach one arm overhead and lean gently to the opposite side. Or hold a door frame and lean your bodyweight away from it.",
+      "cues": ["Long side body \u2014 not a crunch", "Breathe into the stretched side", "Keep both hips grounded if seated"],
+      "defaultDose": "30\u201345 sec each side"
     }
   }
 }

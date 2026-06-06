@@ -1,54 +1,69 @@
 {
   "_meta": {
-    "description": "Day templates. Each 'type' references exercises by ID from exercises.json — it does NOT contain exercise detail. Warmups and exercises are ID lists. The schedule maps dates to these template IDs, so the same template can run on any day.",
-    "version": 1
+    "description": "Day templates. Each 'type' references exercises by ID from exercises.json — it does NOT contain exercise detail. Warmups, exercises, and cooldowns are ID lists. The schedule maps dates to these template IDs, so the same template can run on any day.",
+    "version": 2
   },
   "templates": {
     "pt-glute-core": {
       "label": "PT Glute & Core",
       "tag": "glute",
-      "icon": "\ud83c\udf51",
+      "icon": "🍑",
       "ifit": null,
       "warmup": ["cat-cow", "wall-mobilisation"],
       "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "hip-abduction"],
+      "cooldown": ["hip-flexor-kneeling", "pigeon-prep", "supine-twist"],
       "note": "Squeeze the RIGHT glute deliberately on every rep."
     },
     "nordic-track": {
       "label": "NordicTrack X24",
       "tag": "cardio",
-      "icon": "\ud83d\udeb4",
+      "icon": "🚴",
       "ifit": "Beginner / Scenic / Low-Impact / Endurance / Hill / Power (by phase)",
       "warmup": ["cat-cow", "wall-mobilisation"],
       "exercises": [],
+      "cooldown": ["hip-flexor-kneeling", "calf-stretch"],
       "note": "Check seat height every session. Toe-clip straps, not SPD. Squeeze right glute on every climb. Use SmartAdjust override if anything aggravates a joint.",
       "isBike": true
     },
     "strength-scapula": {
       "label": "Strength + Scapula",
       "tag": "strength",
-      "icon": "\ud83d\udcaa",
+      "icon": "💪",
       "ifit": null,
       "warmup": ["wall-angel"],
       "exercises": ["box-squat", "wall-sit", "calf-raise", "scap-retraction", "wall-angel", "band-row", "face-pull", "prone-ytw", "single-arm-row"],
-      "note": "Scapula work: pain-free range ONLY. During cycle flares, gentle retraction only \u2014 skip band/resistance work."
+      "cooldown": ["childs-pose", "pec-stretch", "lat-stretch"],
+      "note": "Scapula work: pain-free range ONLY. During cycle flares, gentle retraction only — skip band/resistance work."
     },
-    "recovery-yoga": {
-      "label": "Recovery Yoga",
+    "yoga-hatha": {
+      "label": "Hatha Yoga",
       "tag": "yoga",
-      "icon": "\ud83e\uddd8",
+      "icon": "🧘",
       "ifit": "Yoga / Stretching & Mobility (Beginner, Gentle, Restorative)",
-      "warmup": [],
-      "exercises": ["cat-cow", "puppy-pose", "supine-twist", "crescent-lunge", "tree-pose", "savasana"],
-      "note": "Pivot the X24 screen off-bike to face your mat. Props every session."
+      "warmup": ["cat-cow", "childs-pose"],
+      "exercises": ["supine-twist", "pigeon-prep", "seated-forward-fold", "low-lunge", "crescent-lunge", "tree-pose", "savasana"],
+      "cooldown": [],
+      "note": "Hold each pose 5–10 breaths. Props every session — bolsters, blocks, blankets. Move with your breath, not your ambition. Pivot the X24 screen off-bike to face your mat."
+    },
+    "yoga-vinyasa": {
+      "label": "Vinyasa Flow",
+      "tag": "yoga",
+      "icon": "🌊",
+      "ifit": "Yoga / Flow (Beginner to Intermediate)",
+      "warmup": ["cat-cow", "mountain-pose"],
+      "exercises": ["forward-fold", "half-lift", "low-lunge", "downward-dog", "warrior-1", "warrior-2", "pigeon-prep", "seated-forward-fold", "savasana"],
+      "cooldown": [],
+      "note": "Modified Sun Salutation A — no chaturanga, ever. Flow: mountain → fold → half lift → low lunge → downward dog → repeat other side. Do 3 rounds, then settle into warrior work and floor poses. Move with your breath: inhale to lengthen, exhale to fold."
     },
     "rest": {
       "label": "Rest + Ankle Mob",
       "tag": "rest",
-      "icon": "\ud83c\udf3f",
+      "icon": "🌿",
       "ifit": null,
       "warmup": [],
       "exercises": [],
-      "note": "True rest day. Ankle mob is the one non-negotiable \u2014 even today. Optional gentle 15-min walk."
+      "cooldown": [],
+      "note": "True rest day. Ankle mob is the one non-negotiable — even today. Optional gentle 15-min walk."
     }
   }
 }
