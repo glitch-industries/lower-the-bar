@@ -7,7 +7,7 @@
                  phases (progression params + unlock criteria)
    =========================================================== */
 
-var DATA = { exercises:null, phases:null, templates:null, schedule:null };
+var DATA = { exercises:null, phases:null, templates:null, schedule:null, ifitSeries:null };
 var BASE = "data/";
 
 var ENERGY_OPTIONS = [
@@ -116,6 +116,134 @@ function pickBonus(tag, exclude){
   });
   var pool = elig.length ? elig : BONUS_POOL;
   return pool[Math.floor(Math.random()*pool.length)];
+}
+
+/* ---------- iFIT series ---------- */
+function ifitState(){ return store.ifit || {}; }
+function saveIfitState(obj){ var cur=ifitState(); var n={}; for(var k in cur)n[k]=cur[k]; for(var k2 in obj)n[k2]=obj[k2]; store.ifit=n; saveStore(store); }
+
+function ifitPickChoices(){
+  var ph=phaseNumber();
+  var completed=(ifitState().completedIds)||[];
+  var current=(ifitState().seriesId)||null;
+  // eligible: matches phase, not completed, not current
+  var eligible=DATA.ifitSeries.filter(function(s){
+    if(s.id===current) return false;
+    if(completed.indexOf(s.id)!==-1) return false;
+    return s.phases.indexOf(ph)!==-1;
+  });
+  // if fewer than 3, broaden to adjacent phases
+  if(eligible.length<3){
+    var broader=DATA.ifitSeries.filter(function(s){
+      if(s.id===current) return false;
+      if(completed.indexOf(s.id)!==-1) return false;
+      return eligible.indexOf(s)===-1;
+    });
+    eligible=eligible.concat(broader);
+  }
+  // shuffle and pick 3
+  for(var i=eligible.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=eligible[i];eligible[i]=eligible[j];eligible[j]=t; }
+  return eligible.slice(0,3);
+}
+
+function renderIfitWidget(body){
+  var ph=INFO.phase;
+  var ist=ifitState();
+  var isFuture=selectedIsFuture();
+
+  if(isFuture){
+    // show current series info passively
+    if(ist.seriesId){
+      var s=null; for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===ist.seriesId){s=DATA.ifitSeries[z];break;}
+      if(s){
+        var p=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#33536a;"});
+        p.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},"📺 "+s.name));
+        p.appendChild(el("div",null,"Episode "+(ist.episodesDone||0)+" done so far"));
+        body.appendChild(p);
+      }
+    }
+    return;
+  }
+
+  // Choosing a new series
+  if(!ist.seriesId || ist.choosingNew){
+    var choices=ist.pendingChoices;
+    if(!choices||!choices.length){
+      choices=ifitPickChoices().map(function(s){ return s.id; });
+      saveIfitState({pendingChoices:choices});
+    }
+    var chooseSeries=choices.map(function(id){ for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===id) return DATA.ifitSeries[z]; return null; }).filter(Boolean);
+
+    var cw=el("div",{style:"margin-bottom:14px;"});
+    cw.appendChild(sectionLabel("Pick your iFIT series"));
+    cw.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;margin-bottom:10px;"},"Three picks for Phase "+ph.order+". Do the next episode each bike day."));
+    chooseSeries.forEach(function(s){
+      var card=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;",onclick:function(){
+        saveIfitState({seriesId:s.id,episodesDone:0,choosingNew:false,pendingChoices:null});
+        render();
+      }});
+      card.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},s.name));
+      card.appendChild(el("div",{style:"font-size:11px;color:#7a6a5a;margin-bottom:4px;"},s.trainer+" · ~"+s.approxEpisodes+" episodes · "+s.tier));
+      card.appendChild(el("div",{style:"font-size:12px;color:#5a4a3a;line-height:1.4;"},s.focus));
+      body.appendChild(card);
+    });
+    if(ist.seriesId && ist.choosingNew){
+      cw.appendChild(el("button",{style:"width:100%;padding:9px;background:transparent;border:1px solid #d0c8bc;border-radius:8px;font-size:12px;color:#9a8a7a;margin-top:4px;",onclick:function(){ saveIfitState({choosingNew:false}); render(); }},"← Keep current series"));
+    }
+    body.appendChild(cw);
+    return;
+  }
+
+  // Active series
+  var activeSeries=null;
+  for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===ist.seriesId){activeSeries=DATA.ifitSeries[z];break;}
+  if(!activeSeries) return;
+
+  var episodesDone=ist.episodesDone||0;
+  var sw=el("div",{style:"background:#eaf0f4;border:2px solid #7aadcc;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
+  var sh=el("div",{style:"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;"});
+  var si=el("div",{style:"flex:1;"});
+  si.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#5a8aaa;margin-bottom:2px;"},"Current iFIT Series"));
+  si.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#1a3a5a;margin-bottom:1px;"},activeSeries.name));
+  si.appendChild(el("div",{style:"font-size:11px;color:#5a7a8a;"},activeSeries.trainer+" · Episode "+episodesDone+" done"));
+  sh.appendChild(si);
+  sh.appendChild(el("span",{style:"font-size:24px;"},"📺"));
+  sw.appendChild(sh);
+
+  // Episode progress dots (up to 12 shown)
+  var dotCount=Math.min(activeSeries.approxEpisodes, 12);
+  var dots=el("div",{style:"display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;"});
+  for(var d=0;d<dotCount;d++){
+    dots.appendChild(el("div",{style:"width:10px;height:10px;border-radius:50%;background:"+(d<episodesDone?"#5a9e8a":"#c8dde8")+";"}));
+  }
+  if(activeSeries.approxEpisodes>12) dots.appendChild(el("span",{style:"font-size:10px;color:#8aacba;margin-left:2px;"},"+"+(activeSeries.approxEpisodes-12)+" more"));
+  sw.appendChild(dots);
+
+  var btnRow=el("div",{style:"display:flex;gap:8px;"});
+  // Open in iFIT
+  var openBtn=el("a",{href:activeSeries.url,target:"_blank",style:"flex:1;padding:10px;background:#1a3a5a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;text-align:center;text-decoration:none;"},"Open in iFIT ↗");
+  btnRow.appendChild(openBtn);
+  // Mark episode done
+  btnRow.appendChild(el("button",{style:"flex:1;padding:10px;background:#5a9e8a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;",onclick:function(){
+    saveIfitState({episodesDone:episodesDone+1});
+    render();
+  }},"Episode done ✓"));
+  sw.appendChild(btnRow);
+
+  // Finish series
+  var finRow=el("div",{style:"display:flex;gap:8px;margin-top:8px;"});
+  finRow.appendChild(el("button",{style:"flex:1;padding:8px;background:transparent;border:1px solid #a0c0d0;border-radius:8px;font-size:11px;color:#5a8aaa;",onclick:function(){
+    var done=(ifitState().completedIds)||[];
+    done=done.concat([activeSeries.id]);
+    saveIfitState({seriesId:null,episodesDone:0,completedIds:done,choosingNew:true,pendingChoices:null});
+    render();
+  }},"✨ Finish series — pick next"));
+  finRow.appendChild(el("button",{style:"padding:8px 10px;background:transparent;border:1px solid #c8d8e0;border-radius:8px;font-size:11px;color:#8aacba;",onclick:function(){
+    saveIfitState({choosingNew:true,pendingChoices:null});
+    render();
+  }},"Switch"));
+  sw.appendChild(finRow);
+  body.appendChild(sw);
 }
 
 var TAG_COLORS = { glute:"#5a9e8a", cardio:"#4a8ab5", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a" };
@@ -447,11 +575,11 @@ function renderSession(body){
   // Bike / iFIT guidance block
   if(tpl.isBike){
     var bk=INFO.phase.bike;
-    var bb=el("div",{style:"background:#eaf0f4;border:1px solid #cdddE8;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#33536a;line-height:1.6;"});
-    bb.appendChild(el("div",{style:"font-weight:bold;margin-bottom:4px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 Phase "+INFO.phase.order));
+    var bb=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:#33536a;line-height:1.6;"});
+    bb.appendChild(el("div",{style:"font-weight:bold;margin-bottom:3px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 Phase "+INFO.phase.order));
     bb.appendChild(el("div",null,"Ride: "+bk.ride+" \u00b7 Resistance "+bk.resistance+" \u00b7 Incline "+bk.incline));
-    bb.appendChild(el("div",null,"iFIT: "+bk.ifit));
     body.appendChild(bb);
+    if(DATA.ifitSeries) renderIfitWidget(body);
   }
 
   // Template note
@@ -712,9 +840,9 @@ function fetchJSON(name){ return fetch(BASE+name+".json",{cache:"no-cache"}).the
 
 function boot(){
   root=document.getElementById("app");
-  Promise.all([fetchJSON("exercises"),fetchJSON("phases"),fetchJSON("templates"),fetchJSON("schedule")])
+  Promise.all([fetchJSON("exercises"),fetchJSON("phases"),fetchJSON("templates"),fetchJSON("schedule"),fetchJSON("ifit-series")])
     .then(function(res){
-      DATA.exercises=res[0].exercises; DATA.phases=res[1].phases; DATA.templates=res[2].templates; DATA.schedule=res[3];
+      DATA.exercises=res[0].exercises; DATA.phases=res[1].phases; DATA.templates=res[2].templates; DATA.schedule=res[3]; DATA.ifitSeries=res[4].series;
       recomputeInfo();
       state.selectedDay=INFO.dayIndex;
       if(!weekData().intention) state.showIntentionPicker=true;

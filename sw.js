@@ -1,11 +1,12 @@
 /* Lower the Bar — service worker.
    Bump CACHE when you deploy changes so phones pull the new version. */
-var CACHE = "ltb-v4";
+var CACHE = "ltb-v5";
 var BASE = "/lower-the-bar/";
 var ASSETS = [
   BASE, BASE+"index.html", BASE+"app.js",
   BASE+"data/exercises.json", BASE+"data/phases.json",
-  BASE+"data/templates.json", BASE+"data/schedule.json"
+  BASE+"data/templates.json", BASE+"data/schedule.json",
+  BASE+"data/ifit-series.json"
 ];
 
 self.addEventListener("install", function(e){
