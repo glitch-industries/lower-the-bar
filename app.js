@@ -55,11 +55,11 @@ var INTENTION_POOL = [
   { text:"Mind-muscle connection: not woo. Just paying attention. Try it.", phase:3 },
 
   // Phase 4 — strength, maintenance, owning it
-  { text:"Phase 4. You didn't quit. That's a whole personality now.", phase:4 },
+  { text:"You didn't quit. That's a whole personality now.", phase:4 },
   { text:"Strong enough to do the thing. That was always the goal.", phase:4 },
   { text:"Maintenance isn't coasting. It's holding what you built.", phase:4 },
   { text:"The reps compound. So does the identity.", phase:4 },
-  { text:"Reassess, don't rush. Phase 4 is not a finish line. It's a floor.", phase:4 },
+  { text:"This is not a finish line. It's a floor.", phase:4 },
   { text:"You're training to be functional at 80. Respect the timeline.", phase:4 },
 
   // Any phase — general wit
@@ -75,15 +75,16 @@ var INTENTION_POOL = [
 
 function pickWeekIntentions(){
   var ph=phaseNumber();
-  // Split pool into current-phase-relevant and the rest
-  var primary=INTENTION_POOL.filter(function(i){ return i.phase===ph||i.phase==="any"; });
-  var secondary=INTENTION_POOL.filter(function(i){ return i.phase!==ph&&i.phase!=="any"; });
-  // Shuffle both
   function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
-  primary=shuffle(primary); secondary=shuffle(secondary);
-  // Pick 4 from primary, 1 wildcard from secondary, return texts
-  var chosen=primary.slice(0,4).concat(secondary.slice(0,1));
-  return shuffle(chosen).map(function(i){ return i.text; });
+  // Phase-specific for current phase only
+  var phaseSpecific=INTENTION_POOL.filter(function(i){ return i.phase===ph; });
+  // "any" pool — always eligible, used for fill + wildcard
+  var anyPool=INTENTION_POOL.filter(function(i){ return i.phase==="any"; });
+  phaseSpecific=shuffle(phaseSpecific); anyPool=shuffle(anyPool);
+  // Pick up to 3 from current phase, fill to 5 with "any" — never show other phases' content
+  var chosen=phaseSpecific.slice(0,3).concat(anyPool);
+  chosen=shuffle(chosen).slice(0,5);
+  return chosen.map(function(i){ return i.text; });
 }
 var BONUS_POOL = [
   { id:"dance", emoji:"\ud83d\udd7a", title:"Mini dance party", desc:"One song. No audience. Full commitment.", tag:"any" },
@@ -479,7 +480,10 @@ function renderIntentionPicker(){
       list.appendChild(el("button",{style:"padding:13px 16px;background:"+(selected?"#2d3a2e":"#fff")+";border:2px solid "+(selected?"#2d3a2e":"#d0c8bc")+";border-radius:10px;font-size:14px;color:"+(selected?"#e8dfd0":"#3a3028")+";text-align:left;line-height:1.4;",onclick:function(){ state.showIntentionPicker=false; updateWeekData({intention:it}); }},it));
     });
     inner.appendChild(list);
-    inner.appendChild(el("button",{style:"width:100%;padding:11px 16px;background:transparent;border:2px dashed #c0b8b0;border-radius:10px;font-size:13px;color:#7a6a5a;",onclick:function(){ state.writingOwn=true; render(); }},"Write my own\u2026"));
+    var optRow=el("div",{style:"display:flex;gap:8px;margin-bottom:10px;"});
+    optRow.appendChild(el("button",{style:"flex:1;padding:11px 16px;background:transparent;border:2px dashed #c0b8b0;border-radius:10px;font-size:13px;color:#7a6a5a;",onclick:function(){ state.writingOwn=true; render(); }},"Write my own\u2026"));
+    optRow.appendChild(el("button",{style:"padding:11px 14px;background:transparent;border:2px solid #d0c8bc;border-radius:10px;font-size:13px;color:#9a8a7a;",onclick:function(){ update("week-"+INFO.weekMondayKey,{intentionChoices:null}); render(); }},"\u21ba"));
+    inner.appendChild(optRow);
     inner.appendChild(el("button",{style:"width:100%;margin-top:10px;padding:10px;background:transparent;border:none;font-size:12px;color:#aaa098;",onclick:function(){ state.showIntentionPicker=false; render(); }},"Skip for now"));
   } else {
     var ta=el("textarea",{placeholder:"Write something that means something to you this week\u2026",style:"width:100%;min-height:80px;padding:12px 14px;background:#fff;border:2px solid #d0c8bc;border-radius:10px;font-size:14px;color:#3a3028;resize:none;box-sizing:border-box;outline:none;margin-bottom:10px;",oninput:function(e){ state.customIntention=e.target.value; }});
