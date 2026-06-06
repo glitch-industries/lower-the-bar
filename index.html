@@ -32,7 +32,20 @@
 <script>
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", function(){
-    navigator.serviceWorker.register("/lower-the-bar/sw.js", { scope: "/lower-the-bar/" }).catch(function(){});
+    navigator.serviceWorker.register("/lower-the-bar/sw.js", { scope: "/lower-the-bar/" })
+      .then(function(reg){
+        // Force an immediate check for a new service worker on every load.
+        // Without this, the browser only checks in the background and the
+        // new version won't load until the user closes all tabs and reopens.
+        reg.update();
+      })
+      .catch(function(){});
+
+    // When a new service worker takes control (after skipWaiting + clients.claim),
+    // reload the page so the user gets the fresh files immediately.
+    navigator.serviceWorker.addEventListener("controllerchange", function(){
+      window.location.reload();
+    });
   });
 }
 </script>

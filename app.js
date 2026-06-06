@@ -618,9 +618,10 @@ function renderSession(body){
   // Hand off to vacation renderer if this is a vacation day
   if(tag==="vacation"){ renderVacationSession(body,tpl); return; }
 
+  var selDayName=DAY_FULL[DAY_NAMES[new Date(selectedDateKey()+"T12:00:00").getDay()]];
   var dh=el("div",{style:"display:flex;align-items:center;gap:10px;margin-bottom:14px;"});
   dh.appendChild(el("span",{style:"font-size:24px;"},tpl.icon));
-  dh.appendChild(el("div",null,[ el("div",{style:"font-size:17px;font-weight:bold;color:#2d3a2e;"},DAY_FULL[DAY_ORDER[state.selectedDay]]), el("div",{style:"font-size:12px;color:"+tagColor+";font-weight:bold;letter-spacing:0.05em;"},tpl.label) ]));
+  dh.appendChild(el("div",null,[ el("div",{style:"font-size:17px;font-weight:bold;color:#2d3a2e;"},selDayName), el("div",{style:"font-size:12px;color:"+tagColor+";font-weight:bold;letter-spacing:0.05em;"},tpl.label) ]));
   if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:"+tagColor+";color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
   body.appendChild(dh);
 
