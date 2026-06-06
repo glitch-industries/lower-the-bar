@@ -14,6 +14,16 @@
       "cooldown": ["hip-flexor-kneeling", "pigeon-prep", "supine-twist"],
       "note": "Squeeze the RIGHT glute deliberately on every rep."
     },
+    "pt-glute-core-plus": {
+      "label": "PT Glute & Core+",
+      "tag": "glute",
+      "icon": "🍑",
+      "ifit": null,
+      "warmup": ["cat-cow", "wall-mobilisation"],
+      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "hip-abduction"],
+      "cooldown": ["hip-flexor-kneeling", "pigeon-prep", "supine-twist"],
+      "note": "Friday focus: right glute mind-muscle connection. On every rep — bridge, clamshell, bird-dog — pause at the top and deliberately squeeze the right glute. Slow it down. Feel it fire before you move on. Not a habit yet? Make it one today."
+    },
     "nordic-track": {
       "label": "NordicTrack X24",
       "tag": "cardio",

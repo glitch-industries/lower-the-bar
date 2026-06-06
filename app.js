@@ -511,6 +511,22 @@ function renderHeader(){
     ib.appendChild(el("span",null,'"'+wd.intention+'"')); ib.appendChild(el("span",{style:"font-size:10px;color:#5a6a50;margin-left:8px;flex-shrink:0;"},"change"));
     h.appendChild(ib);
   }
+  // PT check-in banner at phase transition weeks
+  var ptWeek=(INFO.planWeek===4||INFO.planWeek===7);
+  if(ptWeek){
+    var ptPhase=INFO.planWeek===4?"Build":"Strengthen";
+    var ptDismissKey="pt-checkin-dismissed-week-"+INFO.planWeek;
+    if(!store[ptDismissKey]){
+      var ptb=el("div",{style:"background:#3a4a2e;border:1px solid #5a7a4a;border-radius:8px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;"});
+      ptb.appendChild(el("span",{style:"font-size:16px;flex-shrink:0;"},"🩺"));
+      var ptbTxt=el("div",{style:"flex:1;"});
+      ptbTxt.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#c8e0b0;margin-bottom:1px;"},"Week "+INFO.planWeek+" — PT check-in time"));
+      ptbTxt.appendChild(el("div",{style:"font-size:11px;color:#9ab090;line-height:1.4;"},"Before advancing to "+ptPhase+", get PT sign-off. Tick the criterion in progression when done."));
+      ptb.appendChild(ptbTxt);
+      ptb.appendChild(el("button",{style:"background:transparent;border:none;color:#6a8a60;font-size:16px;padding:0 2px;flex-shrink:0;line-height:1;",onclick:function(){ store[ptDismissKey]=true; saveStore(store); render(); }},"×"));
+      h.appendChild(ptb);
+    }
+  }
   var bar=el("div",{style:"background:#1a2318;border-radius:4px;height:4px;overflow:hidden;"});
   bar.appendChild(el("div",{style:"height:100%;width:"+((ph.order/4)*100)+"%;background:"+ph.color+";border-radius:4px;"}));
   h.appendChild(bar);
