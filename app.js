@@ -21,20 +21,70 @@ var FEEL_OPTIONS = [
   { value:"ok", emoji:"\ud83d\udc4d", label:"Solid" },
   { value:"great", emoji:"\ud83c\udf1f", label:"Great" }
 ];
-var WEEKLY_INTENTIONS = [
-  "Lower the bar. Step over it. Repeat.",
-  "The bar is: did I start? That's it.",
-  "Functional beats perfect. Again.",
-  "Done > perfect. No exceptions.",
-  "Perfect isn't coming. Start anyway.",
-  "Showing up counts even when it's ugly.",
-  "Ankle mob at minimum. Everything else is bonus.",
-  "Good enough got you here. Let it.",
-  "The routine doesn't care how you felt about it.",
-  "Skip the guilt, just start tomorrow.",
-  "Messy execution still counts.",
-  "Just start. Figure the rest out after."
+// Intentions tagged by phase (1-4) or "any".
+// "any" = always eligible. Phase-tagged = weighted toward that phase but can appear in others.
+var INTENTION_POOL = [
+  // Phase 1 — starting, lowering the bar, just showing up
+  { text:"Lower the bar. Step over it. Repeat.", phase:1 },
+  { text:"The bar is: did I start? That's it.", phase:1 },
+  { text:"Done > perfect. No exceptions.", phase:1 },
+  { text:"Messy execution still counts.", phase:1 },
+  { text:"Just start. Figure the rest out after.", phase:1 },
+  { text:"Perfect isn't coming. Start anyway.", phase:1 },
+  { text:"You don't have to feel like it. You just have to do it. Feelings: optional.", phase:1 },
+  { text:"Ankle mob at minimum. The rest is gravy.", phase:1 },
+
+  // Phase 2 — consistency, habit formation, showing up twice
+  { text:"You're not building fitness. You're building a person who does this.", phase:2 },
+  { text:"Habit: noun. Something you do before you decide not to.", phase:2 },
+  { text:"The streak is a side effect. The showing up is the thing.", phase:2 },
+  { text:"Consistency is just showing up until it stops being a decision.", phase:2 },
+  { text:"Two weeks in. The routine is the point. Always was.", phase:2 },
+  { text:"It gets easier. Not today, probably. But you won't know until you keep going.", phase:2 },
+  { text:"Your future self is rooting for you. Annoyingly.", phase:2 },
+  { text:"Identity first, results second. You're someone who does this now.", phase:2 },
+
+  // Phase 3 — form, deliberate practice, mind-muscle
+  { text:"This week: feel the movement, don't just do the movement.", phase:3 },
+  { text:"Slow is smooth. Smooth is correct. Correct is the whole game.", phase:3 },
+  { text:"Quality reps > quantity reps. No exceptions, not even today.", phase:3 },
+  { text:"Squeeze the right glute like it owes you money.", phase:3 },
+  { text:"Form is free gains. Sloppy is just sloppy with extra steps.", phase:3 },
+  { text:"Your nervous system is taking notes. Make them good ones.", phase:3 },
+  { text:"This phase is about talking to your body. It's a weird conversation. Have it.", phase:3 },
+  { text:"Mind-muscle connection: not woo. Just paying attention. Try it.", phase:3 },
+
+  // Phase 4 — strength, maintenance, owning it
+  { text:"Phase 4. You didn't quit. That's a whole personality now.", phase:4 },
+  { text:"Strong enough to do the thing. That was always the goal.", phase:4 },
+  { text:"Maintenance isn't coasting. It's holding what you built.", phase:4 },
+  { text:"The reps compound. So does the identity.", phase:4 },
+  { text:"Reassess, don't rush. Phase 4 is not a finish line. It's a floor.", phase:4 },
+  { text:"You're training to be functional at 80. Respect the timeline.", phase:4 },
+
+  // Any phase — general wit
+  { text:"Functional beats perfect. Again.", phase:"any" },
+  { text:"Showing up counts even when it's ugly.", phase:"any" },
+  { text:"The routine doesn't care how you felt about it.", phase:"any" },
+  { text:"Good enough got you here. Let it continue.", phase:"any" },
+  { text:"Skip the guilt, just start tomorrow.", phase:"any" },
+  { text:"Progress is embarrassingly nonlinear. Do it anyway.", phase:"any" },
+  { text:"Every rep is either practice or proof. Pick one.", phase:"any" },
+  { text:"You're not behind. There's no schedule. There's just next.", phase:"any" }
 ];
+
+function pickWeekIntentions(){
+  var ph=phaseNumber();
+  // Split pool into current-phase-relevant and the rest
+  var primary=INTENTION_POOL.filter(function(i){ return i.phase===ph||i.phase==="any"; });
+  var secondary=INTENTION_POOL.filter(function(i){ return i.phase!==ph&&i.phase!=="any"; });
+  // Shuffle both
+  function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+  primary=shuffle(primary); secondary=shuffle(secondary);
+  // Pick 4 from primary, 1 wildcard from secondary, return texts
+  var chosen=primary.slice(0,4).concat(secondary.slice(0,1));
+  return shuffle(chosen).map(function(i){ return i.text; });
+}
 var BONUS_POOL = [
   { id:"dance", emoji:"\ud83d\udd7a", title:"Mini dance party", desc:"One song. No audience. Full commitment.", tag:"any" },
   { id:"balance1", emoji:"\ud83e\udda9", title:"Balance stand", desc:"30 sec each foot. Eyes closed if you're feeling bold.", tag:"any" },
@@ -143,7 +193,8 @@ var state = {
   currentBonus: null,
   seenBonusIds: [],
   refreshesLeft: 2,
-  showUnlock: false
+  showUnlock: false,
+  refFilter: "all"
 };
 
 /* date of the selected weekday within the CURRENT real week */
@@ -244,11 +295,11 @@ function render(){
   var wrap=el("div",{style:"min-height:100vh;background:#f5f0ea;"});
   wrap.appendChild(renderHeader());
   wrap.appendChild(renderTabs());
-  wrap.appendChild(renderDaySelector());
+  if(state.view==="session") wrap.appendChild(renderDaySelector());
   var body=el("div",{style:"padding:16px 18px;max-width:580px;margin:0 auto;"});
   if(state.view==="session") renderSession(body);
-  else if(state.view==="checkin") renderCheckin(body);
   else if(state.view==="history") renderHistory(body);
+  else if(state.view==="reference") renderReference(body);
   wrap.appendChild(body);
   root.appendChild(wrap);
 }
@@ -256,13 +307,18 @@ function render(){
 function renderIntentionPicker(){
   var c=el("div",{style:"min-height:100vh;background:#f5f0ea;padding:32px 20px;"});
   var inner=el("div",{style:"max-width:500px;margin:0 auto;"});
-  inner.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#9a8a7a;margin-bottom:8px;"},"Week "+INFO.planWeek+" intention"));
+  inner.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#9a8a7a;margin-bottom:8px;"},"Week "+INFO.planWeek+" \u00b7 Phase "+INFO.phase.order+" intention"));
   inner.appendChild(el("div",{style:"font-size:20px;font-weight:bold;color:#2d3a2e;margin-bottom:6px;"},"Pick a phrase for this week."));
-  inner.appendChild(el("div",{style:"font-size:13px;color:#7a6a5a;margin-bottom:24px;line-height:1.5;"},"It'll sit quietly at the top of your session. Pick the one that feels true right now, not the one that sounds best."));
+  inner.appendChild(el("div",{style:"font-size:13px;color:#7a6a5a;margin-bottom:24px;line-height:1.5;"},"Five options, picked for where you are in the plan. Choose the one that feels true right now, not the one that sounds best."));
   if(!state.writingOwn){
+    // Load or generate this week's choices and persist them so they're stable
+    var wd=weekData();
+    var choices=wd.intentionChoices;
+    if(!choices||!choices.length){ choices=pickWeekIntentions(); update("week-"+INFO.weekMondayKey,{intentionChoices:choices}); }
     var list=el("div",{style:"display:flex;flex-direction:column;gap:8px;margin-bottom:14px;"});
-    WEEKLY_INTENTIONS.forEach(function(it){
-      list.appendChild(el("button",{style:"padding:13px 16px;background:#fff;border:2px solid #d0c8bc;border-radius:10px;font-size:14px;color:#3a3028;text-align:left;line-height:1.4;",onclick:function(){ state.showIntentionPicker=false; updateWeekData({intention:it}); }},it));
+    choices.forEach(function(it){
+      var selected=wd.intention===it;
+      list.appendChild(el("button",{style:"padding:13px 16px;background:"+(selected?"#2d3a2e":"#fff")+";border:2px solid "+(selected?"#2d3a2e":"#d0c8bc")+";border-radius:10px;font-size:14px;color:"+(selected?"#e8dfd0":"#3a3028")+";text-align:left;line-height:1.4;",onclick:function(){ state.showIntentionPicker=false; updateWeekData({intention:it}); }},it));
     });
     inner.appendChild(list);
     inner.appendChild(el("button",{style:"width:100%;padding:11px 16px;background:transparent;border:2px dashed #c0b8b0;border-radius:10px;font-size:13px;color:#7a6a5a;",onclick:function(){ state.writingOwn=true; render(); }},"Write my own\u2026"));
@@ -305,7 +361,7 @@ function renderHeader(){
 
 function renderTabs(){
   var ph=INFO.phase;
-  var tabs=[{id:"session",label:"Session"},{id:"checkin",label:"Check-in"},{id:"history",label:"This Week"}];
+  var tabs=[{id:"session",label:"Session"},{id:"history",label:"This Week"},{id:"reference",label:"Reference"}];
   var bar=el("div",{style:"background:#e8e0d4;border-bottom:2px solid #d0c8bc;display:flex;"});
   tabs.forEach(function(t){
     var a=state.view===t.id;
@@ -337,6 +393,24 @@ function renderSession(body){
   dh.appendChild(el("div",null,[ el("div",{style:"font-size:17px;font-weight:bold;color:#2d3a2e;"},DAY_FULL[DAY_ORDER[state.selectedDay]]), el("div",{style:"font-size:12px;color:"+tagColor+";font-weight:bold;letter-spacing:0.05em;"},tpl.label) ]));
   if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:"+tagColor+";color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
   body.appendChild(dh);
+
+  // Pre-session energy check-in (only if not yet completed and not a future day)
+  if(!dd.completed && !selectedIsFuture() && tag!=="rest"){
+    var ec=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:13px 15px;margin-bottom:14px;"});
+    ec.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"How’s your energy right now?"));
+    var er=el("div",{style:"display:flex;gap:8px;"});
+    ENERGY_OPTIONS.forEach(function(o){
+      var sl=dd.energyBefore===o.value;
+      er.appendChild(el("button",{style:"flex:1;padding:10px 4px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#f5f0ea")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ updateDayData({energyBefore:o.value}); }},[el("div",{style:"font-size:20px;"},o.emoji),el("div",{style:"font-size:11px;margin-top:2px;"},o.label)]));
+    });
+    ec.appendChild(er);
+    if(dd.energyBefore && dd.energyBefore<=2) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice — not a cop-out."));
+    if(dd.energyBefore && dd.energyBefore>=3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
+    body.appendChild(ec);
+  } else if(dd.completed && dd.energyBefore){
+    var eo2=findOpt(ENERGY_OPTIONS,dd.energyBefore);
+    body.appendChild(el("div",{style:"display:flex;align-items:center;gap:8px;padding:8px 13px;background:#f5f0ea;border-radius:8px;margin-bottom:10px;font-size:12px;color:#7a6a5a;"},[el("span",null,eo2.emoji),el("span",null,"Energy logged: "+eo2.label)]));
+  }
 
   // Ankle mob (daily, persistent, locked on future)
   var aDone=ankleDone(), aFuture=selectedIsFuture();
@@ -449,29 +523,6 @@ function renderSession(body){
   }
 }
 
-function renderCheckin(body){
-  var sel=selectedTemplate(); var tpl=sel.tpl; var tagColor=TAG_COLORS[tpl.tag]; var dd=dayData();
-  body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:4px;"},tpl.icon+" "+DAY_FULL[DAY_ORDER[state.selectedDay]]+" Check-in"));
-  body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:18px;"},"Quick snapshot. 10 seconds. No wrong answers."));
-  if(!dd.completed){
-    var s=el("div",{style:"margin-bottom:20px;"}); s.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"Before your session \u2014 how's your energy?"));
-    var r=el("div",{style:"display:flex;gap:8px;"});
-    ENERGY_OPTIONS.forEach(function(o){ var sl=dd.energyBefore===o.value; r.appendChild(el("button",{style:"flex:1;padding:12px 6px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#fff")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ updateDayData({energyBefore:o.value}); }},[ el("div",{style:"font-size:22px;"},o.emoji), el("div",{style:"font-size:11px;margin-top:3px;"},o.label) ])); });
-    s.appendChild(r);
-    if(dd.energyBefore&&dd.energyBefore<=2) s.appendChild(el("div",{style:"margin-top:10px;padding:10px 13px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice \u2014 not a cop-out."));
-    if(dd.energyBefore&&dd.energyBefore>=3) s.appendChild(el("div",{style:"margin-top:10px;padding:10px 13px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps \u2014 no need to do extra."));
-    body.appendChild(s);
-  }
-  if(dd.completed){
-    var s2=el("div",{style:"margin-bottom:20px;"}); s2.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"After your session \u2014 how did it go?"));
-    var r2=el("div",{style:"display:flex;gap:10px;"});
-    FEEL_OPTIONS.forEach(function(o){ var sl=dd.feelAfter===o.value; r2.appendChild(el("button",{style:"flex:1;padding:12px 8px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#fff")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ updateDayData({feelAfter:o.value}); }},[ el("div",{style:"font-size:22px;"},o.emoji), el("div",{style:"font-size:11px;margin-top:3px;"},o.label) ])); });
-    s2.appendChild(r2); body.appendChild(s2);
-  }
-  var ns=el("div",{style:"margin-bottom:20px;"}); var nl=el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:8px;"}); nl.appendChild(document.createTextNode("Anything to note? ")); nl.appendChild(el("span",{style:"font-weight:normal;color:#9a8a7a;"},"(optional)")); ns.appendChild(nl);
-  var ta=el("textarea",{placeholder:"Pain? Something felt good? Slept badly? Write anything or nothing.",style:"width:100%;min-height:75px;padding:10px 12px;background:#fff;border:2px solid #d0c8bc;border-radius:8px;font-size:13px;color:#3a3028;resize:vertical;box-sizing:border-box;outline:none;",oninput:function(e){ update(dayKey(),{notes:e.target.value}); }});
-  ta.value=dd.notes||""; ns.appendChild(ta); body.appendChild(ns);
-}
 
 function renderHistory(body){
   // Progression panel
@@ -498,9 +549,36 @@ function renderHistory(body){
   }
   body.appendChild(prog);
 
+  // Weekly stats
+  var hist=buildHistory();
+  var workDays=hist.filter(function(e){ return !e.isRest; });
+  var sessionsTotal=workDays.length;
+  var sessionsDone=workDays.filter(function(e){ return e.data.completed; }).length;
+  var ankleTotal=hist.length; // all 7 days
+  var ankleDoneCount=hist.filter(function(e){ return !!store["ankle-"+e.key]; }).length;
+  var bonusCount=hist.filter(function(e){ return !!e.data.bonusId; }).length;
+  var streak=streakCount();
+
+  var stats=el("div",{style:"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;"});
+  function statCard(emoji, value, label, sub, color){
+    var c=el("div",{style:"background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e0d8cc;"});
+    var top2=el("div",{style:"display:flex;align-items:baseline;gap:6px;margin-bottom:2px;"});
+    top2.appendChild(el("span",{style:"font-size:20px;"},emoji));
+    top2.appendChild(el("span",{style:"font-size:22px;font-weight:bold;color:"+(color||"#2d3a2e");"},value));
+    c.appendChild(top2);
+    c.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;margin-bottom:1px;"},label));
+    if(sub) c.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},sub));
+    return c;
+  }
+  stats.appendChild(statCard("✅", sessionsDone+"/"+sessionsTotal, "Sessions this week", sessionsDone===sessionsTotal&&sessionsTotal>0?"Full week. Nice.":"workout days logged", ph.color));
+  stats.appendChild(statCard("🦶", ankleDoneCount+"/"+ankleTotal, "Ankle mob days", ankleDoneCount===ankleTotal?"Every single day.":"of 7 days", "#5a9e8a"));
+  stats.appendChild(statCard("🔥", streak, "Day streak", streak===0?"Start today.":streak===1?"One down. Keep it.":"consecutive days", "#c49a8a"));
+  stats.appendChild(statCard("⭐", bonusCount, "Bonus moves", bonusCount===0?"None yet — they're optional.":bonusCount===1?"One bonus. Didn't have to.":"this week", "#d4a820"));
+  body.appendChild(stats);
+
   body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:4px;"},"Last 7 Days"));
   body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"What you've shown up for."));
-  buildHistory().forEach(function(e){
+  hist.forEach(function(e){
     var done=e.data.completed||e.isRest; var att=e.data.energyBefore||e.data.completed; var ankle=!!store["ankle-"+e.key]; var hb=!!e.data.bonusId;
     var lbl=new Date(e.key+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
     var row=el("div",{style:"display:flex;align-items:center;gap:12px;padding:11px 13px;background:"+(e.isToday?"#fff":"#f5f0ea")+";border-radius:9px;margin-bottom:7px;border-left:4px solid "+(done?TAG_COLORS[e.tpl.tag]:att?"#d0c8a0":"#e0d8cc")+";"+(e.isToday?"box-shadow:0 1px 4px rgba(0,0,0,0.08);":"opacity:0.85;")});
@@ -523,6 +601,78 @@ function renderHistory(body){
 
   body.appendChild(el("button",{style:"width:100%;margin-top:14px;padding:11px;background:#e8e0d4;border:1px solid #d0c8bc;border-radius:8px;font-size:12px;color:#6a5a4a;",onclick:exportData},"\u2b07\ufe0e Back up my data"));
   body.appendChild(el("div",{style:"margin-top:12px;padding:12px 14px;background:#ede8e0;border-radius:8px;font-size:11px;color:#9a8a7a;text-align:center;line-height:1.5;"},"Saved on this device. Functional beats perfect."));
+}
+
+var REF_FILTERS = ["all","glute","ankle","core","cardio","strength","mobility"];
+
+function renderReference(body){
+  var ph=INFO.phase;
+  if(!state.refFilter) state.refFilter="all";
+
+  // Header
+  body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"Exercise Reference"));
+  body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"How-to and cues for every move in the plan."));
+
+  // Filter chips
+  var chips=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"});
+  REF_FILTERS.forEach(function(f){
+    var active=state.refFilter===f;
+    chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},f.charAt(0).toUpperCase()+f.slice(1)));
+  });
+  body.appendChild(chips);
+
+  // Phase note
+  var pnote=el("div",{style:"padding:9px 13px;background:#2d3a2e;border-radius:8px;font-size:12px;color:#9ab090;margin-bottom:16px;line-height:1.5;"});
+  pnote.appendChild(el("span",{style:"font-weight:bold;color:"+ph.color+";"},"Phase "+ph.order+": "+ph.label+" — "));
+  pnote.appendChild(document.createTextNode("Exercises marked with a phase badge are locked until that phase."));
+  body.appendChild(pnote);
+
+  // Exercise cards
+  var exList=Object.keys(DATA.exercises);
+  exList.forEach(function(id){
+    var ex=DATA.exercises[id];
+    var f=state.refFilter;
+    if(f!=="all"){
+      var bodyMatch=ex.bodyParts&&ex.bodyParts.indexOf(f)!==-1;
+      var goalMatch=ex.goals&&ex.goals.indexOf(f)!==-1;
+      if(!bodyMatch&&!goalMatch) return;
+    }
+    var locked=ex.minPhase && ph.order < ex.minPhase;
+    var dose=doseFor(ex);
+    var card=el("div",{style:"background:"+(locked?"#f0ebe3":"#fff")+";border-radius:10px;border:1px solid "+(locked?"#ddd5c8":"#e0d8cc")+";padding:13px 15px;margin-bottom:10px;"+(locked?"opacity:0.65;":"")});
+    var top=el("div",{style:"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;"});
+    var nameRow=el("div",{style:"flex:1;"});
+    nameRow.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},ex.name+(locked?" 🔒":"")));
+    if(dose) nameRow.appendChild(el("div",{style:"font-size:11px;color:"+ph.color+";font-weight:bold;"},"Phase "+ph.order+": "+dose));
+    top.appendChild(nameRow);
+    var tags=el("div",{style:"display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;"});
+    if(ex.bodyParts) ex.bodyParts.forEach(function(bp){ tags.appendChild(el("span",{style:"font-size:10px;padding:2px 7px;border-radius:10px;background:#ede8e0;color:#6a5a4a;"},bp)); });
+    top.appendChild(tags);
+    card.appendChild(top);
+    if(locked){
+      card.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;font-style:italic;"},"Unlocks in Phase "+ex.minPhase+"."));
+    } else {
+      if(ex.howTo) card.appendChild(el("div",{style:"font-size:12px;color:#5a4a3a;line-height:1.5;margin-bottom:6px;"},ex.howTo));
+      if(ex.cues && ex.cues.length){
+        var cueList=el("div",{style:"display:flex;flex-direction:column;gap:3px;"});
+        ex.cues.forEach(function(c){ cueList.appendChild(el("div",{style:"font-size:11px;color:#7a6a5a;padding-left:10px;position:relative;"},[el("span",{style:"position:absolute;left:0;"},"·"),c])); });
+        card.appendChild(cueList);
+      }
+      if(ex.equipment && ex.equipment.length){
+        card.appendChild(el("div",{style:"font-size:11px;color:#9a8070;margin-top:6px;"},"🛠 "+ex.equipment.join(", ")));
+      }
+    }
+    body.appendChild(card);
+  });
+
+  // Bonus moves glossary
+  body.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;margin:18px 0 10px;"},"Bonus Move Pool"));
+  BONUS_POOL.forEach(function(b){
+    var bc=el("div",{style:"background:#fff;border-radius:10px;border:1px solid #e0d8cc;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;"});
+    bc.appendChild(el("span",{style:"font-size:24px;flex-shrink:0;"},b.emoji));
+    bc.appendChild(el("div",null,[el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},b.title),el("div",{style:"font-size:12px;color:#5a4a3a;line-height:1.4;"},b.desc)]));
+    body.appendChild(bc);
+  });
 }
 
 function exportData(){
