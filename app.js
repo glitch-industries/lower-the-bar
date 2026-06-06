@@ -325,10 +325,10 @@ var state = {
   refFilter: "all"
 };
 
-/* date of the selected weekday within the CURRENT real week */
+/* date of the selected day in the rolling 7-day window (today = index 3) */
 function selectedDateKey(){
-  var monday = parseYMD(INFO.weekMondayKey);
-  var d = new Date(monday); d.setDate(monday.getDate()+state.selectedDay);
+  var today = parseYMD(INFO.todayKey);
+  var d = new Date(today); d.setDate(today.getDate() + (state.selectedDay - 3));
   return ymd(d);
 }
 function selectedIsFuture(){ return selectedDateKey() > INFO.todayKey; }
@@ -500,14 +500,25 @@ function renderTabs(){
 
 function renderDaySelector(){
   var bar=el("div",{"class":"scroll-x",style:"background:#ede8e0;padding:9px 14px;display:flex;gap:6px;overflow-x:auto;border-bottom:1px solid #d8d0c4;"});
-  DAY_ORDER.forEach(function(wd,i){
-    var monday=parseYMD(INFO.weekMondayKey); var dd=new Date(monday); dd.setDate(monday.getDate()+i); var dkey=ymd(dd);
+  // Rolling 7-day window: indices 0-6, today = index 3
+  for(var i=0;i<7;i++){
+    var today=parseYMD(INFO.todayKey);
+    var dd=new Date(today); dd.setDate(today.getDate()+(i-3));
+    var dkey=ymd(dd);
     var tid=templateIdForDate(dkey); var tpl=DATA.templates[tid];
-    var active=state.selectedDay===i; var td=(dkey===INFO.todayKey);
+    var active=state.selectedDay===i;
+    var isToday=(dkey===INFO.todayKey);
+    var isPast=dkey<INFO.todayKey;
     var done=store[dkey]&&store[dkey].completed;
-    var label=wd+(done&&!active?" \u2713":"")+(td?" \u25cf":"");
-    bar.appendChild(el("button",{style:"padding:6px 11px;border-radius:6px;border:"+(td?"2px solid "+TAG_COLORS[tpl.tag]:"2px solid transparent")+";background:"+(active?TAG_COLORS[tpl.tag]:done?"#d8f0e4":"#f0ebe3")+";color:"+(active?"#fff":done?"#2d6a4a":"#4a3f35")+";font-size:12px;white-space:nowrap;font-weight:"+(td?"bold":"normal")+";flex-shrink:0;",onclick:function(){ state.selectedDay=i; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; render(); }},label));
-  });
+    var dayName=DAY_NAMES[dd.getDay()];
+    var dateNum=dd.getDate();
+    var label=el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:1px;"});
+    label.appendChild(el("span",{style:"font-size:11px;"},dayName));
+    label.appendChild(el("span",{style:"font-size:13px;font-weight:"+(isToday?"bold":"normal")+";"},done&&!active?"\u2713":isToday?"\u25cf":String(dateNum)));
+    var btn=el("button",{style:"padding:6px 10px;border-radius:8px;border:"+(isToday?"2px solid "+TAG_COLORS[tpl.tag]:"2px solid transparent")+";background:"+(active?TAG_COLORS[tpl.tag]:done&&!active?"#d8f0e4":isPast?"#e8e3db":"#f0ebe3")+";color:"+(active?"#fff":done&&!active?"#2d6a4a":isPast?"#8a7a6a":"#4a3f35")+";font-size:12px;white-space:nowrap;flex-shrink:0;line-height:1;",onclick:(function(idx){ return function(){ state.selectedDay=idx; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; render(); }; })(i)});
+    btn.appendChild(label);
+    bar.appendChild(btn);
+  }
   return bar;
 }
 
@@ -858,7 +869,7 @@ function boot(){
     .then(function(res){
       DATA.exercises=res[0].exercises; DATA.phases=res[1].phases; DATA.templates=res[2].templates; DATA.schedule=res[3]; DATA.ifitSeries=res[4].series;
       recomputeInfo();
-      state.selectedDay=INFO.dayIndex;
+      state.selectedDay=3; // today is always index 3 in the rolling window
       if(!weekData().intention) state.showIntentionPicker=true;
       render();
     })
