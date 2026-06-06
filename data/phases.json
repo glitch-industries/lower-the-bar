@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "description": "Phases define session length, sets, bike/iFIT settings, and the checklist of criteria required to UNLOCK the next phase. Progression is manual + gated: you advance when you tick the criteria, not on a fixed calendar.",
+    "version": 1
+  },
+  "phases": [
+    {
+      "id": "foundation",
+      "label": "Foundation",
+      "order": 1,
+      "suggestedWeeks": 3,
+      "duration": "15 min",
+      "focus": "Activation, form, pain-free movement",
+      "color": "#7fb3a0",
+      "bike": { "ride": "8 min", "resistance": "3\u20135", "incline": "flat\u20132%", "ifit": "Beginner / Scenic Rides" },
+      "unlockCriteria": [
+        "I can do all Foundation exercises with good form and no pain",
+        "Glute bridges feel controlled — I can feel my right glute working",
+        "Ankle mob done most days for at least 2 weeks",
+        "8-min bike ride feels comfortable, conversational pace",
+        "No flare-ups that lasted more than a day after sessions"
+      ]
+    },
+    {
+      "id": "build",
+      "label": "Build",
+      "order": 2,
+      "suggestedWeeks": 3,
+      "duration": "20 min",
+      "focus": "Add reps, introduce resistance bands",
+      "color": "#8fa8c8",
+      "bike": { "ride": "12 min", "resistance": "5\u20138", "incline": "2\u20135%", "ifit": "Low-Impact / Scenic Rides" },
+      "unlockCriteria": [
+        "Band exercises feel controlled, no joint strain",
+        "Bridge-with-march keeps pelvis level without wobble",
+        "20-min sessions feel sustainable, not draining",
+        "12-min ride at higher resistance stays conversational",
+        "Scapula work stays pain-free with the band"
+      ]
+    },
+    {
+      "id": "strengthen",
+      "label": "Strengthen",
+      "order": 3,
+      "suggestedWeeks": 3,
+      "duration": "25 min",
+      "focus": "Increase load, cardio duration",
+      "color": "#b09abf",
+      "bike": { "ride": "18 min", "resistance": "8\u201312", "incline": "5\u201310%", "ifit": "Endurance / Hill Climbs" },
+      "unlockCriteria": [
+        "Single-leg bridges keep hips level both sides",
+        "Bird-dog holds (5 sec) feel stable",
+        "18-min ride with hills feels challenging but safe",
+        "Prone Y/T/W pain-free through full set",
+        "Recovered well between sessions"
+      ]
+    },
+    {
+      "id": "consolidate",
+      "label": "Consolidate",
+      "order": 4,
+      "suggestedWeeks": 3,
+      "duration": "30 min",
+      "focus": "Full routine, test stability gains",
+      "color": "#c49a8a",
+      "bike": { "ride": "25 min", "resistance": "12\u201316", "incline": "8\u201315%", "ifit": "Power / Interval Training" },
+      "unlockCriteria": [
+        "This is the final phase \u2014 the goal is to maintain and test gains",
+        "Reassess with PT before deciding what comes next"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,262 @@
+{
+  "_meta": {
+    "description": "Exercise library. Each exercise is a standalone atom referenced by day templates. Edit here to change how an exercise is described everywhere it appears.",
+    "version": 1
+  },
+  "exercises": {
+    "ankle-circles": {
+      "name": "Ankle Circles",
+      "bodyParts": ["ankle"],
+      "conditions": ["left-ankle"],
+      "goals": ["mobility"],
+      "howTo": "Seated, foot lifted off the floor. Draw large, slow circles with your toes — 10 clockwise then 10 anticlockwise. Both feet.",
+      "cues": ["Large, slow, smooth circles", "Both feet, every day"],
+      "defaultDose": "10 each direction, both feet"
+    },
+    "wall-mobilisation": {
+      "name": "Wall Mobilisation (Knee-to-Wall)",
+      "bodyParts": ["ankle"],
+      "conditions": ["left-ankle"],
+      "goals": ["mobility"],
+      "howTo": "Kneeling lunge facing wall. Drive your knee forward toward the wall, keeping the heel flat on the floor.",
+      "cues": ["Heel stays FLAT on the floor — always", "Gradually move foot closer each week as range improves"],
+      "defaultDose": "10 slow reps/side, ~1 min/side"
+    },
+    "calf-stretch": {
+      "name": "Calf Stretch",
+      "bodyParts": ["ankle", "calf"],
+      "conditions": ["left-ankle"],
+      "goals": ["mobility"],
+      "howTo": "Facing wall, one foot back with a straight leg. Lean forward until you feel the calf stretch.",
+      "cues": ["Hold 30 sec", "Smooth and sustained — no bouncing"],
+      "defaultDose": "30 sec hold, both sides twice"
+    },
+    "glute-bridge": {
+      "name": "Glute Bridge",
+      "bodyParts": ["glute", "core"],
+      "conditions": ["right-glute", "low-back"],
+      "goals": ["activation", "strength"],
+      "howTo": "Lie on back, feet flat hip-width. Drive heels down and lift hips.",
+      "cues": ["Squeeze RIGHT glute deliberately at top", "Hold 2 sec", "Neutral spine — no arch"],
+      "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" }
+    },
+    "bridge-march": {
+      "name": "Bridge with March",
+      "bodyParts": ["glute", "core"],
+      "conditions": ["right-glute", "low-back"],
+      "goals": ["strength", "stability"],
+      "minPhase": 2,
+      "howTo": "Bridge up fully. At the top, lift the LEFT foot 2 inches off the floor and alternate feet.",
+      "cues": ["Pelvis perfectly level", "Do not let hips drop or rotate"],
+      "phaseDose": { "2": "2\u20133\u00d710/side", "3": "3\u00d710/side", "4": "3\u20134\u00d710/side" }
+    },
+    "single-leg-bridge": {
+      "name": "Single-Leg Bridge",
+      "bodyParts": ["glute", "core"],
+      "conditions": ["right-glute", "low-back"],
+      "goals": ["strength", "stability"],
+      "minPhase": 3,
+      "howTo": "Bridge up on the RIGHT foot only, LEFT leg extended straight up. Drive through the grounded heel.",
+      "cues": ["Drive through R-heel only", "Keep hips perfectly level"],
+      "phaseDose": { "3": "3\u00d710/side", "4": "3\u20134\u00d710/side" }
+    },
+    "clamshell": {
+      "name": "Side-Lying Clamshell",
+      "bodyParts": ["glute"],
+      "conditions": ["right-glute"],
+      "goals": ["activation"],
+      "howTo": "Lie on side, hips stacked, knees bent. Open the RIGHT (top) knee upward.",
+      "cues": ["Keep feet together throughout", "Do NOT roll hips backward"],
+      "phaseDose": { "1": "2\u00d712/side", "2": "2\u20133\u00d712/side", "3": "3\u00d712/side", "4": "3\u20134\u00d712/side" }
+    },
+    "clamshell-band": {
+      "name": "Clamshell + Band",
+      "bodyParts": ["glute"],
+      "conditions": ["right-glute"],
+      "goals": ["activation", "strength"],
+      "minPhase": 2,
+      "equipment": ["resistance-band"],
+      "howTo": "Same as clamshell, with a resistance band placed just above the knees. Press the RIGHT knee out against the band.",
+      "cues": ["Same form cues as clamshell", "Press against band control"],
+      "phaseDose": { "2": "2\u20133\u00d712/side", "3": "3\u00d712/side", "4": "3\u20134\u00d712/side" },
+      "cycleFlareSkip": false
+    },
+    "bird-dog": {
+      "name": "Bird-Dog",
+      "bodyParts": ["core", "glute", "back"],
+      "conditions": ["low-back"],
+      "goals": ["stability"],
+      "howTo": "On all fours, flat back, core engaged. Extend the RIGHT arm forward and LEFT leg back.",
+      "cues": ["Hips square — do not rotate", "Hold 3 sec"],
+      "phaseDose": { "1": "2\u00d710/side", "2": "2\u20133\u00d710/side" }
+    },
+    "bird-dog-hold": {
+      "name": "Bird-Dog + Hold",
+      "bodyParts": ["core", "glute", "back"],
+      "conditions": ["low-back"],
+      "goals": ["stability"],
+      "minPhase": 3,
+      "howTo": "Same as Bird-Dog, but hold the extension for 5 sec and add a small forward reach at the end.",
+      "cues": ["Maintain perfectly flat back", "Hold 5 sec"],
+      "phaseDose": { "3": "3\u00d78/side", "4": "3\u20134\u00d78/side" }
+    },
+    "hip-abduction": {
+      "name": "Hip Abduction",
+      "bodyParts": ["glute"],
+      "conditions": ["right-glute"],
+      "goals": ["strength"],
+      "minPhase": 4,
+      "howTo": "Side-lying, RIGHT (top) leg straight. Lift it 12\u201318 inches, squeeze the glute at the top.",
+      "cues": ["Squeeze R-glute at top", "Slow controlled descent", "Add ankle weight only if pain-free"],
+      "phaseDose": { "4": "3\u20134\u00d715/side" }
+    },
+    "box-squat": {
+      "name": "Box Squat to Chair",
+      "bodyParts": ["quad", "glute"],
+      "conditions": ["knees"],
+      "goals": ["strength"],
+      "howTo": "Stand in front of a sturdy chair. Lower hips until barely touching the seat.",
+      "cues": ["Kneecap always tracks over 2nd toe", "Never a full unsupported air squat"],
+      "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" }
+    },
+    "wall-sit": {
+      "name": "Wall Sit",
+      "bodyParts": ["quad"],
+      "conditions": ["knees"],
+      "goals": ["strength"],
+      "howTo": "Back flat against the wall, slide down until knees are bent (not 90\u00b0 initially). Engage quads throughout.",
+      "cues": ["Phase 1: slight bend", "Phase 3+: deeper bend", "Engage quads throughout"],
+      "phaseDose": { "1": "20\u201330 sec", "2": "30\u201340 sec", "3": "45 sec", "4": "60 sec" }
+    },
+    "calf-raise": {
+      "name": "Standing Calf Raise",
+      "bodyParts": ["calf", "ankle"],
+      "conditions": ["left-ankle"],
+      "goals": ["strength"],
+      "howTo": "Hold the wall lightly for balance. Raise heels slowly off the floor, controlled slow descent.",
+      "cues": ["No sudden jerking (left ankle)", "Controlled slow descent"],
+      "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715 (+3lb dumbbells)" }
+    },
+    "scap-retraction": {
+      "name": "Scapular Retraction",
+      "bodyParts": ["scapula", "back"],
+      "conditions": ["right-scapula"],
+      "goals": ["activation"],
+      "howTo": "Seated or standing. Pull shoulder blades together and DOWN simultaneously. Hold 5 sec, release slowly.",
+      "cues": ["Pain-free range ONLY — always", "Cycle flare: gentle setting only"],
+      "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" },
+      "painFreeOnly": true
+    },
+    "wall-angel": {
+      "name": "Wall Angel",
+      "bodyParts": ["scapula", "back"],
+      "conditions": ["right-scapula"],
+      "goals": ["mobility"],
+      "howTo": "Back flat on wall, arms in goalpost. Slowly raise arms overhead then back down, keeping full contact with the wall.",
+      "cues": ["Keep full arm contact with wall throughout"],
+      "phaseDose": { "1": "2\u00d710", "2": "2\u20133\u00d710", "3": "3\u00d710", "4": "3\u20134\u00d710" }
+    },
+    "band-row": {
+      "name": "Band Row",
+      "bodyParts": ["back", "scapula"],
+      "conditions": ["right-scapula"],
+      "goals": ["strength"],
+      "minPhase": 2,
+      "equipment": ["resistance-band"],
+      "howTo": "Band at chest height, anchored ahead. Pull elbows back, squeezing shoulder blades together.",
+      "cues": ["Slow and controlled", "Skip during cycle flare"],
+      "phaseDose": { "2": "2\u20133\u00d712", "3": "3\u00d712", "4": "3\u20134\u00d712" },
+      "cycleFlareSkip": true
+    },
+    "face-pull": {
+      "name": "Face Pull",
+      "bodyParts": ["back", "scapula"],
+      "conditions": ["right-scapula"],
+      "goals": ["strength"],
+      "minPhase": 3,
+      "equipment": ["resistance-band"],
+      "howTo": "Band at eye level. Pull handles to ears with external rotation, elbows high throughout.",
+      "cues": ["Elbows HIGH throughout", "Skip or reduce during cycle flare"],
+      "phaseDose": { "3": "3\u00d712", "4": "3\u20134\u00d712" },
+      "cycleFlareSkip": true
+    },
+    "prone-ytw": {
+      "name": "Prone Y/T/W",
+      "bodyParts": ["scapula", "back"],
+      "conditions": ["right-scapula"],
+      "goals": ["strength"],
+      "minPhase": 3,
+      "howTo": "Face down on mat. Lift arms into Y (overhead), T (to sides), then W (bent elbows). Tiny, fully controlled lift.",
+      "cues": ["TINY lift, fully controlled", "Pain-free range only"],
+      "phaseDose": { "3": "3\u00d710 each", "4": "3\u20134\u00d710 each" },
+      "cycleFlareSkip": true
+    },
+    "single-arm-row": {
+      "name": "Single-Arm Row",
+      "bodyParts": ["back", "scapula"],
+      "conditions": ["right-scapula"],
+      "goals": ["strength"],
+      "minPhase": 4,
+      "equipment": ["dumbbells"],
+      "howTo": "Using a 3 lb dumbbell, row one arm at a time, squeezing the shoulder blade back.",
+      "cues": ["Slow and controlled", "Pain-free range only"],
+      "phaseDose": { "4": "3\u20134\u00d712/side" }
+    },
+    "cat-cow": {
+      "name": "Cat-Cow",
+      "bodyParts": ["back", "core"],
+      "conditions": ["low-back"],
+      "goals": ["mobility"],
+      "howTo": "On hands and knees. Inhale: spine sags, head lifts (Cow). Exhale: spine arches, chin tucks (Cat).",
+      "cues": ["Slow, breath-linked movement", "Never forced"],
+      "defaultDose": "10 slow cycles"
+    },
+    "puppy-pose": {
+      "name": "Puppy Pose",
+      "bodyParts": ["back", "shoulder"],
+      "conditions": [],
+      "goals": ["mobility", "recovery"],
+      "howTo": "From all fours, walk hands forward while hips stay over knees. Let chest melt toward floor.",
+      "cues": ["Hips stay HIGH over knees", "Block under forehead if needed"],
+      "defaultDose": "2 min"
+    },
+    "supine-twist": {
+      "name": "Supine Twist",
+      "bodyParts": ["back", "core"],
+      "conditions": ["low-back"],
+      "goals": ["mobility", "recovery"],
+      "howTo": "Lie on back, knees to chest, drop both knees to one side. Opposite shoulder stays grounded.",
+      "cues": ["LEFT shoulder stays grounded", "Gentle rotation — never force", "50% range on flare days"],
+      "defaultDose": "2 min each side"
+    },
+    "crescent-lunge": {
+      "name": "Crescent Lunge",
+      "bodyParts": ["hip", "quad"],
+      "conditions": ["knees"],
+      "goals": ["mobility"],
+      "minPhase": 2,
+      "howTo": "Gentle lunge with back knee lifted, hips square, slight backbend. Props as needed.",
+      "cues": ["Kneecap over 2nd toe", "Use props for balance"],
+      "defaultDose": "Hold 30\u201345 sec/side"
+    },
+    "savasana": {
+      "name": "Modified Savasana",
+      "bodyParts": ["full-body"],
+      "conditions": ["low-back"],
+      "goals": ["recovery"],
+      "howTo": "Lie flat, bolster or folded blanket under BENT knees, arms relaxed. Breathe deeply and slowly.",
+      "cues": ["Props are essential for lumbar support", "Do not skip"],
+      "defaultDose": "5 min"
+    },
+    "tree-pose": {
+      "name": "Tree Pose (wall support)",
+      "bodyParts": ["ankle", "hip"],
+      "conditions": ["knees", "left-ankle"],
+      "goals": ["balance", "stability"],
+      "minPhase": 3,
+      "howTo": "Stand near a wall for support. Place one foot to the opposite inner calf or thigh (not on the knee).",
+      "cues": ["Wall support always available", "Never foot on the knee joint"],
+      "defaultDose": "Hold 20\u201330 sec/side"
+    }
+  }
+}

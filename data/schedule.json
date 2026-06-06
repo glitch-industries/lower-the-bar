@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "description": "The schedule is the single source of truth for what runs when. 'weekly' is the default Mon\u2013Sun pattern (template IDs). 'anchorDate' is the Monday of plan week 1. 'overrides' let you swap a specific date's template (e.g. vacation, rest swap) without touching the weekly pattern. 'shift' pushes the whole plan forward by N days (e.g. after a break).",
+    "version": 1
+  },
+  "anchorDate": "2026-06-01",
+  "shiftDays": 0,
+  "weekly": {
+    "Mon": "pt-glute-core",
+    "Tue": "nordic-track",
+    "Wed": "strength-scapula",
+    "Thu": "recovery-yoga",
+    "Fri": "pt-glute-core",
+    "Sat": "nordic-track",
+    "Sun": "rest"
+  },
+  "overrides": {
+  }
+}

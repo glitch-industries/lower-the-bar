@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "description": "Day templates. Each 'type' references exercises by ID from exercises.json — it does NOT contain exercise detail. Warmups and exercises are ID lists. The schedule maps dates to these template IDs, so the same template can run on any day.",
+    "version": 1
+  },
+  "templates": {
+    "pt-glute-core": {
+      "label": "PT Glute & Core",
+      "tag": "glute",
+      "icon": "\ud83c\udf51",
+      "ifit": null,
+      "warmup": ["cat-cow", "wall-mobilisation"],
+      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "hip-abduction"],
+      "note": "Squeeze the RIGHT glute deliberately on every rep."
+    },
+    "nordic-track": {
+      "label": "NordicTrack X24",
+      "tag": "cardio",
+      "icon": "\ud83d\udeb4",
+      "ifit": "Beginner / Scenic / Low-Impact / Endurance / Hill / Power (by phase)",
+      "warmup": ["cat-cow", "wall-mobilisation"],
+      "exercises": [],
+      "note": "Check seat height every session. Toe-clip straps, not SPD. Squeeze right glute on every climb. Use SmartAdjust override if anything aggravates a joint.",
+      "isBike": true
+    },
+    "strength-scapula": {
+      "label": "Strength + Scapula",
+      "tag": "strength",
+      "icon": "\ud83d\udcaa",
+      "ifit": null,
+      "warmup": ["wall-angel"],
+      "exercises": ["box-squat", "wall-sit", "calf-raise", "scap-retraction", "wall-angel", "band-row", "face-pull", "prone-ytw", "single-arm-row"],
+      "note": "Scapula work: pain-free range ONLY. During cycle flares, gentle retraction only \u2014 skip band/resistance work."
+    },
+    "recovery-yoga": {
+      "label": "Recovery Yoga",
+      "tag": "yoga",
+      "icon": "\ud83e\uddd8",
+      "ifit": "Yoga / Stretching & Mobility (Beginner, Gentle, Restorative)",
+      "warmup": [],
+      "exercises": ["cat-cow", "puppy-pose", "supine-twist", "crescent-lunge", "tree-pose", "savasana"],
+      "note": "Pivot the X24 screen off-bike to face your mat. Props every session."
+    },
+    "rest": {
+      "label": "Rest + Ankle Mob",
+      "tag": "rest",
+      "icon": "\ud83c\udf3f",
+      "ifit": null,
+      "warmup": [],
+      "exercises": [],
+      "note": "True rest day. Ankle mob is the one non-negotiable \u2014 even today. Optional gentle 15-min walk."
+    }
+  }
+}
