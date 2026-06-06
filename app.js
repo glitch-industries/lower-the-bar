@@ -592,7 +592,7 @@ function renderHistory(body){
     var c=el("div",{style:"background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e0d8cc;"});
     var top2=el("div",{style:"display:flex;align-items:baseline;gap:6px;margin-bottom:2px;"});
     top2.appendChild(el("span",{style:"font-size:20px;"},emoji));
-    top2.appendChild(el("span",{style:"font-size:22px;font-weight:bold;color:"+(color||"#2d3a2e");"},value));
+    top2.appendChild(el("span",{style:"font-size:22px;font-weight:bold;color:"+(color||"#2d3a2e")+";"},value));
     c.appendChild(top2);
     c.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;margin-bottom:1px;"},label));
     if(sub) c.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},sub));
