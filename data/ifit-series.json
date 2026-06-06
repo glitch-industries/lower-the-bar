@@ -11,7 +11,7 @@
       "tier": "beginner",
       "phases": [1, 2],
       "focus": "Scenic red rock terrain. Steady pace, no pressure. Good first series.",
-      "approxEpisodes": 8,
+      "approxEpisodes": 12,
       "url": "https://www.ifit.com/library/programDetails/5bb68714e99d7c0028abfb57/moab_beginner_series"
     },
     {
@@ -21,68 +21,68 @@
       "tier": "beginner",
       "phases": [1, 2],
       "focus": "Scenic South American landscapes. Low resistance, conversational pace.",
-      "approxEpisodes": 10,
+      "approxEpisodes": 12,
       "url": "https://www.ifit.com/programDetails/5cd0bce5ce313b00286143e4/chilean_adventure_series"
     },
     {
-      "id": "norwegian-weight-loss",
-      "name": "Norwegian Weight Loss Series",
+      "id": "italy-weight-loss",
+      "name": "Italy Weight Loss Cycle Series",
       "trainer": "Ashleigh McIvor",
       "tier": "beginner",
       "phases": [1, 2],
-      "focus": "Nordic landscapes with steady fat-burning effort. Gentle and consistent.",
-      "approxEpisodes": 10,
-      "url": "https://www.ifit.com/library/programDetails/5cd0bdaa833df40029afa4f9/norwegian_weight_loss_series"
+      "focus": "Italian landscapes with steady fat-burning effort. Gentle and consistent.",
+      "approxEpisodes": 16,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "tokyo-endurance",
-      "name": "Tokyo Endurance Series",
+      "id": "hawaiian-island-cycling",
+      "name": "Hawaiian Island Cycling for Weight Loss Series",
       "trainer": "Travis McCabe",
       "tier": "beginner",
       "phases": [1, 2],
-      "focus": "Ride through Tokyo at an easy endurance pace. Great for building base.",
-      "approxEpisodes": 8,
-      "url": "https://www.ifit.com/library/programDetails/5ea87a8677e4d3024c1e267e/tokyo_endurance_series"
+      "focus": "Ride through Hawaii at an easy endurance pace. Scenic and approachable.",
+      "approxEpisodes": 12,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "switzerland-mountain",
-      "name": "Switzerland Mountain Series",
+      "id": "sun-valley-beginner",
+      "name": "Sun Valley Beginner Cycle Series",
       "trainer": "Regan Pearce",
       "tier": "beginner",
       "phases": [1, 2],
-      "focus": "Alpine scenery with gentle climbing. Beautiful and low-stakes.",
-      "approxEpisodes": 8,
-      "url": "https://www.ifit.com/library/programDetails/5cd0bf5f4d11ab002df86f7c/switzerland_mountain_series"
+      "focus": "Idaho mountain scenery, gentle pace. Short and beginner-friendly.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "aerobic-base-builder",
-      "name": "Aerobic Base Builder",
-      "trainer": "Ashleigh McIvor",
+      "id": "trails-to-trees-1",
+      "name": "Trails to Trees Part 1: Colorado National Park",
+      "trainer": "Paulo Barreto",
       "tier": "beginner",
       "phases": [2, 3],
-      "focus": "Explicit progression series. Builds aerobic foundation ride by ride.",
-      "approxEpisodes": 12,
-      "url": "https://www.ifit.com/library/programDetails/5d56c6e09ed4d0015404834c/aerobic_base_builder_series"
+      "focus": "Colorado park riding with Paulo. Part 1 of a two-series progression.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "progressive-power",
-      "name": "Progressive Power Series",
-      "trainer": "Jen Hudak",
+      "id": "trails-to-trees-2",
+      "name": "Trails to Trees Part 2: Glacier, Yellowstone & Grand Teton",
+      "trainer": "Paulo Barreto",
       "tier": "beginner",
       "phases": [2, 3],
-      "focus": "Incrementally harder rides. Structured so each session builds on the last.",
-      "approxEpisodes": 10,
-      "url": "https://www.ifit.com/library/programDetails/5dc20da6d6dff400738081c9/progressive_power_series"
+      "focus": "Three iconic parks. Natural continuation from Part 1 — more terrain, same guide.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "new-zealand-adventure",
-      "name": "New Zealand Adventure Series",
-      "trainer": "Kate Fluker",
-      "tier": "intermediate",
-      "phases": [2, 3],
-      "focus": "Stunning NZ scenery with moderate effort. A step up without the shock.",
-      "approxEpisodes": 12,
-      "url": "https://www.ifit.com/library/programDetails/5cf82610931b32002d8647c3/new_zealand_adventure_series"
+      "id": "montana-intro-cycling",
+      "name": "Montana Intro to Cycling",
+      "trainer": "iFIT Trainer",
+      "tier": "beginner",
+      "phases": [1, 2],
+      "focus": "Big Sky country at a beginner pace. Gentle introduction to structured riding.",
+      "approxEpisodes": 9,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
       "id": "turkey-endurance",
@@ -111,58 +111,58 @@
       "tier": "intermediate",
       "phases": [3, 4],
       "focus": "Structured road riding on iconic Utah routes. Real progression in resistance and duration.",
-      "approxEpisodes": 10,
+      "approxEpisodes": 16,
       "url": "https://www.ifit.com/library/programDetails/5bb688f4e99d7c0028abfb58/moab_road_rides"
     },
     {
-      "id": "dream-chaser",
-      "name": "Dream Chaser Series",
-      "trainer": "Nicole Meline",
+      "id": "mediterranean-threshold",
+      "name": "Mediterranean Threshold Power Ride Series",
+      "trainer": "Jenny Fletcher",
       "tier": "intermediate",
       "phases": [3, 4],
-      "focus": "Motivational and progressive. Pushes you a little further each ride.",
-      "approxEpisodes": 12,
-      "url": "https://www.ifit.com/library/programDetails/5e34bdef45836b06dcc6accf/dream_chaser_series"
-    },
-    {
-      "id": "lactate-threshold",
-      "name": "Lactate Threshold Series",
-      "trainer": "Ryan Petry",
-      "tier": "advanced",
-      "phases": [4],
-      "focus": "Threshold intervals. Trains your body to sustain higher effort longer.",
+      "focus": "Threshold-focused power work through Mediterranean scenery. Structured and challenging.",
       "approxEpisodes": 10,
-      "url": "https://www.ifit.com/library/programDetails/5d56c57f0dd14c022fcb7a13/lactate_threshold_series"
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "chile-climbing",
-      "name": "Chile Climbing Series",
-      "trainer": "Ryan Petry",
-      "tier": "advanced",
-      "phases": [4],
-      "focus": "Sustained climbing effort. High incline, high resistance — you've earned this.",
-      "approxEpisodes": 12,
-      "url": "https://www.ifit.com/programDetails/5cd0be744d11ab002df86f79/chile_climbing_series"
+      "id": "olympic-national-park",
+      "name": "Olympic National Park Coastal Feel-Good Cycling Series",
+      "trainer": "Ashley Paulson",
+      "tier": "intermediate",
+      "phases": [2, 3],
+      "focus": "PNW coastal riding with Ashley. Feel-good effort, beautiful scenery.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "mallorca-performance",
-      "name": "Mallorca Performance Series",
-      "trainer": "Travis McCabe",
-      "tier": "advanced",
-      "phases": [4],
-      "focus": "Pro-level Mediterranean riding. Performance focus with real race intensity.",
-      "approxEpisodes": 10,
-      "url": "https://www.ifit.com/library/programDetails/5da9d4a51a8e120359d54d9f/mallorca_performance_series"
+      "id": "norcal-high-intensity",
+      "name": "NorCal High Intensity Cycling Series",
+      "trainer": "Yuri Hauswald",
+      "tier": "intermediate",
+      "phases": [3, 4],
+      "focus": "Northern California terrain with real intensity. Yuri pushes hard.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     },
     {
-      "id": "bay-area-incline",
-      "name": "Bay Area Incline Series",
-      "trainer": "Ryan Petry",
-      "tier": "advanced",
-      "phases": [4],
-      "focus": "Punishing hills through San Francisco. If Phase 4 needs a final boss, this is it.",
-      "approxEpisodes": 8,
-      "url": "https://www.ifit.com/library/programDetails/5d5c5206f133f9006fe7dbf9/bay_area_incline_series"
+      "id": "redwoods-progressive-endurance",
+      "name": "Redwoods Progressive Endurance Cycling Series",
+      "trainer": "Yuri Hauswald",
+      "tier": "intermediate",
+      "phases": [3, 4],
+      "focus": "Endurance progression through the redwoods. Each ride builds on the last.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
+    },
+    {
+      "id": "bike-rockies-jasper",
+      "name": "Bike the Rockies Part 3: Jasper National Park",
+      "trainer": "Yuri Hauswald",
+      "tier": "intermediate",
+      "phases": [3, 4],
+      "focus": "Canadian Rockies riding. Stunning and demanding — a worthy capstone series.",
+      "approxEpisodes": 6,
+      "url": "https://www.ifit.com/workouts/cycling"
     }
   ]
 }
