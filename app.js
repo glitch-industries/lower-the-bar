@@ -677,11 +677,54 @@ function renderSession(body){
   // Bike / iFIT guidance block
   if(tpl.isBike){
     var bk=INFO.phase.bike;
-    var bb=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:11px 14px;margin-bottom:12px;font-size:12px;color:#33536a;line-height:1.6;"});
-    bb.appendChild(el("div",{style:"font-weight:bold;margin-bottom:3px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 Phase "+INFO.phase.order));
-    bb.appendChild(el("div",null,"Ride: "+bk.ride+" \u00b7 Resistance "+bk.resistance+" \u00b7 Incline "+bk.incline));
+    var selWkday=new Date(selectedDateKey()+"T12:00:00").getDay(); // 0=Sun,6=Sat
+    var isSatBike=(selWkday===6);
+    var rideTime=isSatBike&&bk.satRide?bk.satRide:bk.ride;
+    var selPlanWeek=planWeekForDate(selectedDateKey());
+
+    // Weeks 1\u20136: optional banner
+    if(selPlanWeek<=6){
+      var optBanner=el("div",{style:"background:#fff8e6;border:2px solid #e8b84b;border-radius:10px;padding:12px 14px;margin-bottom:12px;"});
+      optBanner.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#8a5a10;margin-bottom:4px;"},"\u26a0\ufe0f Weeks 1\u20136: Ride only on good days"));
+      optBanner.appendChild(el("div",{style:"font-size:12px;color:#7a5a20;line-height:1.5;"},"Skip entirely on any scapula, low back, or hip flare. On mild-discomfort days: 5 min max, flat scenic ride, light resistance. Bike becomes fully scheduled from week 7."));
+      body.appendChild(optBanner);
+    }
+
+    // Cycle flare: skip bike warning
+    if(weekData().cycleFlare){
+      body.appendChild(el("div",{style:"background:#fdf0f6;border:2px solid #d4a0c0;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#8a3a5a;"},"\ud83c\udf19 Cycle modifier: skip bike if flaring. 5 min max on mild days \u2014 flat scenic, light resistance only. TENS on ankle after (not before) if you do ride."));
+    }
+
+    // Bike stats card
+    var bb=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:11px 14px;margin-bottom:12px;"});
+    bb.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#33536a;margin-bottom:8px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 Phase "+INFO.phase.order+(isSatBike?" \u00b7 Saturday (longer ride)":"")));
+    var statRow=el("div",{style:"display:flex;gap:6px;"});
+    function bikeChip(label,val){
+      var c=el("div",{style:"flex:1;background:#fff;border:1px solid #cdddea;border-radius:7px;padding:6px 8px;text-align:center;"});
+      c.appendChild(el("div",{style:"font-size:9px;color:#7aadcc;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;"},label));
+      c.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#1a3a5a;"},val));
+      return c;
+    }
+    statRow.appendChild(bikeChip("Ride",rideTime));
+    statRow.appendChild(bikeChip("Resistance",bk.resistance));
+    statRow.appendChild(bikeChip("Incline",bk.incline));
+    bb.appendChild(statRow);
     body.appendChild(bb);
     if(DATA.ifitSeries) renderIfitWidget(body);
+  }
+
+  // Cycle flare banner for non-bike sessions
+  if(weekData().cycleFlare && tag!=="rest" && !tpl.isBike){
+    var cfNote="";
+    if(tag==="strength") cfNote="Scapula work today: gentle retraction only. Skip bands and resistance. Pain-free range only.";
+    else if(tag==="glute") cfNote="Reduce end-range movements. Bolster under knees for all floor work. Skip if lower back + hip are flaring together.";
+    else if(tag==="yoga") cfNote="Reduce rotation range \u2014 let gravity do the work. Bolster under knees in savasana. Non-negotiable today.";
+    else cfNote="Easy does it. Reduce range across all movements today.";
+    var cfBanner=el("div",{style:"background:#fdf0f6;border:2px solid #d4a0c0;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
+    cfBanner.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#8a3a5a;margin-bottom:4px;"},"\ud83c\udf19 Cycle modifier active"));
+    cfBanner.appendChild(el("div",{style:"font-size:12px;color:#7a3a5a;line-height:1.5;"},cfNote));
+    cfBanner.appendChild(el("div",{style:"font-size:11px;color:#c4a0b8;margin-top:6px;"},"\ud83e\uddb6 Ankle mob twice today \u2014 ligament laxity is highest around your cycle."));
+    body.appendChild(cfBanner);
   }
 
   // Template note
@@ -856,6 +899,35 @@ function renderHistory(body){
     row.appendChild(right);
     body.appendChild(row);
   });
+
+  // Cycle flare toggle
+  var cycleFlare=weekData().cycleFlare;
+  var cycleCard=el("div",{style:"margin-top:14px;background:#fff;border:2px solid "+(cycleFlare?"#d4a0c0":"#e0d8cc")+";border-radius:12px;overflow:hidden;"});
+  var cycleBtn=el("button",{style:"width:100%;padding:13px 16px;background:transparent;border:none;display:flex;align-items:center;gap:10px;text-align:left;",onclick:function(){ updateWeekData({cycleFlare:!cycleFlare}); }});
+  cycleBtn.appendChild(el("span",{style:"font-size:20px;"},"🌙"));
+  var cycleTxt=el("div",{style:"flex:1;"});
+  cycleTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(cycleFlare?"#8a3a5a":"#2d3a2e")+";"},cycleFlare?"Cycle modifier active":"Cycle flare this week?"));
+  cycleTxt.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;"},cycleFlare?"Sessions adjusted. Tap to clear when you're through.":"Adjusts scapula, bike, and ankle mob guidance."));
+  cycleBtn.appendChild(cycleTxt);
+  var cycleSwitch=el("div",{style:"width:34px;height:19px;border-radius:10px;background:"+(cycleFlare?"#c4a0b8":"#c0b8b0")+";position:relative;flex-shrink:0;"});
+  cycleSwitch.appendChild(el("div",{style:"position:absolute;top:2px;left:"+(cycleFlare?"17":"2")+"px;width:15px;height:15px;border-radius:50%;background:#fff;"}));
+  cycleBtn.appendChild(cycleSwitch);
+  cycleCard.appendChild(cycleBtn);
+  if(cycleFlare){
+    var cycleInfo=el("div",{style:"padding:12px 16px;background:#fdf5fa;border-top:1px solid #e8d0e0;font-size:12px;color:#6a3a5a;line-height:1.6;"});
+    cycleInfo.appendChild(el("div",{style:"font-weight:bold;margin-bottom:6px;"},"What's adjusted this week:"));
+    ["Scapula work: gentle retraction only — no bands or resistance",
+     "Bike: skip entirely if flaring. 5 min max on mild days, flat scenic only",
+     "Ankle mob: aim for twice daily — ligament laxity is highest",
+     "End-range movements: reduce across all exercises",
+     "Savasana: bolster under knees is non-negotiable today",
+     "TENS on lower back + scapula during savasana is ideal"
+    ].forEach(function(b){
+      cycleInfo.appendChild(el("div",{style:"padding:2px 0 2px 12px;position:relative;"},[el("span",{style:"position:absolute;left:0;color:#c4a0b8;"},"·"),b]));
+    });
+    cycleCard.appendChild(cycleInfo);
+  }
+  body.appendChild(cycleCard);
 
   // Vacation mode
   var vac=store.vacation;

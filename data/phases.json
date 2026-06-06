@@ -12,7 +12,7 @@
       "duration": "15 min",
       "focus": "Activation, form, pain-free movement",
       "color": "#7fb3a0",
-      "bike": { "ride": "8 min", "resistance": "3\u20135", "incline": "flat\u20132%", "ifit": "Beginner / Scenic Rides" },
+      "bike": { "ride": "8 min", "satRide": "13 min", "resistance": "3\u20135", "incline": "flat\u20132%", "ifit": "Beginner / Scenic Rides" },
       "unlockCriteria": [
         "I can do all Foundation exercises with good form and no pain",
         "Glute bridges feel controlled — I can feel my right glute working",
@@ -29,7 +29,7 @@
       "duration": "20 min",
       "focus": "Add reps, introduce resistance bands",
       "color": "#8fa8c8",
-      "bike": { "ride": "12 min", "resistance": "5\u20138", "incline": "2\u20135%", "ifit": "Low-Impact / Scenic Rides" },
+      "bike": { "ride": "12 min", "satRide": "17 min", "resistance": "5\u20138", "incline": "2\u20135%", "ifit": "Low-Impact / Scenic Rides" },
       "unlockCriteria": [
         "Band exercises feel controlled, no joint strain",
         "Bridge-with-march keeps pelvis level without wobble",
@@ -46,7 +46,7 @@
       "duration": "25 min",
       "focus": "Increase load, cardio duration",
       "color": "#b09abf",
-      "bike": { "ride": "18 min", "resistance": "8\u201312", "incline": "5\u201310%", "ifit": "Endurance / Hill Climbs" },
+      "bike": { "ride": "18 min", "satRide": "23 min", "resistance": "8\u201312", "incline": "5\u201310%", "ifit": "Endurance / Hill Climbs" },
       "unlockCriteria": [
         "Single-leg bridges keep hips level both sides",
         "Bird-dog holds (5 sec) feel stable",
@@ -63,7 +63,7 @@
       "duration": "30 min",
       "focus": "Full routine, test stability gains",
       "color": "#c49a8a",
-      "bike": { "ride": "25 min", "resistance": "12\u201316", "incline": "8\u201315%", "ifit": "Power / Interval Training" },
+      "bike": { "ride": "25 min", "satRide": "30 min", "resistance": "12\u201316", "incline": "8\u201315%", "ifit": "Power / Interval Training" },
       "unlockCriteria": [
         "This is the final phase \u2014 the goal is to maintain and test gains",
         "Reassess with PT before deciding what comes next"
