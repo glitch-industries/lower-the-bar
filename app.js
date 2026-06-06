@@ -176,7 +176,7 @@ function renderIfitWidget(body){
 
     var cw=el("div",{style:"margin-bottom:14px;"});
     cw.appendChild(sectionLabel("Pick your iFIT series"));
-    cw.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;margin-bottom:10px;"},"Three picks for Phase "+ph.order+". Do the next episode each bike day."));
+    cw.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;margin-bottom:10px;"},"Three picks for Phase "+ph.order+". Do the next episode each bike day. Can't find one in iFIT? Hit Switch after picking and choose again."));
     chooseSeries.forEach(function(s){
       var card=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer;",onclick:function(){
         saveIfitState({seriesId:s.id,episodesDone:0,choosingNew:false,pendingChoices:null});
