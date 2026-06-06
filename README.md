@@ -1,5 +1,7 @@
 # Lower the Bar
 
+**Live app:** https://glitch-industries.github.io/lower-the-bar/
+
 A mobile-first progressive web app (PWA) for tracking a 12-week movement plan.
 
 ## What it does
