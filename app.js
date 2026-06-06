@@ -759,11 +759,22 @@ function renderHistory(body){
   body.appendChild(el("div",{style:"margin-top:12px;padding:12px 14px;background:#ede8e0;border-radius:8px;font-size:11px;color:#9a8a7a;text-align:center;line-height:1.5;"},"Saved on this device. Functional beats perfect."));
 }
 
-var REF_FILTERS = ["all","glute","ankle","core","cardio","strength","mobility"];
+var REF_FILTERS = ["today","all","glute","ankle","core","cardio","strength","mobility"];
 
 function renderReference(body){
   var ph=INFO.phase;
-  if(!state.refFilter) state.refFilter="all";
+  if(!state.refFilter) state.refFilter="today";
+
+  // Build today's exercise ID set
+  var todayTpl=DATA.templates[templateIdForDate(INFO.todayKey)];
+  var todayIds={};
+  var ANKLE_EX_IDS=["ankle-circles","wall-mobilisation","calf-stretch"];
+  ANKLE_EX_IDS.forEach(function(id){ todayIds[id]=true; });
+  if(todayTpl){
+    (todayTpl.warmup||[]).forEach(function(id){ todayIds[id]=true; });
+    (todayTpl.exercises||[]).forEach(function(id){ todayIds[id]=true; });
+    (todayTpl.cooldown||[]).forEach(function(id){ todayIds[id]=true; });
+  }
 
   // Header
   body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"Exercise Reference"));
@@ -773,7 +784,8 @@ function renderReference(body){
   var chips=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"});
   REF_FILTERS.forEach(function(f){
     var active=state.refFilter===f;
-    chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},f.charAt(0).toUpperCase()+f.slice(1)));
+    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f.charAt(0).toUpperCase()+f.slice(1);
+    chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},label));
   });
   body.appendChild(chips);
 
@@ -788,7 +800,9 @@ function renderReference(body){
   exList.forEach(function(id){
     var ex=DATA.exercises[id];
     var f=state.refFilter;
-    if(f!=="all"){
+    if(f==="today"){
+      if(!todayIds[id]) return;
+    } else if(f!=="all"){
       var bodyMatch=ex.bodyParts&&ex.bodyParts.indexOf(f)!==-1;
       var goalMatch=ex.goals&&ex.goals.indexOf(f)!==-1;
       if(!bodyMatch&&!goalMatch) return;
