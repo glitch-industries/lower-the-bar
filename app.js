@@ -464,8 +464,10 @@ function sectionLabel(t){ return el("div",{style:"font-size:11px;letter-spacing:
 var root;
 function render(){
   recomputeInfo();
-  // Preserve scroll position across rebuilds so toggles don't jump to top
-  var savedScroll = (root.children[1] && root.children[1].scrollTop) || 0;
+  // Preserve scroll position across rebuilds so toggles don't jump to top.
+  // Reset to 0 when switching tabs or views.
+  var savedScroll = (root._lastView === state.view && root.children[1]) ? root.children[1].scrollTop : 0;
+  root._lastView = state.view;
   root.innerHTML="";
   if(state.showIntentionPicker){ root.appendChild(renderIntentionPicker()); return; }
 
