@@ -919,7 +919,7 @@ function renderSession(body){
   ]));
   if(!oDone&&!oFuture) oCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e8a0b0;font-weight:bold;"},"daily"));
   oWrap.appendChild(oCard);
-  if(!oFuture){
+  if(!oFuture && !oDone){
     var oList=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
     openIds.forEach(function(id){
       var ex=DATA.exercises[id]; if(!ex) return;
@@ -1065,15 +1065,17 @@ function renderSession(body){
     ]));
     clCard.appendChild(el("span",{style:"font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9a8a7a;font-weight:bold;"},"DAILY"));
     clWrap.appendChild(clCard);
-    var clDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
-    closeIds.forEach(function(id){
-      var ex=DATA.exercises[id]; if(!ex) return;
-      var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
-      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
-      if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
-      clDetail.appendChild(row);
-    });
-    clWrap.appendChild(clDetail);
+    if(!clDone){
+      var clDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+      closeIds.forEach(function(id){
+        var ex=DATA.exercises[id]; if(!ex) return;
+        var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
+        row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
+        if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+        clDetail.appendChild(row);
+      });
+      clWrap.appendChild(clDetail);
+    }
     body.appendChild(clWrap);
   }
 
