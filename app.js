@@ -829,8 +829,8 @@ function renderSession(body){
   }
   body.appendChild(aWrap);
 
-  // Functional toggle
-  if(tag!=="rest"){
+  // Functional toggle — hide on future days
+  if(tag!=="rest" && !selectedIsFuture()){
     var hm=state.hardMode;
     var tog=el("div",{style:"background:"+(hm?"#f0e8e0":"#f5f0ea")+";border:2px solid "+(hm?"#c49a8a":"#d0c8bc")+";border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;",onclick:function(){ state.hardMode=!state.hardMode; render(); }});
     tog.appendChild(el("span",{style:"font-size:18px;"},"\ud83c\udf21\ufe0f"));
@@ -911,7 +911,8 @@ function renderSession(body){
 
   // Warmup
   if(tpl.warmup && tpl.warmup.length && !state.hardMode){
-    var w=el("div",{style:"margin-bottom:14px;"}); w.appendChild(sectionLabel("Warm-Up"));
+    var w=el("div",{style:"margin-bottom:14px;"+(selectedIsFuture()?"opacity:0.5;":"")});
+    w.appendChild(sectionLabel("Warm-Up"));
     tpl.warmup.forEach(function(id){ var ex=DATA.exercises[id]; if(!ex)return; w.appendChild(el("div",{style:"padding:7px 11px;background:#eee8e0;border-radius:6px;font-size:13px;color:#5a4a3a;margin-bottom:5px;border-left:3px solid #c0b0a0;"}, ex.name + (doseFor(ex)?" \u2014 "+doseFor(ex):""))); });
     body.appendChild(w);
   }
@@ -920,16 +921,27 @@ function renderSession(body){
   var list=exForPhase(tpl.exercises);
   if(state.hardMode) list = list.slice(0, Math.max(2, Math.ceil(list.length/2))); // functional = first half, min 2
   if(list.length){
+    var isFutureDay=selectedIsFuture();
     var mw=el("div",{style:"margin-bottom:14px;"}); mw.appendChild(sectionLabel(state.hardMode?"Functional Session":"Main Session"));
     list.forEach(function(item,i){
       var ex=item.ex; var done=isChecked(i); var dose=doseFor(ex);
-      var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":tagColor)+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ toggleChecked(i); maybeMarkComplete(list); render(); }});
-      card.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},done?"\u2705":"\u2b1c"));
-      var txt=el("div",{style:"flex:1;"});
-      txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"}, ex.name + (dose?" \u2014 "+dose:"")));
-      if(ex.cues && ex.cues.length) txt.appendChild(el("div",{style:"font-size:11px;color:#8a7a6a;margin-top:2px;"}, ex.cues[0]));
-      card.appendChild(txt);
-      mw.appendChild(card);
+      if(isFutureDay){
+        // Locked preview card
+        var card=el("div",{style:"padding:11px 13px;background:#f0ece4;border-radius:8px;font-size:13px;color:#8a8276;margin-bottom:6px;border-left:4px solid #d0c8bc;display:flex;align-items:flex-start;gap:10px;opacity:0.7;"});
+        card.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},"\ud83d\udd12"));
+        var txt=el("div",{style:"flex:1;"});
+        txt.appendChild(el("div",{style:"font-weight:bold;"}, ex.name + (dose?" \u2014 "+dose:"")));
+        card.appendChild(txt);
+        mw.appendChild(card);
+      } else {
+        var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":tagColor)+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ toggleChecked(i); maybeMarkComplete(list); render(); }});
+        card.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},done?"\u2705":"\u2b1c"));
+        var txt=el("div",{style:"flex:1;"});
+        txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"}, ex.name + (dose?" \u2014 "+dose:"")));
+        if(ex.cues && ex.cues.length) txt.appendChild(el("div",{style:"font-size:11px;color:#8a7a6a;margin-top:2px;"}, ex.cues[0]));
+        card.appendChild(txt);
+        mw.appendChild(card);
+      }
     });
     body.appendChild(mw);
   } else if(tag!=="rest" && !tpl.isBike){

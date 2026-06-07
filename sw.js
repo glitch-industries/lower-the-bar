@@ -1,6 +1,6 @@
 /* Lower the Bar — service worker.
    Bump CACHE when you deploy changes so phones pull the new version. */
-var CACHE = "ltb-v18";
+var CACHE = "ltb-v19";
 var BASE = "/lower-the-bar/";
 var ASSETS = [
   BASE, BASE+"index.html", BASE+"app.js",
