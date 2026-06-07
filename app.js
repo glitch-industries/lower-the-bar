@@ -834,7 +834,9 @@ function renderSession(body){
     var hm=state.hardMode;
     var tog=el("div",{style:"background:"+(hm?"#f0e8e0":"#f5f0ea")+";border:2px solid "+(hm?"#c49a8a":"#d0c8bc")+";border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;",onclick:function(){ state.hardMode=!state.hardMode; render(); }});
     tog.appendChild(el("span",{style:"font-size:18px;"},"\ud83c\udf21\ufe0f"));
-    tog.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:13px;font-weight:bold;color:"+(hm?"#8a4a30":"#5a4a3a")+";"},hm?"Functional mode \u2014 scaled down":"Go functional"), el("div",{style:"font-size:11px;color:#8a7a6a;"},hm?"Tap to switch back to full session":"Not a lesser version. A valid one.") ]));
+    var togTitle=hm?(tpl.isBike?"Functional ride \u2014 5 min, flat, easy":"Functional mode \u2014 scaled down"):(tpl.isBike?"Go functional \u2014 shorter, easier ride":"Go functional");
+    var togSub=hm?"Tap to switch back to full session":(tpl.isBike?"Mild discomfort? Keep it short and flat.":"Not a lesser version. A valid one.");
+    tog.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:13px;font-weight:bold;color:"+(hm?"#8a4a30":"#5a4a3a")+";"},togTitle), el("div",{style:"font-size:11px;color:#8a7a6a;"},togSub) ]));
     var sw=el("div",{style:"width:34px;height:19px;border-radius:10px;background:"+(hm?"#c49a8a":"#c0b8b0")+";position:relative;"}); sw.appendChild(el("div",{style:"position:absolute;top:2px;left:"+(hm?17:2)+"px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left 0.2s;"})); tog.appendChild(sw);
     body.appendChild(tog);
   }
@@ -860,20 +862,27 @@ function renderSession(body){
       body.appendChild(el("div",{style:"background:#fdf0f6;border:2px solid #d4a0c0;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#8a3a5a;"},"\ud83c\udf19 Cycle modifier: skip bike if flaring. 5 min max on mild days \u2014 flat scenic, light resistance only. TENS on ankle after (not before) if you do ride."));
     }
 
-    // Bike stats card
-    var bb=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:11px 14px;margin-bottom:12px;"});
-    bb.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#33536a;margin-bottom:8px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 Phase "+INFO.phase.order+(isSatBike?" \u00b7 Saturday (longer ride)":"")));
+    // Bike stats card \u2014 scaled down in functional mode
+    var hm=state.hardMode;
+    var bb=el("div",{style:"background:"+(hm?"#f5ece6":"#eaf0f4")+";border:1px solid "+(hm?"#d4a08a":"#cdddea")+";border-radius:10px;padding:11px 14px;margin-bottom:12px;"});
+    bb.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:"+(hm?"#8a4a30":"#33536a")+";margin-bottom:8px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 "+(hm?"Functional ride":"Phase "+INFO.phase.order+(isSatBike?" \u00b7 Saturday (longer ride)":""))));
+    if(hm){
+      bb.appendChild(el("div",{style:"font-size:11px;color:#7a4a30;margin-bottom:8px;line-height:1.5;"},"Mild discomfort day. Short, flat, easy \u2014 staying in motion is the win."));
+    }
     var statRow=el("div",{style:"display:flex;gap:6px;"});
-    function bikeChip(label,val){
-      var c=el("div",{style:"flex:1;background:#fff;border:1px solid #cdddea;border-radius:7px;padding:6px 8px;text-align:center;"});
-      c.appendChild(el("div",{style:"font-size:9px;color:#7aadcc;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;"},label));
-      c.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#1a3a5a;"},val));
+    function bikeChip(label,val,dimmed){
+      var c=el("div",{style:"flex:1;background:#fff;border:1px solid "+(dimmed?"#e0c8b8":"#cdddea")+";border-radius:7px;padding:6px 8px;text-align:center;"});
+      c.appendChild(el("div",{style:"font-size:9px;color:"+(dimmed?"#b09080":"#7aadcc")+";text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;"},label));
+      c.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(dimmed?"#8a5a40":"#1a3a5a")+";"},val));
       return c;
     }
-    statRow.appendChild(bikeChip("Ride",rideTime));
-    statRow.appendChild(bikeChip("Resistance",bk.resistance));
-    statRow.appendChild(bikeChip("Incline",bk.incline));
+    statRow.appendChild(bikeChip("Ride", hm?"5 min max":rideTime, hm));
+    statRow.appendChild(bikeChip("Resistance", hm?"1\u20133 (light)":bk.resistance, hm));
+    statRow.appendChild(bikeChip("Incline", hm?"Flat only":bk.incline, hm));
     bb.appendChild(statRow);
+    if(hm){
+      bb.appendChild(el("div",{style:"font-size:11px;color:#9a6a50;margin-top:8px;padding-top:8px;border-top:1px solid #e0c8b8;"},"iFIT: Beginner Scenic ride only. Skip intervals, hills, and any structured workout today."));
+    }
     body.appendChild(bb);
     if(DATA.ifitSeries) renderIfitWidget(body);
   }
