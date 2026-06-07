@@ -358,11 +358,11 @@ var state = {
 };
 
 var PAIN_FLAGS = [
-  { id:"lower_back",    label:"Lower back",     emoji:"🔴" },
-  { id:"right_hip",     label:"Right hip",      emoji:"🔴" },
-  { id:"right_scapula", label:"Right scapula",  emoji:"🔴" },
-  { id:"left_ankle",    label:"Left ankle",     emoji:"🟡" },
-  { id:"knees",         label:"Knees",          emoji:"🟡" }
+  { id:"lower_back",    label:"Lower back",     emoji:"🪻" },
+  { id:"right_hip",     label:"Right hip",      emoji:"🪻" },
+  { id:"right_scapula", label:"Right scapula",  emoji:"🪻" },
+  { id:"left_ankle",    label:"Left ankle",     emoji:"🪻" },
+  { id:"knees",         label:"Knees",          emoji:"🪻" }
 ];
 function getPainFlags(){ return (dayData().painFlags)||[]; }
 function isTripleFlare(){
@@ -647,8 +647,8 @@ function renderVacationSession(body, tpl){
 function renderFlareProtocol(body){
   var dd=dayData();
   // Banner
-  var banner=el("div",{style:"background:#6a3a30;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
-  banner.appendChild(el("div",{style:"font-size:18px;margin-bottom:4px;"},"🔴"));
+  var banner=el("div",{style:"background:#6a3a58;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
+  banner.appendChild(el("div",{style:"font-size:18px;margin-bottom:4px;"},"🌸"));
   banner.appendChild(el("div",{style:"font-size:15px;font-weight:bold;margin-bottom:3px;"},"Triple flare protocol"));
   banner.appendChild(el("div",{style:"font-size:12px;opacity:0.85;line-height:1.5;"},"Lower back + right hip + right scapula together. Likely ligament laxity. Modified session only — rest IS the work today."));
   var exitBtn=el("button",{style:"margin-top:10px;padding:6px 14px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#fff;font-size:11px;",onclick:function(){ state.flareMode=false; render(); }},"← Back to normal session");
@@ -672,11 +672,11 @@ function renderFlareProtocol(body){
   ];
   flareSteps.forEach(function(item,i){
     var done=isChecked(i);
-    var card=el("div",{style:"padding:11px 13px;background:"+(done?"#f0eae6":"#fff")+";border-radius:8px;margin-bottom:6px;border-left:4px solid "+(done?"#6a3a30":"#c4a898")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
+    var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ede8f5":"#fff")+";border-radius:8px;margin-bottom:6px;border-left:4px solid "+(done?"#6a3a58":"#b0a0c4")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
     card.appendChild(el("span",{style:"font-size:15px;flex-shrink:0;"},done?"✅":"⬜"));
     var txt=el("div",{style:"flex:1;"});
-    txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;color:#5a3a30;"},item.name+(item.dose?" — "+item.dose:"")));
-    txt.appendChild(el("div",{style:"font-size:11px;color:#7a5a4a;margin-top:2px;"},item.cue));
+    txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;color:#5a3a58;"},item.name+(item.dose?" — "+item.dose:"")));
+    txt.appendChild(el("div",{style:"font-size:11px;color:#7a5a78;margin-top:2px;"},item.cue));
     card.appendChild(txt);
     body.appendChild(card);
   });
@@ -684,10 +684,10 @@ function renderFlareProtocol(body){
   // Skip today
   body.appendChild(el("div",{style:"margin-top:14px;margin-bottom:8px;"}));
   body.appendChild(sectionLabel("Skip today"));
-  var skipWrap=el("div",{style:"background:#f5edea;border:1px solid #d8c0b0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  var skipWrap=el("div",{style:"background:#f5ecef;border:1px solid #d4b0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
   ["Any bridging or glute loading","All band or dumbbell scapula work","The bike","Any held standing poses"].forEach(function(s){
-    var row=el("div",{style:"font-size:12px;color:#7a4a3a;padding:3px 0 3px 14px;position:relative;"});
-    row.appendChild(el("span",{style:"position:absolute;left:0;color:#c4a898;"},"✕"));
+    var row=el("div",{style:"font-size:12px;color:#8a5068;padding:3px 0 3px 14px;position:relative;"});
+    row.appendChild(el("span",{style:"position:absolute;left:0;color:#b0a0c4;"},"✕"));
     row.appendChild(document.createTextNode(s));
     skipWrap.appendChild(row);
   });
@@ -695,15 +695,15 @@ function renderFlareProtocol(body){
 
   // For the pain
   body.appendChild(sectionLabel("For the pain"));
-  var painWrap=el("div",{style:"background:#f5edea;border:1px solid #d8c0b0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  var painWrap=el("div",{style:"background:#f5ecef;border:1px solid #d4b0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
   ["🌡️  Heat pack on right rhomboid — 15–20 min","⚡  TENS on right scapula + lower back simultaneously during savasana","🛏️  Pillow between knees or under right hip if side-lying","💊  Magnesium supplement (discuss with GP — helps cycle-related tension)","🚨  Pain travelling DOWN the leg → contact PT or GP today"].forEach(function(p){
-    painWrap.appendChild(el("div",{style:"font-size:12px;color:#6a3a30;padding:4px 0;line-height:1.4;"},p));
+    painWrap.appendChild(el("div",{style:"font-size:12px;color:#6a3a58;padding:4px 0;line-height:1.4;"},p));
   });
   body.appendChild(painWrap);
 
   // Completion
   if(!dd.completed){
-    body.appendChild(el("button",{style:"width:100%;padding:14px;background:#6a3a30;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true,mode:"flare"}); render(); }},"Done — rested well ✓"));
+    body.appendChild(el("button",{style:"width:100%;padding:14px;background:#6a3a58;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true,mode:"flare"}); render(); }},"Done — rested well ✓"));
   } else {
     var comp=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:14px 18px;text-align:center;margin-bottom:14px;"});
     comp.appendChild(el("div",{style:"font-size:22px;margin-bottom:4px;"},"🌿"));
@@ -777,7 +777,7 @@ function renderSession(body){
     var currentFlags=getPainFlags();
     PAIN_FLAGS.forEach(function(pf){
       var on=currentFlags.indexOf(pf.id)!==-1;
-      flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#b07870":"#d0c8bc")+";background:"+(on?"#f5edea":"#f5f0ea")+";color:"+(on?"#7a4030":"#6a5a5a")+";font-size:11px;",onclick:function(){
+      flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#c4a0b0":"#d0c8bc")+";background:"+(on?"#f5ecef":"#f5f0ea")+";color:"+(on?"#7a4060":"#6a5a5a")+";font-size:11px;",onclick:function(){
         var f=getPainFlags().slice();
         var idx=f.indexOf(pf.id);
         if(idx===-1) f.push(pf.id); else f.splice(idx,1);
@@ -788,13 +788,13 @@ function renderSession(body){
 
     // Triple flare detection
     if(isTripleFlare()){
-      var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#f5edea;border-radius:8px;border-left:3px solid #b07870;"});
-      flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a4030;margin-bottom:4px;"},"🔴 Triple flare detected"));
-      flareAlert.appendChild(el("div",{style:"font-size:11px;color:#6a4a3a;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
-      flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#6a3a30;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
+      var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#f5ecef;border-radius:8px;border-left:3px solid #c4a0b0;"});
+      flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a4060;margin-bottom:4px;"},"🪻 Triple flare detected"));
+      flareAlert.appendChild(el("div",{style:"font-size:11px;color:#6a4a70;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
+      flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#6a3a58;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
       ec.appendChild(flareAlert);
     } else if(currentFlags.length>=2){
-      ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5edea;border-radius:8px;font-size:12px;color:#7a4a3a;border-left:3px solid #c4a898;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
+      ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ecef;border-radius:8px;font-size:12px;color:#8a5068;border-left:3px solid #b0a0c4;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
     }
     body.appendChild(ec);
   } else if(dd.completed && dd.energyBefore){
@@ -803,7 +803,7 @@ function renderSession(body){
     summaryRow.appendChild(el("span",null,eo2.emoji));
     summaryRow.appendChild(el("span",null,"Energy: "+eo2.label));
     var completedFlags=getPainFlags();
-    if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#b07870;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
+    if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#c4a0b0;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
     body.appendChild(summaryRow);
   }
 
@@ -1315,12 +1315,12 @@ function renderReference(body){
     // Stop signals by condition
     body.appendChild(sectionLabel("Stop immediately if —"));
     var signals=[
-      { condition:"Knees", signal:"Knee slips or feels unstable", color:"#b07870" },
-      { condition:"Left ankle", signal:"Sharp ankle pain or feeling of giving way", color:"#b07870" },
+      { condition:"Knees", signal:"Knee slips or feels unstable", color:"#c4a0b0" },
+      { condition:"Left ankle", signal:"Sharp ankle pain or feeling of giving way", color:"#c4a0b0" },
       { condition:"Right glute", signal:"Low back takes over — reduce load, don't push through", color:"#c49a30" },
-      { condition:"Low back", signal:"Pain radiating down the leg", color:"#b07870" },
-      { condition:"Right scapula", signal:"Sharp or radiating pain into arm or neck", color:"#b07870" },
-      { condition:"Hypermobility", signal:"Any joint gives way or feels unstable", color:"#b07870" }
+      { condition:"Low back", signal:"Pain radiating down the leg", color:"#c4a0b0" },
+      { condition:"Right scapula", signal:"Sharp or radiating pain into arm or neck", color:"#c4a0b0" },
+      { condition:"Hypermobility", signal:"Any joint gives way or feels unstable", color:"#c4a0b0" }
     ];
     signals.forEach(function(s){
       var card=el("div",{style:"background:#fff;border-radius:9px;border:1px solid #e0d8cc;border-left:4px solid "+s.color+";padding:10px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;"});
