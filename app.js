@@ -466,17 +466,23 @@ function render(){
   recomputeInfo();
   root.innerHTML="";
   if(state.showIntentionPicker){ root.appendChild(renderIntentionPicker()); return; }
-  var wrap=el("div",{style:"min-height:100vh;background:#f5f0ea;"});
-  wrap.appendChild(renderHeader());
-  wrap.appendChild(renderTabs());
-  if(state.view==="session") wrap.appendChild(renderDaySelector());
+
+  // Fixed top zone — header, tabs, day selector never scroll away
+  var stickyTop=el("div",{style:"flex-shrink:0;background:#f5f0ea;"});
+  stickyTop.appendChild(renderHeader());
+  stickyTop.appendChild(renderTabs());
+  if(state.view==="session") stickyTop.appendChild(renderDaySelector());
+  root.appendChild(stickyTop);
+
+  // Scrollable content zone
   var flareBg=(state.view==="session" && state.flareMode && !selectedIsFuture())?"background:#fdf5f9;":"";
-  var body=el("div",{"class":"fade",style:"padding:16px 18px;max-width:580px;margin:0 auto;"+flareBg});
+  var scrollArea=el("div",{style:"flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;background:"+(flareBg?"#fdf5f9":"#f5f0ea")+";padding-bottom:env(safe-area-inset-bottom,16px);"});
+  var body=el("div",{"class":"fade",style:"padding:16px 18px;max-width:580px;margin:0 auto;"});
   if(state.view==="session") renderSession(body);
   else if(state.view==="history") renderHistory(body);
   else if(state.view==="reference") renderReference(body);
-  wrap.appendChild(body);
-  root.appendChild(wrap);
+  scrollArea.appendChild(body);
+  root.appendChild(scrollArea);
 }
 
 function renderIntentionPicker(){
@@ -1385,7 +1391,8 @@ function renderReference(body){
     }
     var locked=ex.minPhase && ph.order < ex.minPhase;
     var dose=doseFor(ex);
-    var card=el("div",{style:"background:"+(locked?"#f5f2ec":"#fff")+";border-radius:10px;border:1px solid "+(locked?"#e2ddd5":"#e0d8cc")+";padding:13px 15px;margin-bottom:10px;"+(locked?"opacity:0.5;pointer-events:none;":"")});
+    var card=el("div",{style:"background:"+(locked?"#f5f2ec":"#fff")+";border-radius:10px;border:1px solid "+(locked?"#e2ddd5":"#e0d8cc")+";padding:13px 15px;margin-bottom:10px;"+(locked?"opacity:0.5;":"")});
+    if(locked){ card.addEventListener("click",function(){ if(card.classList.contains("shake"))return; card.classList.add("shake"); setTimeout(function(){card.classList.remove("shake");},300); }); }
     var top=el("div",{style:"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;"});
     var nameRow=el("div",{style:"flex:1;"});
     nameRow.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:"+(locked?"#8a8278":"#2d3a2e")+";margin-bottom:2px;"},ex.name));
