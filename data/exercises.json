@@ -37,7 +37,7 @@
       "conditions": ["right-glute", "low-back"],
       "goals": ["activation", "strength"],
       "howTo": "Lie on back, feet flat hip-width. Drive heels down and lift hips.",
-      "cues": ["Squeeze RIGHT glute deliberately at top", "Hold 2 sec", "Neutral spine — no arch"],
+      "cues": ["Exhale as you lift", "Squeeze RIGHT glute deliberately at top", "Hold 2 sec", "Neutral spine — no arch"],
       "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" }
     },
     "bridge-march": {
@@ -66,7 +66,7 @@
       "conditions": ["right-glute"],
       "goals": ["activation"],
       "howTo": "Lie on side, hips stacked, knees bent. Open the RIGHT (top) knee upward.",
-      "cues": ["Keep feet together throughout", "Do NOT roll hips backward"],
+      "cues": ["Exhale as you open", "Keep feet together throughout", "Do NOT roll hips backward"],
       "phaseDose": { "1": "2\u00d712/side", "2": "2\u20133\u00d712/side", "3": "3\u00d712/side", "4": "3\u20134\u00d712/side" }
     },
     "clamshell-band": {
@@ -87,7 +87,7 @@
       "conditions": ["low-back"],
       "goals": ["stability"],
       "howTo": "On all fours, flat back, core engaged. Extend the RIGHT arm forward and LEFT leg back.",
-      "cues": ["Hips square — do not rotate", "Hold 3 sec"],
+      "cues": ["Exhale on extension", "Hips square — do not rotate", "Hold 3 sec"],
       "phaseDose": { "1": "2\u00d710/side", "2": "2\u20133\u00d710/side" }
     },
     "bird-dog-hold": {
@@ -116,7 +116,7 @@
       "conditions": ["knees"],
       "goals": ["strength"],
       "howTo": "Stand in front of a sturdy chair. Lower hips until barely touching the seat.",
-      "cues": ["Kneecap always tracks over 2nd toe", "Never a full unsupported air squat"],
+      "cues": ["Exhale on the way up", "Kneecap always tracks over 2nd toe", "Never a full unsupported air squat"],
       "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" }
     },
     "wall-sit": {
@@ -134,7 +134,7 @@
       "conditions": ["left-ankle"],
       "goals": ["strength"],
       "howTo": "Hold the wall lightly for balance. Raise heels slowly off the floor, controlled slow descent.",
-      "cues": ["No sudden jerking (left ankle)", "Controlled slow descent"],
+      "cues": ["Exhale as you rise", "No sudden jerking (left ankle)", "Controlled slow descent"],
       "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715 (+3lb dumbbells)" }
     },
     "scap-retraction": {
@@ -144,7 +144,8 @@
       "goals": ["activation"],
       "howTo": "Seated or standing. Pull shoulder blades together and DOWN simultaneously. Hold 5 sec, release slowly.",
       "cues": ["Pain-free range ONLY — always", "Cycle flare: gentle setting only"],
-      "phaseDose": { "1": "2\u00d715", "2": "2\u20133\u00d715", "3": "3\u00d715", "4": "3\u20134\u00d715" },
+      "cues": ["Pain-free range ONLY \u2014 always", "Exhale as you squeeze", "Cycle flare: gentle setting only"],
+      "phaseDose": { "1": "2\u00d710", "2": "2\u20133\u00d710", "3": "3\u00d710", "4": "3\u20134\u00d710" },
       "painFreeOnly": true
     },
     "wall-angel": {
@@ -245,8 +246,8 @@
       "conditions": ["low-back"],
       "goals": ["recovery"],
       "howTo": "Lie flat, bolster or folded blanket under BENT knees, arms relaxed. Breathe deeply and slowly.",
-      "cues": ["Props are essential for lumbar support", "Do not skip"],
-      "defaultDose": "5 min"
+      "cues": ["Props are essential for lumbar support", "Do not skip — even 2 minutes counts"],
+      "phaseDose": { "1": "2 min", "2": "3 min", "3": "4 min", "4": "5 min" }
     },
     "tree-pose": {
       "name": "Tree Pose (wall support)",
@@ -389,6 +390,82 @@
       "howTo": "Stand or sit tall. Reach one arm overhead and lean gently to the opposite side. Or hold a door frame and lean your bodyweight away from it.",
       "cues": ["Long side body \u2014 not a crunch", "Breathe into the stretched side", "Keep both hips grounded if seated"],
       "defaultDose": "30\u201345 sec each side"
+    },
+
+    "leg-swings": {
+      "name": "Leg Swings",
+      "bodyParts": ["hip", "glute"],
+      "conditions": ["right-glute"],
+      "goals": ["mobility", "activation"],
+      "howTo": "Stand sideways to a wall, fingertips resting on it for balance. Swing the outer leg forward and back in a controlled arc \u2014 let momentum do the work, don\u2019t force the range. Then face the wall and swing each leg side to side.",
+      "cues": ["Light touch on wall \u2014 balance, not a lean", "Swing from the hip, not the knee", "Keep the standing leg soft, not locked"],
+      "defaultDose": "10 forward/back + 10 side-to-side, each leg"
+    },
+
+    "hip-circles": {
+      "name": "Hip Circles",
+      "bodyParts": ["hip", "glute"],
+      "conditions": ["right-glute"],
+      "goals": ["mobility"],
+      "howTo": "Stand with feet hip-width, hands on hips. Draw large, slow circles with your hips \u2014 as if stirring a pot. Full range in both directions.",
+      "cues": ["Slow and deliberate \u2014 not a wiggle", "Feel the full circle through front, side, back, side", "Keep shoulders still, only hips move"],
+      "defaultDose": "10 each direction"
+    },
+
+    "shoulder-rolls": {
+      "name": "Shoulder Rolls",
+      "bodyParts": ["shoulder", "scapula"],
+      "conditions": ["right-scapula"],
+      "goals": ["mobility", "activation"],
+      "howTo": "Standing or seated. Roll both shoulders slowly backward in large circles \u2014 up, back, down, forward. Then reverse. Keep the neck long and relaxed throughout.",
+      "cues": ["Pain-free range only \u2014 always", "Backward rolls first (safer for scapula)", "Neck stays long \u2014 no chin jutting forward"],
+      "defaultDose": "10 backward, 10 forward"
+    },
+
+    "single-leg-stance": {
+      "name": "Single-Leg Stance",
+      "bodyParts": ["ankle", "hip"],
+      "conditions": ["left-ankle", "right-glute"],
+      "goals": ["balance", "stability"],
+      "howTo": "Stand near a wall or sturdy surface. Lift one foot slightly off the floor and balance on the standing leg. Use fingertip wall contact in Phase 1 \u2014 progress to no wall in Phase 2, then add slow arm reaches in Phase 3, then stand on a folded towel in Phase 4.",
+      "cues": ["Fingertips on wall Phase 1 \u2014 not a full grip", "Soft bend in the standing knee \u2014 never locked", "Left ankle: focus on feeling the ground through your whole foot", "Eyes forward \u2014 a fixed point helps"],
+      "phaseDose": { "1": "3\u00d715 sec/side (wall touch)", "2": "3\u00d720 sec/side (no wall)", "3": "3\u00d725 sec/side (slow arm reach)", "4": "3\u00d730 sec/side (folded towel)" }
+    },
+
+    "eccentric-heel-drop": {
+      "name": "Eccentric Heel Drop (Stair)",
+      "bodyParts": ["ankle", "calf"],
+      "conditions": ["left-ankle"],
+      "goals": ["strength", "mobility"],
+      "minPhase": 2,
+      "equipment": ["stairs"],
+      "howTo": "Stand on the edge of a step with just the ball of your foot on the step, heel hanging off. Hold a railing lightly. Rise up on both feet, then slowly lower ONE heel below the step level over 3\u20134 seconds. Return to start and repeat. Work both sides.",
+      "cues": ["Slow the lowering \u2014 3 to 4 seconds down", "Exhale as you rise, control through the lower", "The slow descent is the whole point \u2014 don\u2019t rush it", "Railing for safety, not to take your weight"],
+      "phaseDose": { "2": "2\u00d715/side", "3": "3\u00d715/side", "4": "3\u00d720/side" }
+    },
+
+    "step-up": {
+      "name": "Step-Up",
+      "bodyParts": ["glute", "quad"],
+      "conditions": ["right-glute", "knees"],
+      "goals": ["strength", "stability"],
+      "minPhase": 2,
+      "equipment": ["stairs"],
+      "howTo": "Stand facing the bottom step. Place one foot fully on the step. Drive through that heel to step up, bringing the other foot to meet it. Hold 2 seconds at the top, then step back down slowly \u2014 leading with the same leg.",
+      "cues": ["Drive through the HEEL of the stepping foot", "Exhale as you step up", "Kneecap tracks over 2nd toe \u2014 always", "Slow controlled descent \u2014 that\u2019s where strength is built", "Hold the top for 2 seconds before stepping down"],
+      "phaseDose": { "2": "2\u00d710/side", "3": "3\u00d710/side", "4": "3\u00d712/side" }
+    },
+
+    "side-step-up": {
+      "name": "Side Step-Up",
+      "bodyParts": ["glute", "hip"],
+      "conditions": ["right-glute"],
+      "goals": ["strength", "stability"],
+      "minPhase": 3,
+      "equipment": ["stairs"],
+      "howTo": "Stand sideways to the bottom step. Place the foot closest to the step on it, toes pointing forward. Drive through that heel and squeeze the glute to step up sideways. Hold 2 seconds, then step back down controlled. Do all reps on one side, then switch.",
+      "cues": ["Squeeze the glute at the top \u2014 right side especially", "Exhale as you step up", "Don\u2019t let the hip hike \u2014 stand tall at the top", "Slow descent, don\u2019t drop"],
+      "phaseDose": { "3": "3\u00d710/side", "4": "3\u00d712/side" }
     }
   }
 }

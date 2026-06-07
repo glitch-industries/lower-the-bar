@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Phases define session length, sets, bike/iFIT settings, and the checklist of criteria required to UNLOCK the next phase. Progression is manual + gated: you advance when you tick the criteria, not on a fixed calendar.",
-    "version": 1
+    "version": 2
   },
   "phases": [
     {
@@ -12,14 +12,14 @@
       "duration": "15 min",
       "focus": "Activation, form, pain-free movement",
       "color": "#7fb3a0",
-      "bike": { "ride": "8 min", "satRide": "13 min", "resistance": "3\u20135", "incline": "flat\u20132%", "ifit": "Beginner / Scenic Rides" },
+      "bike": { "ride": "8 min", "satRide": "13 min", "resistance": "3–5", "incline": "flat–2%", "ifit": "Beginner / Scenic Rides" },
       "unlockCriteria": [
-        "I can do all Foundation exercises with good form and no pain",
-        "Glute bridges feel controlled — I can feel my right glute working",
-        "Ankle mob done most days for at least 2 weeks",
-        "8-min bike ride feels comfortable, conversational pace",
-        "No flare-ups that lasted more than a day after sessions",
-        "✅ PT check-in completed — PT has signed off on advancing to Build"
+        "Single-leg stance: hold 10 sec each side, eyes open, no wall contact",
+        "Glute bridge: 3-sec pause at top × 15 reps, pelvis stays level throughout",
+        "Open ritual: 10+ consecutive days completed",
+        "Bike: 8-min ride at conversational pace — can speak full sentences throughout",
+        "Recovery: no session causes soreness lasting more than 48 hrs",
+        "✅ PT check-in: bring these results — PT signs off on advancing to Build"
       ]
     },
     {
@@ -27,17 +27,18 @@
       "label": "Build",
       "order": 2,
       "suggestedWeeks": 3,
+      "deload": { "week": 4, "volume": "50% sets — same moves, same form, half the work. Recovery week: the gains happen here.", "advancementHeld": true },
       "duration": "20 min",
       "focus": "Add reps, introduce resistance bands",
       "color": "#8fa8c8",
-      "bike": { "ride": "12 min", "satRide": "17 min", "resistance": "5\u20138", "incline": "2\u20135%", "ifit": "Low-Impact / Scenic Rides" },
+      "bike": { "ride": "12 min", "satRide": "17 min", "resistance": "5–8", "incline": "2–5%", "ifit": "Low-Impact / Scenic Rides" },
       "unlockCriteria": [
-        "Band exercises feel controlled, no joint strain",
-        "Bridge-with-march keeps pelvis level without wobble",
-        "20-min sessions feel sustainable, not draining",
-        "12-min ride at higher resistance stays conversational",
-        "Scapula work stays pain-free with the band",
-        "✅ PT check-in completed — PT has signed off on advancing to Strengthen"
+        "Single-leg bridge: 10 reps, pelvis stays level — both sides feel equal",
+        "Bird-dog hold: 5-sec hold × 10 reps each side, no wobble or compensation",
+        "Step-up: 10 reps without trunk lean or hip drop",
+        "Bike: 12-min at slightly harder pace, still conversational throughout",
+        "Recovery: 20-min sessions feel sustainable — not wiped out the next day",
+        "✅ PT check-in: bring these results — PT signs off on advancing to Strengthen"
       ]
     },
     {
@@ -45,16 +46,18 @@
       "label": "Strengthen",
       "order": 3,
       "suggestedWeeks": 3,
+      "deload": { "week": 4, "volume": "50% sets — same moves, same form, half the work. Recovery week: the gains happen here.", "advancementHeld": true },
       "duration": "25 min",
       "focus": "Increase load, cardio duration",
       "color": "#b09abf",
-      "bike": { "ride": "18 min", "satRide": "23 min", "resistance": "8\u201312", "incline": "5\u201310%", "ifit": "Endurance / Hill Climbs" },
+      "bike": { "ride": "18 min", "satRide": "23 min", "resistance": "8–12", "incline": "5–10%", "ifit": "Endurance / Hill Climbs" },
       "unlockCriteria": [
-        "Single-leg bridges keep hips level both sides",
-        "Bird-dog holds (5 sec) feel stable",
-        "18-min ride with hills feels challenging but safe",
-        "Prone Y/T/W pain-free through full set",
-        "Recovered well between sessions"
+        "Single-leg calf raise: 10 reps without holding the wall",
+        "Box squat: 15 reps, knee tracks over 2nd toe consistently both sides",
+        "Bird-dog hold: 5-sec hold × 10 reps — rock solid, zero compensation",
+        "Bike: 18-min with hills, no joint complaints during or after",
+        "Recovery: bouncing back well between sessions — energy returns within a day",
+        "✅ PT check-in before advancing — reassess scapula and ankle with PT"
       ]
     },
     {
@@ -62,12 +65,13 @@
       "label": "Consolidate",
       "order": 4,
       "suggestedWeeks": 3,
+      "deload": { "week": 4, "volume": "50% sets — same moves, same form, half the work. Recovery week: the gains happen here.", "advancementHeld": true },
       "duration": "30 min",
       "focus": "Full routine, test stability gains",
       "color": "#c49a8a",
-      "bike": { "ride": "25 min", "satRide": "30 min", "resistance": "12\u201316", "incline": "8\u201315%", "ifit": "Power / Interval Training" },
+      "bike": { "ride": "25 min", "satRide": "30 min", "resistance": "12–16", "incline": "8–15%", "ifit": "Power / Interval Training" },
       "unlockCriteria": [
-        "This is the final phase \u2014 the goal is to maintain and test gains",
+        "This is the final phase — the goal is to maintain and test gains",
         "Reassess with PT before deciding what comes next"
       ]
     }

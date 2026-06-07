@@ -14,6 +14,22 @@
     "Sat": "nordic-track",
     "Sun": "rest"
   },
+  "dayFocus": {
+    "Mon": "Bridges, clamshells, bird-dogs. Slow and controlled — form is the whole assignment.",
+    "Tue": "Cardio day. Right glute on every climb.",
+    "Wed": "Posture reset. Scapula work: pain-free range only.",
+    "Thu": "Hold each pose. Breathe into it. Props are not optional.",
+    "Fri": "Mind-muscle Friday. Pause at the top. Feel it fire.",
+    "Sat": "Last ride of the week. Finish the data set.",
+    "Sun": "Rest is training. Open ritual still counts."
+  },
+  "openRitual": {
+    "1": ["ankle-circles", "leg-swings", "cat-cow", "wall-mobilisation"],
+    "2": ["ankle-circles", "leg-swings", "hip-circles", "cat-cow", "wall-mobilisation"],
+    "3": ["ankle-circles", "leg-swings", "hip-circles", "shoulder-rolls", "cat-cow", "wall-mobilisation"],
+    "4": ["ankle-circles", "leg-swings", "hip-circles", "shoulder-rolls", "cat-cow", "wall-mobilisation"]
+  },
+  "closeRitual": ["calf-stretch", "supine-twist", "savasana"],
   "overrides": {
   }
 }

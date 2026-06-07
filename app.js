@@ -11,10 +11,9 @@ var DATA = { exercises:null, phases:null, templates:null, schedule:null, ifitSer
 var BASE = "data/";
 
 var ENERGY_OPTIONS = [
-  { value:1, emoji:"\ud83d\ude34", label:"Drained" },
+  { value:1, emoji:"\ud83d\ude34", label:"Low" },
   { value:2, emoji:"\ud83d\ude10", label:"Okay" },
-  { value:3, emoji:"\ud83d\ude0a", label:"Good" },
-  { value:4, emoji:"\u26a1", label:"Strong" }
+  { value:3, emoji:"\u26a1", label:"Strong" }
 ];
 var FEEL_OPTIONS = [
   { value:"hard", emoji:"\ud83d\ude13", label:"Tough" },
@@ -26,51 +25,51 @@ var FEEL_OPTIONS = [
 var INTENTION_POOL = [
   // Phase 1 — starting, lowering the bar, just showing up
   { text:"Lower the bar. Step over it. Repeat.", phase:1 },
-  { text:"The bar is: did I start? That's it.", phase:1 },
-  { text:"Done > perfect. No exceptions.", phase:1 },
-  { text:"Messy execution still counts.", phase:1 },
-  { text:"Just start. Figure the rest out after.", phase:1 },
-  { text:"Perfect isn't coming. Start anyway.", phase:1 },
-  { text:"You don't have to feel like it. You just have to do it. Feelings: optional.", phase:1 },
-  { text:"Ankle mob at minimum. The rest is gravy.", phase:1 },
+  { text:"Done is a perfect score. Show your work.", phase:1 },
+  { text:"The minimum effective dose is: starting.", phase:1 },
+  { text:"Messy reps count. Technically and officially.", phase:1 },
+  { text:"Just start. Optimize later.", phase:1 },
+  { text:"The warmup counts. Every single time.", phase:1 },
+  { text:"Ankle mob at minimum. The rest is extra credit.", phase:1 },
 
   // Phase 2 — consistency, habit formation, showing up twice
-  { text:"You're not building fitness. You're building a person who does this.", phase:2 },
-  { text:"Habit: noun. Something you do before you decide not to.", phase:2 },
-  { text:"The streak is a side effect. The showing up is the thing.", phase:2 },
-  { text:"Consistency is just showing up until it stops being a decision.", phase:2 },
-  { text:"Two weeks in. The routine is the point. Always was.", phase:2 },
-  { text:"It gets easier. Not today, probably. But you won't know until you keep going.", phase:2 },
+  { text:"You're proving a theorem about yourself. It's going well!", phase:2 },
+  { text:"Habit: noun. Something you do before your brain files an objection.", phase:2 },
+  { text:"The streak is a side effect. The showing up is the data.", phase:2 },
+  { text:"Consistency is just repetition until the question becomes boring.", phase:2 },
+  { text:"It gets easier. The timeline is a little annoying, but the math is real.", phase:2 },
   { text:"Your future self is rooting for you. Annoyingly.", phase:2 },
-  { text:"Identity first, results second. You're someone who does this now.", phase:2 },
+  { text:"You're becoming someone who does this. She's great, by the way.", phase:2 },
+  { text:"Any improvement is technically infinite percent better than zero. Do the math!", phase:2 },
 
   // Phase 3 — form, deliberate practice, mind-muscle
-  { text:"This week: feel the movement, don't just do the movement.", phase:3 },
-  { text:"Slow is smooth. Smooth is correct. Correct is the whole game.", phase:3 },
-  { text:"Quality reps > quantity reps. No exceptions, not even today.", phase:3 },
+  { text:"Slow is correct. Correct is the whole assignment.", phase:3 },
+  { text:"Find your glute. Introduce yourself.", phase:3 },
   { text:"Squeeze the right glute like it owes you money.", phase:3 },
+  { text:"Your nervous system is taking notes. Make them good.", phase:3 },
+  { text:"This is where you talk to your body. Weird, but it works.", phase:3 },
+  { text:"Mind-muscle connection: not mystical. Just pay attention.", phase:3 },
+  { text:"The derivative of showing up is momentum.", phase:3 },
   { text:"Form is free gains. Sloppy is just sloppy with extra steps.", phase:3 },
-  { text:"Your nervous system is taking notes. Make them good ones.", phase:3 },
-  { text:"This phase is about talking to your body. It's a weird conversation. Have it.", phase:3 },
-  { text:"Mind-muscle connection: not woo. Just paying attention. Try it.", phase:3 },
 
   // Phase 4 — strength, maintenance, owning it
-  { text:"You didn't quit. That's a whole personality now.", phase:4 },
-  { text:"Strong enough to do the thing. That was always the goal.", phase:4 },
-  { text:"Maintenance isn't coasting. It's holding what you built.", phase:4 },
-  { text:"The reps compound. So does the identity.", phase:4 },
-  { text:"This is not a finish line. It's a floor.", phase:4 },
-  { text:"You're training to be functional at 80. Respect the timeline.", phase:4 },
+  { text:"You didn't quit. That's great data.", phase:4 },
+  { text:"Strong enough to do the thing. That was always the rubric.", phase:4 },
+  { text:"Maintenance: the underrated third act.", phase:4 },
+  { text:"Training to be functional at 80. Respect the timeline.", phase:4 },
+  { text:"The reps compound. So do you.", phase:4 },
+  { text:"You are a variable with unlimited potential. Solve for you!", phase:4 },
 
   // Any phase — general wit
-  { text:"Functional beats perfect. Again.", phase:"any" },
-  { text:"Showing up counts even when it's ugly.", phase:"any" },
-  { text:"The routine doesn't care how you felt about it.", phase:"any" },
-  { text:"Good enough got you here. Let it continue.", phase:"any" },
-  { text:"Skip the guilt, just start tomorrow.", phase:"any" },
-  { text:"Progress is embarrassingly nonlinear. Do it anyway.", phase:"any" },
-  { text:"Every rep is either practice or proof. Pick one.", phase:"any" },
-  { text:"You're not behind. There's no schedule. There's just next.", phase:"any" }
+  { text:"Functional beats perfect. Proven repeatedly.", phase:"any" },
+  { text:"Showing up ugly still counts. The bar doesn't grade on aesthetics.", phase:"any" },
+  { text:"Good enough is a legitimate grade.", phase:"any" },
+  { text:"No late penalties here. Just start tomorrow.", phase:"any" },
+  { text:"You're not behind. There's no curve. There's just next.", phase:"any" },
+  { text:"Every rep is data. All of it counts.", phase:"any" },
+  { text:"Progress is embarrassingly nonlinear. Keep going.", phase:"any" },
+  { text:"The slope of your effort is positive. That's the whole graph.", phase:"any" },
+  { text:"You did the thing. Kind of impressive, honestly.", phase:"any" }
 ];
 
 function pickWeekIntentions(){
@@ -157,7 +156,7 @@ function renderIfitWidget(body){
     if(ist.seriesId){
       var s=null; for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===ist.seriesId){s=DATA.ifitSeries[z];break;}
       if(s){
-        var p=el("div",{style:"background:#eaf4f0;border:1px solid #c8d8d0;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#2d4a3e;"});
+        var p=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#3a3028;"});
         p.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},"📺 "+s.name));
         p.appendChild(el("div",null,"Episode "+(ist.episodesDone||0)+" done so far"));
         body.appendChild(p);
@@ -195,59 +194,50 @@ function renderIfitWidget(body){
     return;
   }
 
-  // Active series
+  // Active series — collapsed one-line view
   var activeSeries=null;
   for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===ist.seriesId){activeSeries=DATA.ifitSeries[z];break;}
   if(!activeSeries) return;
 
   var episodesDone=ist.episodesDone||0;
-  var sw=el("div",{style:"background:#eaf4f0;border:2px solid #7ab0a0;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
-  var sh=el("div",{style:"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;"});
-  var si=el("div",{style:"flex:1;"});
-  si.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#5a8a7a;margin-bottom:2px;"},"Current iFIT Series"));
-  si.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:1px;"},activeSeries.name));
-  si.appendChild(el("div",{style:"font-size:11px;color:#5a7a6a;"},activeSeries.trainer+" · Episode "+episodesDone+" done"));
-  sh.appendChild(si);
-  sh.appendChild(el("span",{style:"font-size:24px;"},"📺"));
-  sw.appendChild(sh);
+  var sw=el("div",{style:"background:#fff;border:1px solid #d0c8bc;border-radius:10px;padding:11px 14px;margin-bottom:14px;"});
 
-  // Episode progress dots (up to 12 shown)
-  var dotCount=Math.min(activeSeries.approxEpisodes, 12);
-  var dots=el("div",{style:"display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;"});
-  for(var d=0;d<dotCount;d++){
-    dots.appendChild(el("div",{style:"width:10px;height:10px;border-radius:50%;background:"+(d<episodesDone?"#5a9e8a":"#c0d8cc")+";"}));
-  }
-  if(activeSeries.approxEpisodes>12) dots.appendChild(el("span",{style:"font-size:10px;color:#7a9a8a;margin-left:2px;"},"+"+(activeSeries.approxEpisodes-12)+" more"));
-  sw.appendChild(dots);
-
-  var btnRow=el("div",{style:"display:flex;gap:8px;"});
-  // Open in iFIT
-  var openBtn=el("a",{href:activeSeries.url,target:"_blank",style:"flex:1;padding:10px;background:#2d3a2e;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;text-align:center;text-decoration:none;"},"Open in iFIT ↗");
-  btnRow.appendChild(openBtn);
-  // Mark episode done
-  btnRow.appendChild(el("button",{style:"flex:1;padding:10px;background:#5a9e8a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;",onclick:function(){
+  // Collapsed row: icon + name + episode count + done button
+  var mainRow=el("div",{style:"display:flex;align-items:center;gap:10px;"});
+  mainRow.appendChild(el("span",{style:"font-size:18px;"},"📺"));
+  var nameEl=el("div",{style:"flex:1;"});
+  nameEl.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;"},activeSeries.name));
+  nameEl.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},"Episode "+(episodesDone+1)));
+  mainRow.appendChild(nameEl);
+  mainRow.appendChild(el("button",{style:"padding:7px 13px;background:#5a9e8a;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;flex-shrink:0;",onclick:function(){
     saveIfitState({episodesDone:episodesDone+1});
     render();
-  }},"Episode done ✓"));
-  sw.appendChild(btnRow);
+  }},"Done ✓"));
+  sw.appendChild(mainRow);
 
-  // Finish series
-  var finRow=el("div",{style:"display:flex;gap:8px;margin-top:8px;"});
-  finRow.appendChild(el("button",{style:"flex:1;padding:8px;background:transparent;border:1px solid #a0c0d0;border-radius:8px;font-size:11px;color:#5a8a7a;",onclick:function(){
-    var done=(ifitState().completedIds)||[];
-    done=done.concat([activeSeries.id]);
-    saveIfitState({seriesId:null,episodesDone:0,completedIds:done,choosingNew:true,pendingChoices:null});
-    render();
-  }},"✨ Finish series — pick next"));
-  finRow.appendChild(el("button",{style:"padding:8px 10px;background:transparent;border:1px solid #c0d8cc;border-radius:8px;font-size:11px;color:#7a9a8a;",onclick:function(){
-    saveIfitState({choosingNew:true,pendingChoices:null});
-    render();
-  }},"Switch"));
-  sw.appendChild(finRow);
+  // Expandable management section
+  if(state.ifitExpanded){
+    var mgmt=el("div",{style:"margin-top:10px;padding-top:10px;border-top:1px solid #e8e0d8;display:flex;gap:8px;flex-wrap:wrap;"});
+    mgmt.appendChild(el("a",{href:activeSeries.url,target:"_blank",style:"padding:7px 12px;background:#2d3a2e;color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:bold;text-align:center;text-decoration:none;"},"Open in iFIT ↗"));
+    mgmt.appendChild(el("button",{style:"padding:7px 12px;background:transparent;border:1px solid #d0c8bc;border-radius:8px;font-size:11px;color:#9a8a7a;",onclick:function(){
+      var done=(ifitState().completedIds)||[];
+      done=done.concat([activeSeries.id]);
+      saveIfitState({seriesId:null,episodesDone:0,completedIds:done,choosingNew:true,pendingChoices:null});
+      state.ifitExpanded=false; render();
+    }},"Finish series"));
+    mgmt.appendChild(el("button",{style:"padding:7px 12px;background:transparent;border:1px solid #d0c8bc;border-radius:8px;font-size:11px;color:#9a8a7a;",onclick:function(){
+      saveIfitState({choosingNew:true,pendingChoices:null});
+      state.ifitExpanded=false; render();
+    }},"Switch series"));
+    mgmt.appendChild(el("button",{style:"padding:7px 12px;background:transparent;border:none;font-size:11px;color:#b0a898;",onclick:function(){ state.ifitExpanded=false; render(); }},"Close"));
+    sw.appendChild(mgmt);
+  } else {
+    sw.appendChild(el("button",{style:"margin-top:6px;padding:0;background:transparent;border:none;font-size:11px;color:#9a8a7a;text-decoration:underline;",onclick:function(){ state.ifitExpanded=true; render(); }},"manage series"));
+  }
   body.appendChild(sw);
 }
 
-var TAG_COLORS = { glute:"#5a9e8a", cardio:"#5a8a9a", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a", vacation:"#c4956a" };
+var TAG_COLORS = { glute:"#5a9e8a", cardio:"#5a8a9a", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a", vacation:"#e8a0b0" };
 var DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAY_FULL = { Mon:"Monday", Tue:"Tuesday", Wed:"Wednesday", Thu:"Thursday", Fri:"Friday", Sat:"Saturday", Sun:"Sunday" };
 var DAY_ORDER = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
@@ -345,6 +335,8 @@ var state = {
   flareMode: false,
   view: "session",
   showIntentionPicker: false,
+  intentionPickerOpen: false,
+  progressionOpen: false,
   writingOwn: false,
   customIntention: "",
   bonusRevealed: false,
@@ -352,7 +344,7 @@ var state = {
   seenBonusIds: [],
   refreshesLeft: 2,
   showUnlock: false,
-  refFilter: "all",
+  refFilter: "today",
   vacationDays: 7,
   vacationPickerOpen: false,
   editingCheckin: false
@@ -381,8 +373,12 @@ function selectedIsFuture(){ return selectedDateKey() > INFO.todayKey; }
 function weekData(){ return store["week-"+INFO.weekMondayKey] || {}; }
 function dayKey(){ return selectedDateKey(); }
 function dayData(){ return store[dayKey()] || {}; }
-function ankleKey(){ return "ankle-"+selectedDateKey(); }
-function ankleDone(){ return !!store[ankleKey()]; }
+function openKey(){ return "open-"+selectedDateKey(); }
+function openRitualDone(){ return !!store[openKey()]; }
+function cooldownKey(){ return "cooldown-"+selectedDateKey(); }
+function cooldownDone(){ return !!store[cooldownKey()]; }
+function closeKey(){ return "close-"+selectedDateKey(); }
+function closeRitualDone(){ return !!store[closeKey()]; }
 
 /* selected template + resolved exercises (filtered by phase) */
 function selectedTemplate(){
@@ -411,7 +407,9 @@ function doseFor(ex){
 function update(key, obj){ var cur=store[key]||{}; var n={}; for(var k in cur)n[k]=cur[k]; for(var k2 in obj)n[k2]=obj[k2]; store[key]=n; saveStore(store); }
 function updateDayData(o){ update(dayKey(), o); render(); }
 function updateWeekData(o){ update("week-"+INFO.weekMondayKey, o); render(); }
-function toggleAnkle(){ if(selectedIsFuture()) return; store[ankleKey()] = !store[ankleKey()]; saveStore(store); render(); }
+function toggleOpenRitual(){ if(selectedIsFuture()) return; store[openKey()]=!store[openKey()]; saveStore(store); render(); }
+function toggleCooldown(){ if(selectedIsFuture()) return; store[cooldownKey()]=!store[cooldownKey()]; saveStore(store); render(); }
+function toggleCloseRitual(){ if(selectedIsFuture()) return; store[closeKey()]=!store[closeKey()]; saveStore(store); render(); }
 
 function checksKey(){ return "checks-"+selectedDateKey()+"-"+(state.hardMode?"hard":"normal"); }
 function getChecks(){ return store[checksKey()] || {}; }
@@ -439,10 +437,13 @@ function buildHistory(){
   }
   return out;
 }
-function streakCount(){
-  var h=buildHistory(), c=0;
-  for(var i=h.length-1;i>=0;i--){ var e=h[i]; if(e.isRest){c++;continue;} if(e.data.completed||e.data.energyBefore)c++; else if(e.isToday)continue; else break; }
-  return c;
+function rollingEmoji(n){ return n===7?"🔥":n>=6?"🌟":n>=4?"⭐":n>=2?"✨":"🌱"; }
+function rollingCount(){
+  var h=buildHistory();
+  return h.filter(function(e){
+    if(e.isRest) return !!store["open-"+e.key]; // rest day counts if open ritual done
+    return !!(e.data.completed||e.data.energyBefore);
+  }).length;
 }
 
 /* ---------- DOM helper ---------- */
@@ -458,7 +459,7 @@ function el(tag, attrs, kids){
   return e;
 }
 function findOpt(arr,v){ for(var i=0;i<arr.length;i++) if(arr[i].value===v) return arr[i]; return null; }
-function sectionLabel(t){ return el("div",{style:"font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a7a;margin-bottom:7px;font-weight:bold;"},t); }
+function sectionLabel(t){ return el("div",{style:"font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#e8a0b0;margin-bottom:7px;font-weight:bold;"},t); }
 
 /* ---------- render ---------- */
 var root;
@@ -469,7 +470,6 @@ function render(){
   var savedScroll = (root._lastView === state.view && root.children[1]) ? root.children[1].scrollTop : 0;
   root._lastView = state.view;
   root.innerHTML="";
-  if(state.showIntentionPicker){ root.appendChild(renderIntentionPicker()); return; }
 
   // Fixed top zone — header, tabs, day selector never scroll away
   var stickyTop=el("div",{style:"flex-shrink:0;background:#f5f0ea;"});
@@ -524,42 +524,30 @@ function renderIntentionPicker(){
 }
 
 function renderHeader(){
-  var ph=INFO.phase, wd=weekData(), sc=streakCount();
+  var ph=INFO.phase, wd=weekData(), sc=rollingCount();
   var h=el("div",{style:"background:#2d3a2e;color:#e8dfd0;padding:18px 22px 14px;"});
   h.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#9ab090;margin-bottom:3px;"},"12-Week Glute, Joint & Stability Plan"));
   var row=el("div",{style:"display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"});
-  var title=el("div",{style:"font-size:19px;font-weight:bold;"}); title.appendChild(document.createTextNode("Week "+INFO.planWeek+" \u00b7 ")); title.appendChild(el("span",{style:"color:"+ph.color+";"},ph.label));
+  var title=el("div",{style:"font-size:19px;font-weight:bold;"}); title.appendChild(document.createTextNode("Week "+INFO.planWeek+" \u00b7 ")); title.appendChild(el("span",{style:"color:#9ab090;"},ph.label));
   row.appendChild(title);
-  if(sc>1) row.appendChild(el("div",{style:"font-size:13px;color:#c49a8a;font-weight:bold;"},"\ud83d\udd25 "+sc+" days"));
   h.appendChild(row);
-  h.appendChild(el("div",{style:"font-size:12px;color:#b0bfa8;margin-bottom:10px;"},ph.duration+" \u00b7 "+ph.focus));
   if(wd.intention){
-    var ib=el("div",{style:"background:#1a2318;border-radius:7px;padding:8px 12px;font-size:12px;color:#9ab090;font-style:italic;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;",onclick:function(){ state.showIntentionPicker=true; render(); }});
-    ib.appendChild(el("span",null,'"'+wd.intention+'"')); ib.appendChild(el("span",{style:"font-size:10px;color:#5a6a50;margin-left:8px;flex-shrink:0;"},"change"));
+    var ib=el("div",{style:"background:#1a2318;border-radius:7px;padding:8px 12px;font-size:12px;color:#9ab090;font-style:italic;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px;"});
+    ib.appendChild(el("span",{style:"color:#e8dfd0;flex:1;"},'"'+wd.intention+'"'));
+    ib.appendChild(el("button",{style:"flex-shrink:0;padding:4px 10px;background:transparent;border:1px solid #3a5a30;border-radius:20px;font-size:11px;color:#7a9a70;font-family:inherit;cursor:pointer;",onclick:function(){ state.intentionPickerOpen=true; state.view="history"; render(); }},"change"));
     h.appendChild(ib);
   }
-  // PT check-in banner at phase transition weeks
-  var ptWeek=(INFO.planWeek===4||INFO.planWeek===7);
-  if(ptWeek){
-    var ptPhase=INFO.planWeek===4?"Build":"Strengthen";
-    var ptDismissKey="pt-checkin-dismissed-week-"+INFO.planWeek;
-    if(!store[ptDismissKey]){
-      var ptb=el("div",{style:"background:#3a4a2e;border:1px solid #5a7a4a;border-radius:8px;padding:9px 12px;margin-bottom:10px;display:flex;align-items:flex-start;gap:8px;"});
-      ptb.appendChild(el("span",{style:"font-size:16px;flex-shrink:0;"},"🩺"));
-      var ptbTxt=el("div",{style:"flex:1;"});
-      ptbTxt.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#c8e0b0;margin-bottom:1px;"},"Week "+INFO.planWeek+" — PT check-in time"));
-      ptbTxt.appendChild(el("div",{style:"font-size:11px;color:#9ab090;line-height:1.4;"},"Before advancing to "+ptPhase+", get PT sign-off. Tick the criterion in progression when done."));
-      ptb.appendChild(ptbTxt);
-      ptb.appendChild(el("button",{style:"background:transparent;border:none;color:#6a8a60;font-size:16px;padding:0 2px;flex-shrink:0;line-height:1;",onclick:function(){ store[ptDismissKey]=true; saveStore(store); render(); }},"×"));
-      h.appendChild(ptb);
-    }
-  }
+
   var bar=el("div",{style:"background:#1a2318;border-radius:4px;height:4px;overflow:hidden;"});
   bar.appendChild(el("div",{style:"height:100%;width:"+((ph.order/4)*100)+"%;background:"+ph.color+";border-radius:4px;"}));
   h.appendChild(bar);
-  var sub=el("div",{style:"display:flex;align-items:center;justify-content:space-between;margin-top:3px;"});
+  var sub=el("div",{style:"display:flex;align-items:center;justify-content:space-between;margin-top:6px;"});
   sub.appendChild(el("div",{style:"font-size:11px;color:#6a7a60;"},"Phase "+ph.order+" of 4"));
-  sub.appendChild(el("div",{style:"font-size:11px;color:#9ab090;text-decoration:underline;",onclick:function(){ state.showUnlock=!state.showUnlock; state.view="history"; render(); }},"progression"));
+  var isFinalPhase=ph.order===4;
+  var progPill=el("button",{style:"padding:3px 10px;border-radius:20px;border:1px solid "+(isFinalPhase?"#3a5a30":"#5a8a60")+";background:transparent;font-size:11px;color:"+(isFinalPhase?"#5a7a50":"#9ab090")+";font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;",onclick:function(){ state.progressionOpen=true; state.view="history"; render(); setTimeout(function(){ var a=document.getElementById('progression-anchor'); if(a) a.scrollIntoView({behavior:'smooth',block:'start'}); },50); }});
+  progPill.appendChild(el("span",{},isFinalPhase?"🏁":"📈"));
+  progPill.appendChild(el("span",{},isFinalPhase?"final phase":"progression"));
+  sub.appendChild(progPill);
   h.appendChild(sub);
   return h;
 }
@@ -570,7 +558,7 @@ function renderTabs(){
   var bar=el("div",{style:"background:#e8e0d4;border-bottom:2px solid #d0c8bc;display:flex;"});
   tabs.forEach(function(t){
     var a=state.view===t.id;
-    bar.appendChild(el("button",{style:"flex:1;padding:10px 0;background:"+(a?"#f5f0ea":"transparent")+";border:none;border-bottom:"+(a?"3px solid "+ph.color:"3px solid transparent")+";font-size:13px;color:"+(a?"#2d3a2e":"#7a6a5a")+";font-weight:"+(a?"bold":"normal")+";",onclick:function(){ state.view=t.id; render(); }},t.label));
+    bar.appendChild(el("button",{style:"flex:1;padding:10px 0;background:"+(a?"#f5f0ea":"transparent")+";border:none;border-bottom:"+(a?"3px solid #e8a0b0":"3px solid transparent")+";font-size:13px;color:"+(a?"#2d3a2e":"#7a6a5a")+";font-weight:"+(a?"bold":"normal")+";",onclick:function(){ state.view=t.id; render(); }},t.label));
   });
   return bar;
 }
@@ -592,8 +580,8 @@ function renderDaySelector(){
     var label=el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:1px;"});
     label.appendChild(el("span",{style:"font-size:11px;"},dayName));
     label.appendChild(el("span",{style:"font-size:13px;font-weight:"+(isToday?"bold":"normal")+";"},done&&!active?"\u2713":isToday?"\u25cf":String(dateNum)));
-    label.appendChild(el("span",{style:"width:4px;height:4px;border-radius:50%;background:"+(isToday&&!active?"rgba(255,255,255,0.7)":"transparent")+";margin-top:1px;display:block;"}));
-    var btn=el("button",{style:"padding:6px 10px;border-radius:8px;border:"+(isToday?"2px solid "+TAG_COLORS[tpl.tag]:"2px solid transparent")+";background:"+(active?TAG_COLORS[tpl.tag]:done&&!active?"#d8f0e4":isPast?"#e8e3db":"#f0ebe3")+";color:"+(active?"#fff":done&&!active?"#2d6a4a":isPast?"#8a7a6a":"#4a3f35")+";font-size:12px;white-space:nowrap;flex-shrink:0;line-height:1;",onclick:(function(idx){ return function(){ state.selectedDay=idx; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; state.editingCheckin=false; render(); }; })(i)});
+    label.appendChild(el("span",{style:"font-size:9px;line-height:1;margin-top:1px;opacity:"+(active?"1":"0.65")+";"},tpl?tpl.icon:""));
+    var btn=el("button",{style:"padding:6px 10px;border-radius:8px;border:"+(isToday&&!active?"2px solid #2d3a2e":"2px solid transparent")+";background:"+(active?"#2d3a2e":done&&!active?"#5a9e8a":isPast?"#e8e3db":"#f0ebe3")+";color:"+(active?"#fff":done&&!active?"#fff":isPast?"#8a7a6a":"#4a3f35")+";font-size:12px;white-space:nowrap;flex-shrink:0;line-height:1;",onclick:(function(idx){ return function(){ state.selectedDay=idx; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; state.editingCheckin=false; state.showPainFlags=false; state.ifitExpanded=false; render(); }; })(i)});
     btn.appendChild(label);
     bar.appendChild(btn);
   }
@@ -607,36 +595,38 @@ function renderVacationSession(body, tpl){
   var daysLeft=vacationDaysLeft();
 
   // Vacation banner
-  var banner=el("div",{style:"background:#c4956a;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;text-align:center;"});
+  var banner=el("div",{style:"background:#e8a0b0;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;text-align:center;"});
   banner.appendChild(el("div",{style:"font-size:20px;margin-bottom:4px;"},"🌴"));
   banner.appendChild(el("div",{style:"font-size:15px;font-weight:bold;margin-bottom:2px;"},"Vacation mode"));
   banner.appendChild(el("div",{style:"font-size:12px;opacity:0.85;"},daysLeft>0?(daysLeft===1?"Last day — plan resumes tomorrow.":daysLeft+" days left. Plan resumes automatically."):"Wrapping up today."));
   body.appendChild(banner);
 
-  // Ankle mob
-  var ANKLE_EX_IDS=["ankle-circles","wall-mobilisation","calf-stretch"];
-  var aDone=ankleDone();
+
+  // Open ritual (vacation)
+  var phOrder2=String(INFO.phase.order);
+  var openIds2=(DATA.schedule.openRitual&&DATA.schedule.openRitual[phOrder2])||["ankle-circles","leg-swings","cat-cow","wall-mobilisation"];
+  var aDone=openRitualDone();
   var aWrap=el("div",{style:"margin-bottom:14px;"});
-  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(isFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;")),onclick:isFuture?null:toggleAnkle});
-  a.appendChild(el("span",{style:"font-size:22px;"},isFuture?"🔒":(aDone?"✅":"🦶")));
-  a.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:14px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#5a4010")+";"},"Ankle mobilisation — 5 min"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#8a6a20")+";"},aDone?"Done.":"Still the one non-negotiable.")]));
+  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(isFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;")),onclick:isFuture?null:toggleOpenRitual});
+  a.appendChild(el("span",{style:"font-size:22px;"},isFuture?"\ud83d\udd12":(aDone?"\u2705":"\ud83c\udf05")));
+  a.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:14px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#3a3028")+";"},"Open ritual"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#9a8a7a")+";"},aDone?"Done.":"Still non-negotiable, even on vacation.")]));
   aWrap.appendChild(a);
   if(!isFuture){
-    var aList=el("div",{style:"background:#fffdf5;border:1px solid #e8d8a0;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
-    ANKLE_EX_IDS.forEach(function(id){ var ex=DATA.exercises[id]; if(!ex)return; var row=el("div",null); row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#5a4010;"},ex.name+(ex.defaultDose?" — "+ex.defaultDose:""))); if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#8a7040;"},ex.cues[0])); aList.appendChild(row); });
+    var aList=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    openIds2.forEach(function(id){ var ex=DATA.exercises[id]; if(!ex)return; var row=el("div",null); row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):""))); if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0])); aList.appendChild(row); });
     aWrap.appendChild(aList);
   }
   body.appendChild(aWrap);
 
   // Today's template exercises
-  if(!isFuture && tpl.note) body.appendChild(el("div",{style:"padding:9px 13px;margin-bottom:12px;background:#f9f4ee;border-radius:8px;font-size:12px;color:#6a5a4a;border-left:3px solid #c4956a;line-height:1.5;"},tpl.note));
+  if(!isFuture && tpl.note) body.appendChild(el("div",{style:"padding:9px 13px;margin-bottom:12px;background:#f9f4ee;border-radius:8px;font-size:12px;color:#6a5a4a;border-left:3px solid #e8a0b0;line-height:1.5;"},tpl.note));
   var exIds=(tpl.warmup||[]).concat(tpl.exercises||[]);
   if(exIds.length && !isFuture){
     var mw=el("div",{style:"margin-bottom:14px;"}); mw.appendChild(sectionLabel("Today's moves"));
     exIds.forEach(function(id,i){
       var ex=DATA.exercises[id]; if(!ex)return;
       var done=isChecked(i); var dose=doseFor(ex);
-      var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":"#c4956a")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
+      var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":"#e8a0b0")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
       card.appendChild(el("span",{style:"font-size:15px;flex-shrink:0;"},done?"✅":"⬜"));
       var txt=el("div",{style:"flex:1;"}); txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"},ex.name+(dose?" — "+dose:""))); if(ex.cues&&ex.cues.length) txt.appendChild(el("div",{style:"font-size:11px;color:#8a7a6a;margin-top:2px;"},ex.cues[0])); card.appendChild(txt);
       mw.appendChild(card);
@@ -647,7 +637,7 @@ function renderVacationSession(body, tpl){
   // Done tap
   if(!isFuture){
     if(!dd.completed){
-      body.appendChild(el("button",{style:"width:100%;padding:14px;background:#c4956a;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true}); render(); }},"Done for today ✓"));
+      body.appendChild(el("button",{style:"width:100%;padding:14px;background:#e8a0b0;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true}); render(); }},"Done for today ✓"));
     } else {
       var comp=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:14px 18px;text-align:center;margin-bottom:14px;"});
       comp.appendChild(el("div",{style:"font-size:20px;margin-bottom:4px;"},"✨"));
@@ -669,11 +659,11 @@ function renderFlareProtocol(body){
   banner.appendChild(exitBtn);
   body.appendChild(banner);
 
-  // Ankle mob — twice today
-  var aDone=ankleDone();
-  var aCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:12px;"+(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;"),onclick:toggleAnkle});
+  // Open ritual — flare day
+  var aDone=openRitualDone();
+  var aCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:12px;"+(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;"),onclick:toggleOpenRitual});
   aCard.appendChild(el("span",{style:"font-size:20px;"},aDone?"✅":"🦶"));
-  aCard.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:13px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#5a4010")+";"},"Ankle mobilisation — twice today"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#8a6a20")+";"},"Ligament laxity is highest. Do it morning and evening.")]));
+  aCard.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:13px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#3a3028")+";"},"Ankle mobilisation — twice today"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#9a8a7a")+";"},"Ligament laxity is highest. Do it morning and evening.")]));
   body.appendChild(aCard);
 
   // Do these — in order
@@ -698,7 +688,7 @@ function renderFlareProtocol(body){
   // Skip today
   body.appendChild(el("div",{style:"margin-top:14px;margin-bottom:8px;"}));
   body.appendChild(sectionLabel("Skip today"));
-  var skipWrap=el("div",{style:"background:#f5ecef;border:1px solid #d4b0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  var skipWrap=el("div",{style:"background:#faeef1;border:1px solid #e0bfc8;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
   ["Any bridging or glute loading","All band or dumbbell scapula work","The bike","Any held standing poses"].forEach(function(s){
     var row=el("div",{style:"font-size:12px;color:#8a5068;padding:3px 0 3px 14px;position:relative;"});
     row.appendChild(el("span",{style:"position:absolute;left:0;color:#b0a0c4;"},"✕"));
@@ -709,7 +699,7 @@ function renderFlareProtocol(body){
 
   // For the pain
   body.appendChild(sectionLabel("For the pain"));
-  var painWrap=el("div",{style:"background:#f5ecef;border:1px solid #d4b0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  var painWrap=el("div",{style:"background:#faeef1;border:1px solid #e0bfc8;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
   ["🌡️  Heat pack on right rhomboid — 15–20 min","⚡  TENS on right scapula + lower back simultaneously during savasana","🛏️  Pillow between knees or under right hip if side-lying","💊  Magnesium supplement (discuss with GP — helps cycle-related tension)","🚨  Pain travelling DOWN the leg → contact PT or GP today"].forEach(function(p){
     painWrap.appendChild(el("div",{style:"font-size:12px;color:#6a3a58;padding:4px 0;line-height:1.4;"},p));
   });
@@ -741,16 +731,16 @@ function renderTensSuggestion(body, tag){
   } else {
     tens={ title:"TENS: Any tender area during savasana", note:"Yoga and rest days are ideal for TENS recovery. 10–30 min. Start at lowest intensity.", pads:"See Reference → TENS for pad placement by area" };
   }
-  var card=el("div",{style:"background:#eef4f0;border:1px solid #c8d8d0;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
+  var card=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
   var top=el("div",{style:"display:flex;align-items:flex-start;gap:10px;"});
   top.appendChild(el("span",{style:"font-size:20px;flex-shrink:0;"},"⚡"));
   var txt=el("div",{style:"flex:1;"});
   txt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},tens.title));
-  txt.appendChild(el("div",{style:"font-size:12px;color:#3a5a50;line-height:1.4;margin-bottom:4px;"},tens.note));
-  txt.appendChild(el("div",{style:"font-size:10px;color:#7a9aaa;font-style:italic;"},tens.pads));
+  txt.appendChild(el("div",{style:"font-size:12px;color:#5a4a3a;line-height:1.4;margin-bottom:4px;"},tens.note));
+  txt.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;font-style:italic;"},tens.pads));
   top.appendChild(txt);
   card.appendChild(top);
-  card.appendChild(el("div",{style:"font-size:10px;color:#9ab0ba;margin-top:6px;padding-top:6px;border-top:1px solid #c8dce8;"},"Optional — Reference tab has full pad placement guide and contraindications"));
+  card.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;margin-top:6px;padding-top:6px;border-top:1px solid #d0c8bc;"},"Optional — Reference tab has full pad placement guide and contraindications"));
   body.appendChild(card);
 }
 
@@ -768,12 +758,22 @@ function renderSession(body){
   var selDayName=DAY_FULL[DAY_NAMES[new Date(selectedDateKey()+"T12:00:00").getDay()]];
   var dh=el("div",{style:"display:flex;align-items:center;gap:10px;margin-bottom:14px;"});
   dh.appendChild(el("span",{style:"font-size:24px;"},tpl.icon));
-  dh.appendChild(el("div",null,[ el("div",{style:"font-size:17px;font-weight:bold;color:#2d3a2e;"},selDayName), el("div",{style:"font-size:12px;color:"+tagColor+";font-weight:bold;letter-spacing:0.05em;"},tpl.label) ]));
-  if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:"+tagColor+";color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
+  dh.appendChild(el("div",null,[ el("div",{style:"font-size:17px;font-weight:bold;color:#2d3a2e;"},selDayName), el("div",{style:"font-size:12px;color:#9a8a7a;font-weight:bold;letter-spacing:0.05em;"},tpl.label) ]));
+  if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:#2d3a2e;color:#e8dfd0;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
   body.appendChild(dh);
 
-  // Check-in: full card if no energy yet (or user tapped Edit), collapsed banner once logged
-  if(!selectedIsFuture() && tag!=="rest"){
+  // Day focus — top of session, sets the mental frame before anything else
+  var selDayAbbr=DAY_NAMES[new Date(selectedDateKey()+"T12:00:00").getDay()];
+  var dayFocusTxt=DATA.schedule.dayFocus&&DATA.schedule.dayFocus[selDayAbbr];
+  if(dayFocusTxt){
+    var dfRow=el("div",{style:"display:flex;align-items:baseline;gap:8px;padding:8px 13px;margin-bottom:14px;background:#f0ebe3;border-radius:8px;border-left:3px solid #9ab090;"});
+    dfRow.appendChild(el("span",{style:"font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#9ab090;font-weight:bold;white-space:nowrap;flex-shrink:0;"},"Today's focus"));
+    dfRow.appendChild(el("span",{style:"font-size:12px;color:#4a3f35;line-height:1.4;"},dayFocusTxt));
+    body.appendChild(dfRow);
+  }
+
+  // Check-in: today only — no point logging energy after the fact
+  if(isToday && tag!=="rest"){
     var showFullCheckin = (!dd.energyBefore || state.editingCheckin) && !dd.completed;
     if(showFullCheckin){
       var ec=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:13px 15px;margin-bottom:14px;"});
@@ -784,28 +784,46 @@ function renderSession(body){
         er.appendChild(el("button",{style:"flex:1;padding:10px 4px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#f5f0ea")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ state.editingCheckin=false; updateDayData({energyBefore:o.value}); }},[el("div",{style:"font-size:20px;"},o.emoji),el("div",{style:"font-size:11px;margin-top:2px;"},o.label)]));
       });
       ec.appendChild(er);
-      if(dd.energyBefore && dd.energyBefore<=2) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice — not a cop-out."));
-      if(dd.energyBefore && dd.energyBefore>=3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
-      ec.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a5a5a;margin-top:12px;margin-bottom:7px;"},"Any pain or discomfort today?"));
-      var flagRow=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;"});
+      if(dd.energyBefore===1){
+        var fmBtn=el("div",{style:"margin-top:10px;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:"+(state.hardMode?"#faeef1":"#f5f0ea")+";border-radius:8px;border:1px solid "+(state.hardMode?"#e8a0b0":"#d0c8bc")+";cursor:pointer;",onclick:function(){ state.hardMode=!state.hardMode; render(); }});
+        fmBtn.appendChild(el("div",null,[el("div",{style:"font-size:12px;font-weight:bold;color:"+(state.hardMode?"#7a3a52":"#5a4a3a")+";"},state.hardMode?"Functional mode — on":"Go functional?"),el("div",{style:"font-size:11px;color:#9a8a7a;"},state.hardMode?"Scaled down. That counts.":"Low energy. A valid option.")]));
+        var fmsw=el("div",{style:"width:34px;height:19px;border-radius:10px;background:"+(state.hardMode?"#e8a0b0":"#c0b8b0")+";position:relative;flex-shrink:0;"}); fmsw.appendChild(el("div",{style:"position:absolute;top:2px;left:"+(state.hardMode?17:2)+"px;width:15px;height:15px;border-radius:50%;background:#fff;"})); fmBtn.appendChild(fmsw);
+        ec.appendChild(fmBtn);
+      }
+      if(dd.energyBefore===3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
       var currentFlags=getPainFlags();
-      PAIN_FLAGS.forEach(function(pf){
-        var on=currentFlags.indexOf(pf.id)!==-1;
-        flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#c4a0b0":"#d0c8bc")+";background:"+(on?"#f5ecef":"#f5f0ea")+";color:"+(on?"#7a4060":"#6a5a5a")+";font-size:11px;",onclick:function(){
-          var f=getPainFlags().slice(); var idx=f.indexOf(pf.id);
-          if(idx===-1) f.push(pf.id); else f.splice(idx,1);
-          updateDayData({painFlags:f});
-        }},pf.emoji+" "+pf.label));
-      });
-      ec.appendChild(flagRow);
+      var showingPain=state.showPainFlags||currentFlags.length>0;
+      if(!showingPain){
+        ec.appendChild(el("button",{style:"margin-top:10px;padding:0;background:transparent;border:none;font-size:12px;color:#9a8a7a;text-decoration:underline;",onclick:function(){ state.showPainFlags=true; render(); }},"Something's bothering me today"));
+      } else {
+        var painSection=el("div",{style:"margin-top:10px;"});
+        var painHeader=el("div",{style:"display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;"});
+        painHeader.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a5a5a;"},"Any pain or discomfort today?"));
+        if(!currentFlags.length) painHeader.appendChild(el("button",{style:"padding:0;background:transparent;border:none;font-size:11px;color:#9a8a7a;",onclick:function(){ state.showPainFlags=false; render(); }},"never mind"));
+        painSection.appendChild(painHeader);
+        var flagRow=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;"});
+        PAIN_FLAGS.forEach(function(pf){
+          var on=currentFlags.indexOf(pf.id)!==-1;
+          flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#e8a0b0":"#d0c8bc")+";background:"+(on?"#faeef1":"#f5f0ea")+";color:"+(on?"#7a4060":"#6a5a5a")+";font-size:11px;",onclick:function(){
+            var f=getPainFlags().slice(); var idx=f.indexOf(pf.id);
+            if(idx===-1) f.push(pf.id); else f.splice(idx,1);
+            updateDayData({painFlags:f});
+          }},pf.emoji+" "+pf.label));
+        });
+        painSection.appendChild(flagRow);
+        ec.appendChild(painSection);
+      }
       if(isTripleFlare()){
-        var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#f5ecef;border-radius:8px;border-left:3px solid #c4a0b0;"});
+        var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#faeef1;border-radius:8px;border-left:3px solid #e8a0b0;"});
         flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a4060;margin-bottom:4px;"},"🪻 Triple flare detected"));
         flareAlert.appendChild(el("div",{style:"font-size:11px;color:#6a4a70;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
         flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#6a3a58;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
         ec.appendChild(flareAlert);
       } else if(currentFlags.length>=2){
-        ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ecef;border-radius:8px;font-size:12px;color:#8a5068;border-left:3px solid #b0a0c4;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
+        var fmBtn2=el("div",{style:"margin-top:10px;display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:"+(state.hardMode?"#faeef1":"#f5f0ea")+";border-radius:8px;border:1px solid "+(state.hardMode?"#e8a0b0":"#d0c8bc")+";cursor:pointer;",onclick:function(){ state.hardMode=!state.hardMode; render(); }});
+        fmBtn2.appendChild(el("div",null,[el("div",{style:"font-size:12px;font-weight:bold;color:"+(state.hardMode?"#7a3a52":"#5a4a3a")+";"},state.hardMode?"Functional mode — on":"Go functional?"),el("div",{style:"font-size:11px;color:#9a8a7a;"},state.hardMode?"Half reps, reduced range. That counts.":"Multiple flags. Half reps, reduced range.")]));
+        var fmsw2=el("div",{style:"width:34px;height:19px;border-radius:10px;background:"+(state.hardMode?"#e8a0b0":"#c0b8b0")+";position:relative;flex-shrink:0;"}); fmsw2.appendChild(el("div",{style:"position:absolute;top:2px;left:"+(state.hardMode?17:2)+"px;width:15px;height:15px;border-radius:50%;background:#fff;"})); fmBtn2.appendChild(fmsw2);
+        ec.appendChild(fmBtn2);
       }
       body.appendChild(ec);
     } else if(dd.energyBefore){
@@ -815,45 +833,43 @@ function renderSession(body){
       summaryRow.appendChild(el("span",null,eo2.emoji));
       summaryRow.appendChild(el("span",null,"Energy: "+eo2.label));
       var completedFlags=getPainFlags();
-      if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#c4a0b0;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
+      if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#e8a0b0;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
       if(!dd.completed) summaryRow.appendChild(el("button",{style:"margin-left:auto;padding:4px 10px;background:transparent;border:1px solid #d0c8bc;border-radius:12px;font-size:11px;color:#7a6a5a;",onclick:function(){ state.editingCheckin=true; render(); }},"Edit"));
       body.appendChild(summaryRow);
+      if(state.hardMode){
+        var fmPill=el("div",{style:"display:flex;align-items:center;justify-content:space-between;padding:7px 13px;background:#faeef1;border-radius:8px;margin-bottom:12px;border:1px solid #e8a0b0;cursor:pointer;",onclick:function(){ state.hardMode=false; render(); }});
+        fmPill.appendChild(el("span",{style:"font-size:12px;color:#7a3a52;"},"🌡️ Functional mode on"));
+        fmPill.appendChild(el("span",{style:"font-size:11px;color:#9a8a7a;"},"tap to switch back"));
+        body.appendChild(fmPill);
+      }
     }
   }
 
-  // Ankle mob (daily, persistent, locked on future)
-  var ANKLE_EX_IDS = ["ankle-circles", "wall-mobilisation", "calf-stretch"];
-  var aDone=ankleDone(), aFuture=selectedIsFuture();
-  var aWrap=el("div",{style:"margin-bottom:16px;"});
-  var a=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(aFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;box-shadow:0 1px 4px rgba(232,184,75,0.2);")),onclick:toggleAnkle});
-  a.appendChild(el("span",{style:"font-size:22px;"},aFuture?"\ud83d\udd12":(aDone?"\u2705":"\ud83e\uddb6")));
-  a.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:14px;font-weight:bold;color:"+(aFuture?"#8a8276":(aDone?"#2d6a4a":"#5a4010"))+";"},"Ankle mobilisation \u2014 5 min"), el("div",{style:"font-size:11px;color:"+(aFuture?"#a39a8a":(aDone?"#4a8a64":"#8a6a20"))+";"}, aFuture?"Comes around when the day does.":(aDone?"Done. The one non-negotiable \u2014 ticked.":"Every single day \u2014 tap when done.")) ]));
-  if(!aDone&&!aFuture) a.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e8b84b;font-weight:bold;"},"daily"));
-  aWrap.appendChild(a);
-  if(!aFuture){
-    var aList=el("div",{style:"background:#fffdf5;border:1px solid #e8d8a0;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
-    ANKLE_EX_IDS.forEach(function(id){
+  // Open ritual (daily, phase-progressive, locked on future)
+  var phOrder=String(INFO.phase.order);
+  var openIds=(DATA.schedule.openRitual&&DATA.schedule.openRitual[phOrder])||["ankle-circles","leg-swings","cat-cow","wall-mobilisation"];
+  var oDone=openRitualDone(), oFuture=selectedIsFuture();
+  var oWrap=el("div",{style:"margin-bottom:16px;"});
+  var oCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(oFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(oDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;")),onclick:oFuture?null:toggleOpenRitual});
+  oCard.appendChild(el("span",{style:"font-size:22px;"},oFuture?"\ud83d\udd12":(oDone?"\u2705":"\ud83c\udf05")));
+  oCard.appendChild(el("div",{style:"flex:1;"},[
+    el("div",{style:"font-size:14px;font-weight:bold;color:"+(oFuture?"#8a8276":(oDone?"#2d6a4a":"#3a3028"))+";"},"Open ritual"),
+    el("div",{style:"font-size:11px;color:"+(oFuture?"#a39a8a":(oDone?"#4a8a64":"#9a8a7a"))+";"},oFuture?"Comes around when the day does.":(oDone?"Done. Good start.":"Every session \u2014 tap when complete."))
+  ]));
+  if(!oDone&&!oFuture) oCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e8a0b0;font-weight:bold;"},"daily"));
+  oWrap.appendChild(oCard);
+  if(!oFuture){
+    var oList=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    openIds.forEach(function(id){
       var ex=DATA.exercises[id]; if(!ex) return;
       var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
-      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#5a4010;"},ex.name+(ex.defaultDose?" \u2014 "+ex.defaultDose:"")));
-      if(ex.cues && ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#8a7040;"},ex.cues[0]));
-      aList.appendChild(row);
+      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
+      if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+      oList.appendChild(row);
     });
-    aWrap.appendChild(aList);
+    oWrap.appendChild(oList);
   }
-  body.appendChild(aWrap);
-
-  // Functional toggle — hide on future days
-  if(tag!=="rest" && !selectedIsFuture()){
-    var hm=state.hardMode;
-    var tog=el("div",{style:"background:"+(hm?"#f0e8e0":"#f5f0ea")+";border:2px solid "+(hm?"#c49a8a":"#d0c8bc")+";border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;",onclick:function(){ state.hardMode=!state.hardMode; render(); }});
-    tog.appendChild(el("span",{style:"font-size:18px;"},"\ud83c\udf21\ufe0f"));
-    var togTitle=hm?(tpl.isBike?"Functional ride \u2014 5 min, flat, easy":"Functional mode \u2014 scaled down"):(tpl.isBike?"Go functional \u2014 shorter, easier ride":"Go functional");
-    var togSub=hm?"Tap to switch back to full session":(tpl.isBike?"Mild discomfort? Keep it short and flat.":"Not a lesser version. A valid one.");
-    tog.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:13px;font-weight:bold;color:"+(hm?"#8a4a30":"#5a4a3a")+";"},togTitle), el("div",{style:"font-size:11px;color:#8a7a6a;"},togSub) ]));
-    var sw=el("div",{style:"width:34px;height:19px;border-radius:10px;background:"+(hm?"#c49a8a":"#c0b8b0")+";position:relative;"}); sw.appendChild(el("div",{style:"position:absolute;top:2px;left:"+(hm?17:2)+"px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left 0.2s;"})); tog.appendChild(sw);
-    body.appendChild(tog);
-  }
+  body.appendChild(oWrap);
 
   // Bike / iFIT guidance block
   if(tpl.isBike){
@@ -863,31 +879,18 @@ function renderSession(body){
     var rideTime=isSatBike&&bk.satRide?bk.satRide:bk.ride;
     var selPlanWeek=planWeekForDate(selectedDateKey());
 
-    // Weeks 1\u20136: optional banner
-    if(selPlanWeek<=6){
-      var optBanner=el("div",{style:"background:#fff8e6;border:2px solid #e8b84b;border-radius:10px;padding:12px 14px;margin-bottom:12px;"});
-      optBanner.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#8a5a10;margin-bottom:4px;"},"\u26a0\ufe0f Weeks 1\u20136: Ride only on good days"));
-      optBanner.appendChild(el("div",{style:"font-size:12px;color:#7a5a20;line-height:1.5;"},"Skip entirely on any scapula, low back, or hip flare. On mild-discomfort days: 5 min max, flat scenic ride, light resistance. Bike becomes fully scheduled from week 7."));
-      body.appendChild(optBanner);
-    }
-
-    // Cycle flare: skip bike warning
-    if(weekData().cycleFlare){
-      body.appendChild(el("div",{style:"background:#fdf0f6;border:2px solid #d4a0c0;border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#8a3a5a;"},"\ud83c\udf19 Cycle modifier: skip bike if flaring. 5 min max on mild days \u2014 flat scenic, light resistance only. TENS on ankle after (not before) if you do ride."));
-    }
-
     // Bike stats card \u2014 scaled down in functional mode
     var hm=state.hardMode;
-    var bb=el("div",{style:"background:"+(hm?"#f5ece6":"#eaf0f4")+";border:1px solid "+(hm?"#d4a08a":"#cdddea")+";border-radius:10px;padding:11px 14px;margin-bottom:12px;"});
-    bb.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:"+(hm?"#8a4a30":"#33536a")+";margin-bottom:8px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 "+(hm?"Functional ride":"Phase "+INFO.phase.order+(isSatBike?" \u00b7 Saturday (longer ride)":""))));
+    var bb=el("div",{style:"background:"+(hm?"#faeef1":"#f5f0ea")+";border:1px solid "+(hm?"#e0bfc8":"#d0c8bc")+";border-radius:10px;padding:11px 14px;margin-bottom:12px;"});
+    bb.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:"+(hm?"#7a3a52":"#2d3a2e")+";margin-bottom:8px;"},"\ud83d\udeb4 NordicTrack X24 \u2014 "+(hm?"Functional ride":"Phase "+INFO.phase.order+(isSatBike?" \u00b7 Saturday (longer ride)":""))));
     if(hm){
-      bb.appendChild(el("div",{style:"font-size:11px;color:#7a4a30;margin-bottom:8px;line-height:1.5;"},"Mild discomfort day. Short, flat, easy \u2014 staying in motion is the win."));
+      bb.appendChild(el("div",{style:"font-size:11px;color:#7a3a52;margin-bottom:8px;line-height:1.5;"},"Mild discomfort day. Short, flat, easy \u2014 staying in motion is the win."));
     }
     var statRow=el("div",{style:"display:flex;gap:6px;"});
     function bikeChip(label,val,dimmed){
-      var c=el("div",{style:"flex:1;background:#fff;border:1px solid "+(dimmed?"#e0c8b8":"#cdddea")+";border-radius:7px;padding:6px 8px;text-align:center;"});
-      c.appendChild(el("div",{style:"font-size:9px;color:"+(dimmed?"#b09080":"#7aadcc")+";text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;"},label));
-      c.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(dimmed?"#8a5a40":"#1a3a5a")+";"},val));
+      var c=el("div",{style:"flex:1;background:#fff;border:1px solid "+(dimmed?"#d0c8bc":"#d0c8bc")+";border-radius:7px;padding:6px 8px;text-align:center;"});
+      c.appendChild(el("div",{style:"font-size:9px;color:"+(dimmed?"#9a8a7a":"#9a8a7a")+";text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px;"},label));
+      c.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(dimmed?"#7a6a5a":"#2d3a2e")+";"},val));
       return c;
     }
     statRow.appendChild(bikeChip("Ride", hm?"5 min max":rideTime, hm));
@@ -895,41 +898,17 @@ function renderSession(body){
     statRow.appendChild(bikeChip("Incline", hm?"Flat only":bk.incline, hm));
     bb.appendChild(statRow);
     if(hm){
-      bb.appendChild(el("div",{style:"font-size:11px;color:#9a6a50;margin-top:8px;padding-top:8px;border-top:1px solid #e0c8b8;"},"iFIT: Beginner Scenic ride only. Skip intervals, hills, and any structured workout today."));
+      bb.appendChild(el("div",{style:"font-size:11px;color:#9a6a50;margin-top:8px;padding-top:8px;border-top:1px solid #d0c8bc;"},"iFIT: Beginner Scenic ride only. Skip intervals, hills, and any structured workout today."));
     }
     body.appendChild(bb);
     if(DATA.ifitSeries) renderIfitWidget(body);
   }
 
-  // Cycle flare banner for non-bike sessions
+  // Cycle flare — one-line note only (full guidance in Reference tab)
   if(weekData().cycleFlare && tag!=="rest" && !tpl.isBike){
-    var cfNote="";
-    if(tag==="strength") cfNote="Scapula work today: gentle retraction only. Skip bands and resistance. Pain-free range only.";
-    else if(tag==="glute") cfNote="Reduce end-range movements. Bolster under knees for all floor work. Skip if lower back + hip are flaring together.";
-    else if(tag==="yoga") cfNote="Reduce rotation range \u2014 let gravity do the work. Bolster under knees in savasana. Non-negotiable today.";
-    else cfNote="Easy does it. Reduce range across all movements today.";
-    var cfBanner=el("div",{style:"background:#fdf0f6;border:2px solid #d4a0c0;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
-    cfBanner.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#8a3a5a;margin-bottom:4px;"},"\ud83c\udf19 Cycle modifier active"));
-    cfBanner.appendChild(el("div",{style:"font-size:12px;color:#7a3a5a;line-height:1.5;"},cfNote));
-    cfBanner.appendChild(el("div",{style:"font-size:11px;color:#c4a0b8;margin-top:6px;"},"\ud83e\uddb6 Ankle mob twice today \u2014 ligament laxity is highest around your cycle."));
-    body.appendChild(cfBanner);
+    body.appendChild(el("div",{style:"padding:8px 12px;margin-bottom:12px;background:#faeef1;border-radius:8px;font-size:12px;color:#7a3a52;border-left:3px solid #e8a0b0;"},"\ud83c\udf19 Cycle modifier on \u2014 see Reference for session adjustments."));
   }
 
-  // Pre-strength TENS nudge (Wednesday, before session starts)
-  if(tag==="strength" && !dd.completed && !selectedIsFuture()){
-    body.appendChild(el("div",{style:"background:#eef4f0;border:1px solid #c8d8d0;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:12px;color:#3a5a50;line-height:1.4;"},"⚡ Optional: 10–15 min TENS on right scapula before scapula exercises. Start at lowest intensity. Don't use immediately before if that feels odd — after works too."));
-  }
-
-  // Template note
-  if(tpl.note) body.appendChild(el("div",{style:"padding:9px 13px;margin-bottom:14px;background:#f3efe7;border-radius:8px;font-size:12px;color:#6a5a4a;border-left:3px solid "+tagColor+";line-height:1.5;"},tpl.note));
-
-  // Warmup
-  if(tpl.warmup && tpl.warmup.length && !state.hardMode){
-    var w=el("div",{style:"margin-bottom:14px;"+(selectedIsFuture()?"opacity:0.5;":"")});
-    w.appendChild(sectionLabel("Warm-Up"));
-    tpl.warmup.forEach(function(id){ var ex=DATA.exercises[id]; if(!ex)return; w.appendChild(el("div",{style:"padding:7px 11px;background:#eee8e0;border-radius:6px;font-size:13px;color:#5a4a3a;margin-bottom:5px;border-left:3px solid #c0b0a0;"}, ex.name + (doseFor(ex)?" \u2014 "+doseFor(ex):""))); });
-    body.appendChild(w);
-  }
 
   // Main exercises (resolved from library, filtered by phase)
   var list=exForPhase(tpl.exercises);
@@ -942,7 +921,7 @@ function renderSession(body){
       var progressPct=list.length?(checkedCount/list.length*100):0;
       var pbWrap=el("div",{style:"margin-bottom:10px;"});
       var pbBg=el("div",{style:"background:#e8e3db;border-radius:4px;height:5px;overflow:hidden;"});
-      pbBg.appendChild(el("div",{style:"height:100%;width:"+progressPct+"%;background:"+tagColor+";border-radius:4px;"}));
+      pbBg.appendChild(el("div",{style:"height:100%;width:"+progressPct+"%;background:#5a9e8a;border-radius:4px;"}));
       pbWrap.appendChild(pbBg);
       pbWrap.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;margin-top:3px;text-align:right;"},checkedCount+"/"+list.length));
       mw.appendChild(pbWrap);
@@ -958,7 +937,7 @@ function renderSession(body){
         card.appendChild(txt);
         mw.appendChild(card);
       } else {
-        var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":tagColor)+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ toggleChecked(i); maybeMarkComplete(list); render(); }});
+        var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":"#e8a0b0")+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ toggleChecked(i); maybeMarkComplete(list); render(); }});
         card.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},done?"\u2705":"\u2b1c"));
         var txt=el("div",{style:"flex:1;"});
         txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"}, ex.name + (dose?" \u2014 "+dose:"")));
@@ -972,25 +951,61 @@ function renderSession(body){
     body.appendChild(el("div",{style:"padding:11px 13px;background:#fff;border-radius:8px;font-size:13px;color:#7a6a5a;margin-bottom:14px;"},"No exercises listed for this phase."));
   }
 
-  // Cool-down
+  // Day stretches (one-tap) + close ritual
   if(tpl.cooldown && tpl.cooldown.length && !state.hardMode && !selectedIsFuture()){
-    var cw=el("div",{style:"margin-bottom:14px;"}); cw.appendChild(sectionLabel("Cool-Down"));
-    tpl.cooldown.forEach(function(id){
+    var cdList=exForPhase(tpl.cooldown);
+    if(cdList.length){
+      var cdDone=cooldownDone();
+      var cdWrap=el("div",{style:"margin-bottom:14px;"});
+      var cdCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(cdDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #c0b8b0;"),onclick:toggleCooldown});
+      cdCard.appendChild(el("span",{style:"font-size:22px;"},cdDone?"\u2705":"\ud83e\uddd8"));
+      cdCard.appendChild(el("div",{style:"flex:1;"},[
+        el("div",{style:"font-size:14px;font-weight:bold;color:"+(cdDone?"#2d6a4a":"#3a3028")+";"},"Day stretches"),
+        el("div",{style:"font-size:11px;color:"+(cdDone?"#4a8a64":"#9a8a7a")+";"},cdDone?"Done.":"Tap when complete.")
+      ]));
+      cdWrap.appendChild(cdCard);
+      var cdDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+      cdList.forEach(function(item){
+        var ex=item.ex; var dose=doseFor(ex);
+        var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
+        row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(dose?" \u2014 "+dose:"")));
+        if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+        cdDetail.appendChild(row);
+      });
+      cdWrap.appendChild(cdDetail);
+      body.appendChild(cdWrap);
+    }
+  }
+  // Close ritual (always same)
+  if(!selectedIsFuture() && !state.hardMode){
+    var closeIds=(DATA.schedule.closeRitual)||["calf-stretch","supine-twist","savasana"];
+    var clDone=closeRitualDone();
+    var clWrap=el("div",{style:"margin-bottom:16px;"});
+    var clCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(clDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;"),onclick:toggleCloseRitual});
+    clCard.appendChild(el("span",{style:"font-size:22px;"},clDone?"\u2705":"\ud83c\udf19"));
+    clCard.appendChild(el("div",{style:"flex:1;"},[
+      el("div",{style:"font-size:14px;font-weight:bold;color:"+(clDone?"#2d6a4a":"#3a3028")+";"},"Close ritual"),
+      el("div",{style:"font-size:11px;color:"+(clDone?"#4a8a64":"#9a8a7a")+";"},clDone?"Done. Full session complete.":"Tap when complete.")
+    ]));
+    clCard.appendChild(el("span",{style:"font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9a8a7a;font-weight:bold;"},"DAILY"));
+    clWrap.appendChild(clCard);
+    var clDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    closeIds.forEach(function(id){
       var ex=DATA.exercises[id]; if(!ex) return;
-      var dose=doseFor(ex);
-      var cd=el("div",{style:"padding:10px 12px;background:#eef4f0;border-radius:8px;font-size:13px;color:#3a4a3e;margin-bottom:5px;border-left:3px solid #7ab0a0;"});
-      cd.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},ex.name+(dose?" — "+dose:"")));
-      if(ex.cues && ex.cues.length) cd.appendChild(el("div",{style:"font-size:11px;color:#6a8a7a;"},ex.cues[0]));
-      cw.appendChild(cd);
+      var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
+      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
+      if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+      clDetail.appendChild(row);
     });
-    body.appendChild(cw);
+    clWrap.appendChild(clDetail);
+    body.appendChild(clWrap);
   }
 
   // Completion + bonus
   var canComplete = list.length || tpl.isBike;
   if(canComplete && (tpl.isBike ? true : allChecked(list))){
     if(tpl.isBike && !dayData().completed){
-      body.appendChild(el("button",{style:"width:100%;padding:12px;background:"+tagColor+";color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true,mode:state.hardMode?"hard":"normal"}); render(); }},"Mark ride complete \u2713"));
+      body.appendChild(el("button",{style:"width:100%;padding:12px;background:#e8a0b0;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true,mode:state.hardMode?"hard":"normal"}); render(); }},"Mark ride complete \u2713"));
     }
     if(!tpl.isBike || dayData().completed){
       var comp=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:16px 18px;text-align:center;margin-bottom:14px;"});
@@ -1019,10 +1034,10 @@ function renderSession(body){
           bw.appendChild(sealed);
         } else if(!dayData().bonusId && state.bonusRevealed && state.currentBonus){
           var cb=state.currentBonus;
-          var rev=el("div",{"class":"fade",style:"background:#fff;border-radius:14px;padding:18px 16px;border:2px solid "+tagColor+";box-shadow:0 2px 12px rgba(0,0,0,0.08);"});
+          var rev=el("div",{"class":"fade",style:"background:#fff;border-radius:14px;padding:18px 16px;border:2px solid #e8a0b0;box-shadow:0 2px 12px rgba(0,0,0,0.08);"});
           var top=el("div",{style:"display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;"}); top.appendChild(el("span",{style:"font-size:30px;"},cb.emoji)); top.appendChild(el("div",{style:"flex:1;"},[ el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},cb.title), el("div",{style:"font-size:13px;color:#5a4a3a;line-height:1.5;"},cb.desc) ])); rev.appendChild(top);
           var br=el("div",{style:"display:flex;gap:8px;"});
-          br.appendChild(el("button",{style:"flex:1;padding:10px;background:"+tagColor+";color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:bold;",onclick:function(){ updateDayData({bonusId:cb.id,bonusTitle:cb.title,bonusMsg:getBonusCompletion(cb.id)}); }},"Done \u2713"));
+          br.appendChild(el("button",{style:"flex:1;padding:10px;background:#e8a0b0;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:bold;",onclick:function(){ updateDayData({bonusId:cb.id,bonusTitle:cb.title,bonusMsg:getBonusCompletion(cb.id)}); }},"Done \u2713"));
           if(state.refreshesLeft>0) br.appendChild(el("button",{style:"padding:10px 14px;background:#f5f0ea;border:2px solid #d0c8bc;border-radius:10px;font-size:12px;color:#7a6a5a;",onclick:function(){ if(state.refreshesLeft<=0)return; var b=pickBonus(tag,state.seenBonusIds); state.currentBonus=b; state.seenBonusIds.push(b.id); state.refreshesLeft--; render(); }},"\u21ba ("+state.refreshesLeft+")"));
           br.appendChild(el("button",{style:"padding:10px 12px;background:transparent;border:2px solid #e0d8d0;border-radius:10px;font-size:12px;color:#aaa098;",onclick:function(){ state.bonusRevealed=false; render(); }},"Skip"));
           rev.appendChild(br);
@@ -1044,42 +1059,104 @@ function renderSession(body){
 
 
 function renderHistory(body){
-  // Progression panel
-  var ph=INFO.phase;
-  var prog=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:16px 18px;margin-bottom:16px;"});
-  prog.appendChild(el("div",{style:"font-size:14px;font-weight:bold;margin-bottom:8px;"},"Phase "+ph.order+": "+ph.label));
-  if(ph.unlockCriteria && ph.order<4){
-    prog.appendChild(el("div",{style:"font-size:12px;color:#9ab090;margin-bottom:10px;"},"Ready for the next phase? Tick what's true. No rush \u2014 this gates progress, on purpose."));
-    var allTicked=true;
-    ph.unlockCriteria.forEach(function(crit,i){
-      var k="unlock-"+ph.id+"-"+i; var on=!!store[k]; if(!on) allTicked=false;
-      var rowc=el("div",{style:"display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid #3a4a38;cursor:pointer;",onclick:function(){ store[k]=!store[k]; saveStore(store); render(); }});
-      var chkBox=el("div",{style:on
-        ?"width:20px;height:20px;border-radius:50%;background:#5a9e8a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:bold;"
-        :"width:20px;height:20px;border-radius:50%;border:2px solid #4a5a3e;flex-shrink:0;background:transparent;"},on?"\u2713":"");
-      rowc.appendChild(chkBox);
-      rowc.appendChild(el("span",{style:"font-size:12px;color:#d8e0d0;line-height:1.4;"+(on?"opacity:0.5;text-decoration:line-through;":"")},crit));
-      prog.appendChild(rowc);
-    });
-    if(allTicked){
-      prog.appendChild(el("button",{style:"width:100%;margin-top:12px;padding:11px;background:"+ph.color+";color:#1a2318;border:none;border-radius:10px;font-size:13px;font-weight:bold;",onclick:function(){ var idx=(typeof store.phaseIndex==="number"?store.phaseIndex:ph.order-1); store.phaseIndex=Math.min(idx+1,DATA.phases.length-1); saveStore(store); state.view="session"; render(); }},"Advance to "+(DATA.phases[ph.order]?DATA.phases[ph.order].label:"next")+" \u2192"));
+  // Intention picker — only shown when explicitly opened or no intention set yet
+  var wd=weekData();
+  if(!wd.intention || state.intentionPickerOpen){
+    var intentBlock=el("div",{style:"margin-bottom:20px;"});
+    intentBlock.appendChild(el("div",{style:"font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#e8a0b0;font-weight:bold;margin-bottom:8px;"},"This week's intention"));
+    if(!state.writingOwn){
+      var choices=wd.intentionChoices;
+      if(!choices||!choices.length){ choices=pickWeekIntentions(); update("week-"+INFO.weekMondayKey,{intentionChoices:choices}); }
+      var iList=el("div",{style:"display:flex;flex-direction:column;gap:7px;margin-bottom:10px;"});
+      choices.forEach(function(it){
+        var sel=wd.intention===it;
+        iList.appendChild(el("div",{style:"padding:11px 14px;background:"+(sel?"#2d3a2e":"#fff")+";border:2px solid "+(sel?"#2d3a2e":"#d0c8bc")+";border-radius:10px;font-size:13px;color:"+(sel?"#e8dfd0":"#3a3028")+";line-height:1.4;cursor:pointer;",onclick:function(){ state.intentionPickerOpen=false; state.writingOwn=false; updateWeekData({intention:it}); }},it));
+      });
+      intentBlock.appendChild(iList);
+      var iOptRow=el("div",{style:"display:flex;gap:8px;"});
+      iOptRow.appendChild(el("button",{style:"flex:1;padding:9px 14px;background:transparent;border:2px dashed #c0b8b0;border-radius:10px;font-size:12px;color:#7a6a5a;",onclick:function(){ state.writingOwn=true; render(); }},"Write my own…"));
+      iOptRow.appendChild(el("button",{style:"padding:9px 13px;background:transparent;border:2px solid #d0c8bc;border-radius:10px;font-size:13px;color:#9a8a7a;",onclick:function(){ update("week-"+INFO.weekMondayKey,{intentionChoices:null}); render(); }},"↺"));
+      if(wd.intention) iOptRow.appendChild(el("button",{style:"padding:9px 13px;background:transparent;border:none;font-size:12px;color:#9a8a7a;",onclick:function(){ state.intentionPickerOpen=false; render(); }},"Cancel"));
+      intentBlock.appendChild(iOptRow);
     } else {
-      prog.appendChild(el("div",{style:"font-size:11px;color:#6a7a60;margin-top:10px;text-align:center;"},"Tick all to unlock the next phase."));
+      var ta=el("textarea",{placeholder:"Write something that means something to you this week…",style:"width:100%;min-height:72px;padding:11px 13px;background:#fff;border:2px solid #d0c8bc;border-radius:10px;font-size:13px;color:#3a3028;resize:none;box-sizing:border-box;outline:none;margin-bottom:8px;",oninput:function(e){ state.customIntention=e.target.value; }});
+      ta.value=state.customIntention||""; intentBlock.appendChild(ta);
+      var iRow=el("div",{style:"display:flex;gap:8px;"});
+      iRow.appendChild(el("button",{style:"flex:1;padding:11px;background:#2d3a2e;color:#e8dfd0;border:none;border-radius:10px;font-size:13px;",onclick:function(){ if((state.customIntention||"").trim()){ state.intentionPickerOpen=false; state.writingOwn=false; updateWeekData({intention:state.customIntention.trim()}); } }},"Set this"));
+      iRow.appendChild(el("button",{style:"padding:11px 14px;background:transparent;border:2px solid #d0c8bc;border-radius:10px;font-size:12px;color:#7a6a5a;",onclick:function(){ state.writingOwn=false; render(); }},"Back"));
+      intentBlock.appendChild(iRow);
     }
-  } else {
-    prog.appendChild(el("div",{style:"font-size:12px;color:#9ab090;"},"Final phase. Reassess with your PT before deciding what comes next."));
+    body.appendChild(intentBlock);
   }
-  body.appendChild(prog);
+
+  // Progression panel \u2014 always visible, gated content unlocks at 2+ weeks in phase
+  var ph=INFO.phase;
+  var phaseStartWeek = store.phaseStartWeek || 1;
+  var weeksInPhase = INFO.planWeek - phaseStartWeek;
+  var readyToShow = weeksInPhase >= 2;
+  if(ph.order<4){
+    if(!readyToShow){
+      var lockedWrap=el("div",{id:"progression-anchor",style:"border-radius:12px;overflow:hidden;margin-bottom:16px;border:2px solid #d0c8bc;"});
+      var lockedHdr=el("div",{style:"background:#e8e3db;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;"});
+      lockedHdr.appendChild(el("div",null,[
+        el("div",{style:"font-size:13px;font-weight:bold;color:#8a7a6a;"},"\ud83d\udcc8 Progression \u00b7 "+ph.label),
+        el("div",{style:"font-size:11px;color:#b0a090;margin-top:2px;"},"Unlocks after 2 weeks in this phase \u2014 Week "+(phaseStartWeek+2)+" of your plan.")
+      ]));
+      lockedHdr.appendChild(el("div",{style:"font-size:18px;"},"\ud83d\udd12"));
+      lockedWrap.appendChild(lockedHdr);
+      body.appendChild(lockedWrap);
+    }
+  }
+  if(readyToShow && ph.order<4){
+    var progOpen=state.progressionOpen;
+    var progWrap=el("div",{id:"progression-anchor",style:"border-radius:12px;overflow:hidden;margin-bottom:16px;border:2px solid #2d3a2e;"});
+    // Collapsed header \u2014 always visible
+    var progHeader=el("div",{style:"background:#2d3a2e;color:#e8dfd0;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;",onclick:function(){ state.progressionOpen=!state.progressionOpen; render(); }});
+    progHeader.appendChild(el("div",null,[
+      el("div",{style:"font-size:13px;font-weight:bold;color:#e8dfd0;"},"Phase "+ph.order+": "+ph.label+" \u00b7 "+ph.focus),
+      el("div",{style:"font-size:11px;color:#9ab090;margin-top:2px;"},"Ready to move on?")
+    ]));
+    progHeader.appendChild(el("div",{style:"font-size:16px;color:#9ab090;transform:"+(progOpen?"rotate(180deg)":"rotate(0deg)")+";transition:transform 0.2s;"},"\u203a"));
+    progWrap.appendChild(progHeader);
+    if(progOpen){
+      var progBody=el("div",{style:"background:#2d3a2e;padding:0 16px 16px;"});
+      progBody.appendChild(el("div",{style:"font-size:12px;color:#9ab090;padding:10px 0;border-top:1px solid #3a4a38;margin-bottom:4px;"},"Tick what's true. No rush \u2014 this gates progress, on purpose."));
+      var allTicked=true;
+      ph.unlockCriteria.forEach(function(crit,i){
+        var k="unlock-"+ph.id+"-"+i; var on=!!store[k]; if(!on) allTicked=false;
+        var rowc=el("div",{style:"display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid #3a4a38;cursor:pointer;",onclick:function(){ store[k]=!store[k]; saveStore(store); render(); }});
+        var chkBox=el("div",{style:on?"width:20px;height:20px;border-radius:50%;background:#5a9e8a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:bold;":"width:20px;height:20px;border-radius:50%;border:2px solid #4a5a3e;flex-shrink:0;background:transparent;"},on?"\u2713":"");
+        rowc.appendChild(chkBox);
+        rowc.appendChild(el("span",{style:"font-size:12px;color:#d8e0d0;line-height:1.4;"+(on?"opacity:0.5;text-decoration:line-through;":"")},crit));
+        progBody.appendChild(rowc);
+      });
+      if(allTicked){
+        progBody.appendChild(el("button",{style:"width:100%;margin-top:12px;padding:11px;background:#e8a0b0;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:bold;",onclick:function(){ var idx=(typeof store.phaseIndex==="number"?store.phaseIndex:ph.order-1); store.phaseIndex=Math.min(idx+1,DATA.phases.length-1); store.phaseStartWeek=INFO.planWeek; saveStore(store); state.progressionOpen=false; state.view="session"; render(); }},"Advance to "+(DATA.phases[ph.order]?DATA.phases[ph.order].label:"next")+" \u2192"));
+      } else {
+        progBody.appendChild(el("div",{style:"font-size:11px;color:#6a7a60;margin-top:10px;text-align:center;"},"Tick all to unlock the next phase."));
+      }
+      progWrap.appendChild(progBody);
+    }
+    body.appendChild(progWrap);
+  } else if(ph.order===4){
+    body.appendChild(el("div",{style:"background:#2d3a2e;color:#9ab090;border-radius:12px;padding:13px 16px;margin-bottom:16px;font-size:12px;"},"Final phase. Reassess with your PT before deciding what comes next."));
+  }
 
   // Weekly stats
   var hist=buildHistory();
   var workDays=hist.filter(function(e){ return !e.isRest; });
   var sessionsTotal=workDays.length;
   var sessionsDone=workDays.filter(function(e){ return e.data.completed; }).length;
-  var ankleTotal=hist.length; // all 7 days
-  var ankleDoneCount=hist.filter(function(e){ return !!store["ankle-"+e.key]; }).length;
-  var bonusCount=hist.filter(function(e){ return !!e.data.bonusId; }).length;
-  var streak=streakCount();
+  var openTotal=hist.length; // all 7 days
+  var openDoneCount=hist.filter(function(e){ return !!store["open-"+e.key]; }).length;
+  // Streak: consecutive days going back from today where open ritual was done
+  var streakCount=0;
+  var streakCur=new Date(parseYMD(INFO.todayKey));
+  for(var si=0;si<90;si++){
+    var sk=ymd(streakCur);
+    if(store["open-"+sk]){ streakCount++; streakCur.setDate(streakCur.getDate()-1); }
+    else break;
+  }
 
   var stats=el("div",{style:"display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;"});
   function statCard(emoji, value, label, sub, color){
@@ -1093,9 +1170,11 @@ function renderHistory(body){
     return c;
   }
   stats.appendChild(statCard("✅", sessionsDone+"/"+sessionsTotal, "Sessions this week", sessionsDone===sessionsTotal&&sessionsTotal>0?"Full week. Nice.":"workout days logged", ph.color));
-  stats.appendChild(statCard("🦶", ankleDoneCount+"/"+ankleTotal, "Ankle mob days", ankleDoneCount===ankleTotal?"Every single day.":"of 7 days", "#5a9e8a"));
-  stats.appendChild(statCard("🔥", streak, "Day streak", streak===0?"Start today.":streak===1?"One down. Keep it.":"consecutive days", "#c49a8a"));
-  stats.appendChild(statCard("⭐", bonusCount, "Bonus moves", bonusCount===0?"None yet — they're optional.":bonusCount===1?"One bonus. Didn't have to.":"this week", "#d4a820"));
+  stats.appendChild(statCard("🌅", openDoneCount+"/"+openTotal, "Open ritual days", openDoneCount===openTotal?"Every single day.":"of 7 days", "#5a9e8a"));
+  var streakEmoji=streakCount===0?"✨":streakCount>=14?"🔥🔥":streakCount>=7?"🔥":"⚡";
+  var streakSub=streakCount===0?"Start today — first one's the hardest.":streakCount===1?"Day one. Keep it going.":streakCount>=14?"Two weeks straight. It's a habit now.":streakCount>=7?"A full week. Keep going.":"Consecutive open ritual days.";
+  stats.appendChild(statCard(streakEmoji, String(streakCount), "Day streak", streakSub, "#c87941"));
+  stats.appendChild(statCard("📅", "Week "+String(INFO.planWeek||1), "of 12-week plan", "Phase "+(ph.order)+" · "+ph.label, ph.color));
   body.appendChild(stats);
 
   body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:4px;"},"Last 7 Days"));
@@ -1104,7 +1183,7 @@ function renderHistory(body){
   hist.forEach(function(e,idx){
     var done=e.data.completed||e.isRest;
     var att=e.data.energyBefore||e.data.completed;
-    var ankle=!!store["ankle-"+e.key];
+    var ankle=!!store["open-"+e.key];
     var hb=!!e.data.bonusId;
     var isLast=idx===hist.length-1;
     var lbl=new Date(e.key+"T12:00:00").toLocaleDateString("en-GB",{weekday:"short",day:"numeric",month:"short"});
@@ -1128,7 +1207,7 @@ function renderHistory(body){
     var dateRow=el("div",{style:"display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:2px;"});
     dateRow.appendChild(el("span",{style:"font-size:13px;font-weight:bold;color:"+(e.isToday?"#2d3a2e":"#4a4038")+";"},lbl));
     if(e.isToday) dateRow.appendChild(el("span",{style:"font-size:10px;background:"+TAG_COLORS[e.tpl.tag]+";color:#fff;border-radius:10px;padding:1px 6px;"},"TODAY"));
-    if(e.data.mode==="hard") dateRow.appendChild(el("span",{style:"font-size:10px;background:#c49a8a;color:#fff;border-radius:10px;padding:1px 6px;"},"FUNCTIONAL"));
+    if(e.data.mode==="hard") dateRow.appendChild(el("span",{style:"font-size:10px;background:#e8a0b0;color:#fff;border-radius:10px;padding:1px 6px;"},"FUNCTIONAL"));
     if(hb) dateRow.appendChild(el("span",{style:"font-size:10px;background:#d4a820;color:#fff;border-radius:10px;padding:1px 6px;"},"\u2b50 bonus"));
     content.appendChild(dateRow);
 
@@ -1180,7 +1259,7 @@ function renderHistory(body){
     var vh=el("div",{style:"padding:14px 16px;display:flex;align-items:center;gap:12px;"});
     vh.appendChild(el("span",{style:"font-size:22px;"},"\ud83c\udf34"));
     var vt=el("div",{style:"flex:1;"}); vt.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;"},"Vacation mode active")); vt.appendChild(el("div",{style:"font-size:12px;color:#7a6a5a;"},dLeft===0?"Ends today \u2014 plan resumes tomorrow.":dLeft===1?"Last day tomorrow.":dLeft+" days remaining.")); vh.appendChild(vt);
-    vh.appendChild(el("button",{style:"padding:7px 12px;background:#f5ece6;border:1px solid #d0b8a8;border-radius:8px;font-size:12px;color:#8a4a30;",onclick:function(){ if(confirm("End vacation mode now? The plan will shift forward by the days you were away.")){ store.shiftOverride=(store.shiftOverride||0)+Math.floor((todayMidnight()-parseYMD(vac.startDate))/86400000); store.vacation=null; saveStore(store); render(); } }},"End early"));
+    vh.appendChild(el("button",{style:"padding:7px 12px;background:#faeef1;border:1px solid #e0bfc8;border-radius:8px;font-size:12px;color:#7a3a52;",onclick:function(){ if(confirm("End vacation mode now? The plan will shift forward by the days you were away.")){ store.shiftOverride=(store.shiftOverride||0)+Math.floor((todayMidnight()-parseYMD(vac.startDate))/86400000); store.vacation=null; saveStore(store); render(); } }},"End early"));
     vacCard.appendChild(vh);
   } else if(state.vacationPickerOpen){
     var vp=el("div",{style:"padding:14px 16px;"});
@@ -1192,7 +1271,7 @@ function renderHistory(body){
     stepper.appendChild(el("button",{style:"width:40px;height:40px;border-radius:50%;border:2px solid #d0c8bc;background:#f5f0ea;font-size:20px;color:#3a3028;",onclick:function(){ if(state.vacationDays<21){ state.vacationDays++; render(); } }},"+"));
     vp.appendChild(stepper);
     var vbrow=el("div",{style:"display:flex;gap:8px;"});
-    vbrow.appendChild(el("button",{style:"flex:1;padding:12px;background:#c4956a;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;",onclick:function(){ store.vacation={startDate:INFO.todayKey,days:state.vacationDays}; saveStore(store); state.vacationPickerOpen=false; render(); }},"Start vacation \ud83c\udf34"));
+    vbrow.appendChild(el("button",{style:"flex:1;padding:12px;background:#e8a0b0;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:bold;",onclick:function(){ store.vacation={startDate:INFO.todayKey,days:state.vacationDays}; saveStore(store); state.vacationPickerOpen=false; render(); }},"Start vacation \ud83c\udf34"));
     vbrow.appendChild(el("button",{style:"padding:12px 16px;background:transparent;border:2px solid #d0c8bc;border-radius:10px;font-size:13px;color:#7a6a5a;",onclick:function(){ state.vacationPickerOpen=false; render(); }},"Cancel"));
     vp.appendChild(vbrow);
     vacCard.appendChild(vp);
@@ -1218,32 +1297,76 @@ function renderReference(body){
   // Build today's exercise ID set
   var todayTpl=DATA.templates[templateIdForDate(INFO.todayKey)];
   var todayIds={};
-  var ANKLE_EX_IDS=["ankle-circles","wall-mobilisation","calf-stretch"];
-  ANKLE_EX_IDS.forEach(function(id){ todayIds[id]=true; });
+  // Open + close ritual exercises always in today's reference
+  var phOrderRef=String(INFO.phase.order);
+  var openRitualIds=(DATA.schedule.openRitual&&DATA.schedule.openRitual[phOrderRef])||["ankle-circles","leg-swings","cat-cow","wall-mobilisation"];
+  var closeRitualIds=(DATA.schedule.closeRitual)||["calf-stretch","supine-twist","savasana"];
+  openRitualIds.forEach(function(id){ todayIds[id]=true; });
+  closeRitualIds.forEach(function(id){ todayIds[id]=true; });
   if(todayTpl){
     (todayTpl.warmup||[]).forEach(function(id){ todayIds[id]=true; });
     (todayTpl.exercises||[]).forEach(function(id){ todayIds[id]=true; });
     (todayTpl.cooldown||[]).forEach(function(id){ todayIds[id]=true; });
   }
 
-  // Header
-  body.appendChild(el("div",{style:"font-size:16px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"Exercise Reference"));
-  body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"How-to and cues for every move in the plan."));
+  // Dedicated views for TENS / Recovery / Safety
+  if(state.refFilter==="tens"||state.refFilter==="recovery"||state.refFilter==="safety"||state.refFilter==="phases"){
+    var backRow=el("div",{style:"margin-bottom:16px;"});
+    backRow.appendChild(el("button",{style:"padding:0;background:transparent;border:none;font-size:12px;color:#9a8a7a;",onclick:function(){ state.refFilter="today"; render(); }},"← Back to today"));
+    body.appendChild(backRow);
+  } else {
+    // Top bar: day label + show all toggle + secondary links
+    var topBar=el("div",{style:"display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;"});
+    var dayLabel=el("div",null);
+    dayLabel.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;"},state.refFilter==="all"?"All Exercises":(todayTpl?todayTpl.label:"Rest day")));
+    dayLabel.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},state.refFilter==="all"?"Every move in the plan":"Today's exercises"));
+    topBar.appendChild(dayLabel);
+    topBar.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid #d0c8bc;background:#fff;color:#5a4a3a;font-size:12px;white-space:nowrap;",onclick:function(){ state.refFilter=state.refFilter==="all"?"today":"all"; render(); }},state.refFilter==="all"?"← Today only":"Show all →"));
+    body.appendChild(topBar);
 
-  // Filter chips
-  var chips=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"});
-  REF_FILTERS.forEach(function(f){
-    var active=state.refFilter===f;
-    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f==="tens"?"⚡ TENS":f==="recovery"?"🛠 Recovery":f==="safety"?"⚠️ Safety":f.charAt(0).toUpperCase()+f.slice(1);
-    chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},label));
-  });
-  body.appendChild(chips);
+    // Secondary links: TENS · Recovery · Safety
+    var secondRow=el("div",{style:"display:flex;gap:16px;margin-bottom:18px;"});
+    [["tens","⚡ TENS"],["recovery","🛠 Recovery"],["safety","⚠️ Safety"],["phases","📋 Phases"]].forEach(function(pair){
+      secondRow.appendChild(el("button",{style:"padding:0;background:transparent;border:none;font-size:12px;color:#9a8a7a;text-decoration:underline;",onclick:function(){ state.refFilter=pair[0]; render(); }},pair[1]));
+    });
+    body.appendChild(secondRow);
 
-  // Phase note
-  var pnote=el("div",{style:"padding:9px 13px;background:#2d3a2e;border-radius:8px;font-size:12px;color:#9ab090;margin-bottom:16px;line-height:1.5;"});
-  pnote.appendChild(el("span",{style:"font-weight:bold;color:"+ph.color+";"},"Phase "+ph.order+": "+ph.label+" — "));
-  pnote.appendChild(document.createTextNode("Exercises marked with a phase badge are locked until that phase."));
-  body.appendChild(pnote);
+    // Session note for today's template (shown in today-filter only)
+    if(state.refFilter==="today" && todayTpl && todayTpl.note){
+      var noteBox=el("div",{style:"background:#f0ebe3;border-radius:8px;padding:10px 13px;margin-bottom:16px;border-left:3px solid #c8b89a;"});
+      noteBox.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a7a;font-weight:bold;margin-bottom:4px;"},"Session note"));
+      noteBox.appendChild(el("div",{style:"font-size:12px;color:#4a3f35;line-height:1.5;"},todayTpl.note));
+      body.appendChild(noteBox);
+    }
+  }
+
+  // Phases guide
+  if(state.refFilter==="phases"){
+    body.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"📋 The 4 Phases"));
+    body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:16px;"},"Each phase builds on the last. Progress when it feels solid, not just when the weeks are up."));
+    DATA.phases.forEach(function(p){
+      var isCurrent=INFO.phase.id===p.id;
+      var card=el("div",{style:"border-radius:12px;border:2px solid "+(isCurrent?"#2d3a2e":"#e0d8cc")+";background:"+(isCurrent?"#2d3a2e":"#fff")+";padding:14px 16px;margin-bottom:10px;"});
+      var top=el("div",{style:"display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;"});
+      top.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:"+(isCurrent?"#9ab090":"#2d3a2e")},"Phase "+p.order+": "+p.label));
+      top.appendChild(el("div",{style:"font-size:11px;color:"+(isCurrent?"#6a8a60":"#9a8a7a")},p.duration));
+      card.appendChild(top);
+      card.appendChild(el("div",{style:"font-size:12px;color:"+(isCurrent?"#c0d4b8":"#5a4a3a")+";margin-bottom:8px;line-height:1.5;"},p.focus));
+      if(p.unlockCriteria&&p.unlockCriteria.length){
+        var ul=el("div",{style:"display:flex;flex-direction:column;gap:4px;"});
+        p.unlockCriteria.forEach(function(c){
+          var r=el("div",{style:"font-size:11px;color:"+(isCurrent?"#7a9a78":"#7a6a5a")+";padding-left:12px;position:relative;"});
+          r.appendChild(el("span",{style:"position:absolute;left:0;color:"+(isCurrent?"#9ab090":"#e8a0b0")},"·"));
+          r.appendChild(document.createTextNode(c));
+          ul.appendChild(r);
+        });
+        card.appendChild(ul);
+      }
+      if(isCurrent) card.appendChild(el("div",{style:"margin-top:8px;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#e8a0b0;font-weight:bold;"},"← You are here"));
+      body.appendChild(card);
+    });
+    return;
+  }
 
   // TENS guide (dedicated view when filter = tens)
   if(state.refFilter==="tens"){
@@ -1278,7 +1401,7 @@ function renderReference(body){
       card.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},p.area));
       card.appendChild(el("div",{style:"font-size:11px;color:#5a4a3a;"},p.place));
       var meta=el("div",{style:"display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;"});
-      meta.appendChild(el("span",{style:"font-size:10px;background:#eef4f0;color:#2d6a4a;padding:2px 8px;border-radius:10px;"},p.size));
+      meta.appendChild(el("span",{style:"font-size:10px;background:#f5f0ea;color:#2d6a4a;padding:2px 8px;border-radius:10px;"},p.size));
       meta.appendChild(el("span",{style:"font-size:10px;color:#8a7a6a;font-style:italic;"},p.note));
       card.appendChild(meta);
       body.appendChild(card);
@@ -1351,7 +1474,7 @@ function renderReference(body){
     body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"Stop signals for your specific conditions."));
 
     // Always-on rules
-    var alwaysWrap=el("div",{style:"background:#fff8e6;border:2px solid #e8c84b;border-radius:10px;padding:12px 14px;margin-bottom:16px;"});
+    var alwaysWrap=el("div",{style:"background:#f5f0ea;border:2px solid #d0c8bc;border-radius:10px;padding:12px 14px;margin-bottom:16px;"});
     alwaysWrap.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#6a4a10;margin-bottom:8px;"},"Always — every session"));
     ["Consult PT before advancing phases","Pain-free range only for all scapula exercises","Stop immediately if a knee slips","Stop immediately if you feel sharp or radiating pain anywhere"].forEach(function(r){
       var row=el("div",{style:"font-size:12px;color:#6a4a10;padding:3px 0 3px 12px;position:relative;"});
@@ -1364,12 +1487,12 @@ function renderReference(body){
     // Stop signals by condition
     body.appendChild(sectionLabel("Stop immediately if —"));
     var signals=[
-      { condition:"Knees", signal:"Knee slips or feels unstable", color:"#c4a0b0" },
-      { condition:"Left ankle", signal:"Sharp ankle pain or feeling of giving way", color:"#c4a0b0" },
-      { condition:"Right glute", signal:"Low back takes over — reduce load, don't push through", color:"#c49a30" },
-      { condition:"Low back", signal:"Pain radiating down the leg", color:"#c4a0b0" },
-      { condition:"Right scapula", signal:"Sharp or radiating pain into arm or neck", color:"#c4a0b0" },
-      { condition:"Hypermobility", signal:"Any joint gives way or feels unstable", color:"#c4a0b0" }
+      { condition:"Knees", signal:"Knee slips or feels unstable", color:"#e8a0b0" },
+      { condition:"Left ankle", signal:"Sharp ankle pain or feeling of giving way", color:"#e8a0b0" },
+      { condition:"Right glute", signal:"Low back takes over — reduce load, don't push through", color:"#e8a0b0" },
+      { condition:"Low back", signal:"Pain radiating down the leg", color:"#e8a0b0" },
+      { condition:"Right scapula", signal:"Sharp or radiating pain into arm or neck", color:"#e8a0b0" },
+      { condition:"Hypermobility", signal:"Any joint gives way or feels unstable", color:"#e8a0b0" }
     ];
     signals.forEach(function(s){
       var card=el("div",{style:"background:#fff;border-radius:9px;border:1px solid #e0d8cc;border-left:4px solid "+s.color+";padding:10px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;"});
@@ -1378,7 +1501,7 @@ function renderReference(body){
       body.appendChild(card);
     });
 
-    body.appendChild(el("div",{style:"margin-top:14px;padding:10px 13px;background:#f5ece6;border-radius:8px;font-size:11px;color:#7a4a30;line-height:1.5;border-left:3px solid #c49a8a;"},"If radiating pain (leg or arm), 3+ consecutive bad days, or any sudden worsening → contact PT or GP before resuming exercise."));
+    body.appendChild(el("div",{style:"margin-top:14px;padding:10px 13px;background:#faeef1;border-radius:8px;font-size:11px;color:#7a3a52;line-height:1.5;border-left:3px solid #e8a0b0;"},"If radiating pain (leg or arm), 3+ consecutive bad days, or any sudden worsening → contact PT or GP before resuming exercise."));
     return;
   }
 
@@ -1424,14 +1547,6 @@ function renderReference(body){
     body.appendChild(card);
   });
 
-  // Bonus moves glossary
-  body.appendChild(el("div",{style:"font-size:14px;font-weight:bold;color:#2d3a2e;margin:18px 0 10px;"},"Bonus Move Pool"));
-  BONUS_POOL.forEach(function(b){
-    var bc=el("div",{style:"background:#fff;border-radius:10px;border:1px solid #e0d8cc;padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:flex-start;"});
-    bc.appendChild(el("span",{style:"font-size:24px;flex-shrink:0;"},b.emoji));
-    bc.appendChild(el("div",null,[el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},b.title),el("div",{style:"font-size:12px;color:#5a4a3a;line-height:1.4;"},b.desc)]));
-    body.appendChild(bc);
-  });
 }
 
 function exportData(){
@@ -1448,11 +1563,10 @@ function boot(){
       DATA.exercises=res[0].exercises; DATA.phases=res[1].phases; DATA.templates=res[2].templates; DATA.schedule=res[3]; DATA.ifitSeries=res[4].series;
       recomputeInfo();
       state.selectedDay=3; // today is always index 3 in the rolling window
-      if(!weekData().intention) state.showIntentionPicker=true;
       render();
     })
     .catch(function(err){
-      root.innerHTML='<div style="padding:40px 24px;font-family:Georgia,serif;color:#7a4a30;">Couldn\u2019t load the plan data ('+err.message+'.json). If you just opened offline for the first time, connect once so it can cache, then reopen.</div>';
+      root.innerHTML='<div style="padding:40px 24px;font-family:Georgia,serif;color:#7a3a52;">Couldn\u2019t load the plan data ('+err.message+'.json). If you just opened offline for the first time, connect once so it can cache, then reopen.</div>';
     });
 }
 if(typeof module!=="undefined" && module.exports){ module.exports={ templateIdForDate:function(d){return templateIdForDate(d);}, _setData:function(x){DATA=x;} }; }

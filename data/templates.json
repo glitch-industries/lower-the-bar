@@ -9,9 +9,9 @@
       "tag": "glute",
       "icon": "🍑",
       "ifit": null,
-      "warmup": ["cat-cow", "wall-mobilisation"],
-      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "hip-abduction"],
-      "cooldown": ["hip-flexor-kneeling", "pigeon-prep", "supine-twist"],
+      "warmup": [],
+      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "step-up", "side-step-up", "hip-abduction"],
+      "cooldown": ["hip-flexor-kneeling", "pigeon-prep"],
       "note": "Squeeze the RIGHT glute deliberately on every rep."
     },
     "pt-glute-core-plus": {
@@ -19,19 +19,19 @@
       "tag": "glute",
       "icon": "🍑",
       "ifit": null,
-      "warmup": ["cat-cow", "wall-mobilisation"],
-      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "hip-abduction"],
-      "cooldown": ["hip-flexor-kneeling", "pigeon-prep", "supine-twist"],
-      "note": "Friday focus: right glute mind-muscle connection. On every rep — bridge, clamshell, bird-dog — pause at the top and deliberately squeeze the right glute. Slow it down. Feel it fire before you move on. Not a habit yet? Make it one today."
+      "warmup": [],
+      "exercises": ["glute-bridge", "clamshell", "bird-dog", "bridge-march", "single-leg-bridge", "clamshell-band", "bird-dog-hold", "step-up", "side-step-up", "hip-abduction"],
+      "cooldown": ["hip-flexor-kneeling", "pigeon-prep"],
+      "note": "On every rep — bridge, clamshell, bird-dog — pause at the top and deliberately squeeze the right glute. Slow it down. Feel it fire before you move on."
     },
     "nordic-track": {
       "label": "NordicTrack X24",
       "tag": "cardio",
       "icon": "🚴",
       "ifit": "Beginner / Scenic / Low-Impact / Endurance / Hill / Power (by phase)",
-      "warmup": ["cat-cow", "wall-mobilisation"],
+      "warmup": [],
       "exercises": [],
-      "cooldown": ["hip-flexor-kneeling", "calf-stretch"],
+      "cooldown": ["hip-flexor-kneeling"],
       "note": "Check seat height every session. Sneakers for now — clip-ins are a Phase 3 goal, cleared with PT first. Squeeze right glute on every climb. Use SmartAdjust override if anything aggravates a joint.",
       "isBike": true
     },
@@ -40,8 +40,8 @@
       "tag": "strength",
       "icon": "💪",
       "ifit": null,
-      "warmup": ["wall-angel"],
-      "exercises": ["box-squat", "wall-sit", "calf-raise", "scap-retraction", "wall-angel", "band-row", "face-pull", "prone-ytw", "single-arm-row"],
+      "warmup": [],
+      "exercises": ["box-squat", "wall-sit", "calf-raise", "single-leg-stance", "eccentric-heel-drop", "scap-retraction", "wall-angel", "band-row", "face-pull", "prone-ytw", "single-arm-row"],
       "cooldown": ["childs-pose", "pec-stretch", "lat-stretch"],
       "note": "Scapula work: pain-free range ONLY. During cycle flares, gentle retraction only — skip band/resistance work."
     },
@@ -50,7 +50,7 @@
       "tag": "yoga",
       "icon": "🧘",
       "ifit": "Yoga / Stretching & Mobility (Beginner, Gentle, Restorative)",
-      "warmup": ["cat-cow", "childs-pose"],
+      "warmup": ["childs-pose"],
       "exercises": ["supine-twist", "pigeon-prep", "seated-forward-fold", "low-lunge", "crescent-lunge", "tree-pose", "savasana"],
       "cooldown": [],
       "note": "Hold each pose 5–10 breaths. Props every session — bolsters, blocks, blankets. Move with your breath, not your ambition. Pivot the X24 screen off-bike to face your mat."
@@ -60,7 +60,7 @@
       "tag": "yoga",
       "icon": "🌊",
       "ifit": "Yoga / Flow (Beginner to Intermediate)",
-      "warmup": ["cat-cow", "mountain-pose"],
+      "warmup": ["mountain-pose"],
       "exercises": ["forward-fold", "half-lift", "low-lunge", "downward-dog", "warrior-1", "warrior-2", "pigeon-prep", "seated-forward-fold", "savasana"],
       "cooldown": [],
       "note": "Modified Sun Salutation A — no chaturanga, ever. Flow: mountain → fold → half lift → low lunge → downward dog → repeat other side. Do 3 rounds, then settle into warrior work and floor poses. Move with your breath: inhale to lengthen, exhale to fold."
@@ -73,7 +73,7 @@
       "warmup": [],
       "exercises": ["cat-cow", "supine-twist", "savasana"],
       "cooldown": [],
-      "note": "Ankle mob plus a stretch. Ten minutes. That's the whole job today."
+      "note": "Open ritual plus a stretch. Ten minutes. That's the whole job today."
     },
     "vacation-bodyweight": {
       "label": "Bodyweight",
@@ -96,14 +96,14 @@
       "note": "Floor space, no equipment. Follow your breath, not the clock."
     },
     "rest": {
-      "label": "Rest + Ankle Mob",
+      "label": "Rest Day",
       "tag": "rest",
       "icon": "🌿",
       "ifit": null,
       "warmup": [],
       "exercises": [],
       "cooldown": [],
-      "note": "True rest day. Ankle mob is the one non-negotiable — even today. Optional gentle 15-min walk."
+      "note": "True rest day. Open ritual is the one non-negotiable — even today. Optional gentle 15-min walk."
     }
   }
 }
