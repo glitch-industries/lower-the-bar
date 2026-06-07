@@ -157,7 +157,7 @@ function renderIfitWidget(body){
     if(ist.seriesId){
       var s=null; for(var z=0;z<DATA.ifitSeries.length;z++) if(DATA.ifitSeries[z].id===ist.seriesId){s=DATA.ifitSeries[z];break;}
       if(s){
-        var p=el("div",{style:"background:#eaf0f4;border:1px solid #cdddea;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#33536a;"});
+        var p=el("div",{style:"background:#eaf4f0;border:1px solid #c8d8d0;border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:12px;color:#2d4a3e;"});
         p.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},"📺 "+s.name));
         p.appendChild(el("div",null,"Episode "+(ist.episodesDone||0)+" done so far"));
         body.appendChild(p);
@@ -201,12 +201,12 @@ function renderIfitWidget(body){
   if(!activeSeries) return;
 
   var episodesDone=ist.episodesDone||0;
-  var sw=el("div",{style:"background:#eaf0f4;border:2px solid #7aadcc;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
+  var sw=el("div",{style:"background:#eaf4f0;border:2px solid #7ab0a0;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
   var sh=el("div",{style:"display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px;"});
   var si=el("div",{style:"flex:1;"});
-  si.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#5a8aaa;margin-bottom:2px;"},"Current iFIT Series"));
-  si.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#1a3a5a;margin-bottom:1px;"},activeSeries.name));
-  si.appendChild(el("div",{style:"font-size:11px;color:#5a7a8a;"},activeSeries.trainer+" · Episode "+episodesDone+" done"));
+  si.appendChild(el("div",{style:"font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#5a8a7a;margin-bottom:2px;"},"Current iFIT Series"));
+  si.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:1px;"},activeSeries.name));
+  si.appendChild(el("div",{style:"font-size:11px;color:#5a7a6a;"},activeSeries.trainer+" · Episode "+episodesDone+" done"));
   sh.appendChild(si);
   sh.appendChild(el("span",{style:"font-size:24px;"},"📺"));
   sw.appendChild(sh);
@@ -215,14 +215,14 @@ function renderIfitWidget(body){
   var dotCount=Math.min(activeSeries.approxEpisodes, 12);
   var dots=el("div",{style:"display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px;"});
   for(var d=0;d<dotCount;d++){
-    dots.appendChild(el("div",{style:"width:10px;height:10px;border-radius:50%;background:"+(d<episodesDone?"#5a9e8a":"#c8dde8")+";"}));
+    dots.appendChild(el("div",{style:"width:10px;height:10px;border-radius:50%;background:"+(d<episodesDone?"#5a9e8a":"#c0d8cc")+";"}));
   }
-  if(activeSeries.approxEpisodes>12) dots.appendChild(el("span",{style:"font-size:10px;color:#8aacba;margin-left:2px;"},"+"+(activeSeries.approxEpisodes-12)+" more"));
+  if(activeSeries.approxEpisodes>12) dots.appendChild(el("span",{style:"font-size:10px;color:#7a9a8a;margin-left:2px;"},"+"+(activeSeries.approxEpisodes-12)+" more"));
   sw.appendChild(dots);
 
   var btnRow=el("div",{style:"display:flex;gap:8px;"});
   // Open in iFIT
-  var openBtn=el("a",{href:activeSeries.url,target:"_blank",style:"flex:1;padding:10px;background:#1a3a5a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;text-align:center;text-decoration:none;"},"Open in iFIT ↗");
+  var openBtn=el("a",{href:activeSeries.url,target:"_blank",style:"flex:1;padding:10px;background:#2d3a2e;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;text-align:center;text-decoration:none;"},"Open in iFIT ↗");
   btnRow.appendChild(openBtn);
   // Mark episode done
   btnRow.appendChild(el("button",{style:"flex:1;padding:10px;background:#5a9e8a;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:bold;",onclick:function(){
@@ -233,13 +233,13 @@ function renderIfitWidget(body){
 
   // Finish series
   var finRow=el("div",{style:"display:flex;gap:8px;margin-top:8px;"});
-  finRow.appendChild(el("button",{style:"flex:1;padding:8px;background:transparent;border:1px solid #a0c0d0;border-radius:8px;font-size:11px;color:#5a8aaa;",onclick:function(){
+  finRow.appendChild(el("button",{style:"flex:1;padding:8px;background:transparent;border:1px solid #a0c0d0;border-radius:8px;font-size:11px;color:#5a8a7a;",onclick:function(){
     var done=(ifitState().completedIds)||[];
     done=done.concat([activeSeries.id]);
     saveIfitState({seriesId:null,episodesDone:0,completedIds:done,choosingNew:true,pendingChoices:null});
     render();
   }},"✨ Finish series — pick next"));
-  finRow.appendChild(el("button",{style:"padding:8px 10px;background:transparent;border:1px solid #c8d8e0;border-radius:8px;font-size:11px;color:#8aacba;",onclick:function(){
+  finRow.appendChild(el("button",{style:"padding:8px 10px;background:transparent;border:1px solid #c0d8cc;border-radius:8px;font-size:11px;color:#7a9a8a;",onclick:function(){
     saveIfitState({choosingNew:true,pendingChoices:null});
     render();
   }},"Switch"));
@@ -247,7 +247,7 @@ function renderIfitWidget(body){
   body.appendChild(sw);
 }
 
-var TAG_COLORS = { glute:"#5a9e8a", cardio:"#4a8ab5", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a", vacation:"#c4956a" };
+var TAG_COLORS = { glute:"#5a9e8a", cardio:"#5a8a9a", strength:"#8a6eb5", yoga:"#b07a5a", rest:"#9aaa8a", vacation:"#c4956a" };
 var DAY_NAMES = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 var DAY_FULL = { Mon:"Monday", Tue:"Tuesday", Wed:"Wednesday", Thu:"Thursday", Fri:"Friday", Sat:"Saturday", Sun:"Sunday" };
 var DAY_ORDER = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
@@ -354,7 +354,8 @@ var state = {
   showUnlock: false,
   refFilter: "all",
   vacationDays: 7,
-  vacationPickerOpen: false
+  vacationPickerOpen: false,
+  editingCheckin: false
 };
 
 var PAIN_FLAGS = [
@@ -469,7 +470,8 @@ function render(){
   wrap.appendChild(renderHeader());
   wrap.appendChild(renderTabs());
   if(state.view==="session") wrap.appendChild(renderDaySelector());
-  var body=el("div",{style:"padding:16px 18px;max-width:580px;margin:0 auto;"});
+  var flareBg=(state.view==="session" && state.flareMode && !selectedIsFuture())?"background:#fdf5f9;":"";
+  var body=el("div",{style:"padding:16px 18px;max-width:580px;margin:0 auto;"+flareBg});
   if(state.view==="session") renderSession(body);
   else if(state.view==="history") renderHistory(body);
   else if(state.view==="reference") renderReference(body);
@@ -579,7 +581,8 @@ function renderDaySelector(){
     var label=el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:1px;"});
     label.appendChild(el("span",{style:"font-size:11px;"},dayName));
     label.appendChild(el("span",{style:"font-size:13px;font-weight:"+(isToday?"bold":"normal")+";"},done&&!active?"\u2713":isToday?"\u25cf":String(dateNum)));
-    var btn=el("button",{style:"padding:6px 10px;border-radius:8px;border:"+(isToday?"2px solid "+TAG_COLORS[tpl.tag]:"2px solid transparent")+";background:"+(active?TAG_COLORS[tpl.tag]:done&&!active?"#d8f0e4":isPast?"#e8e3db":"#f0ebe3")+";color:"+(active?"#fff":done&&!active?"#2d6a4a":isPast?"#8a7a6a":"#4a3f35")+";font-size:12px;white-space:nowrap;flex-shrink:0;line-height:1;",onclick:(function(idx){ return function(){ state.selectedDay=idx; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; render(); }; })(i)});
+    label.appendChild(el("span",{style:"width:4px;height:4px;border-radius:50%;background:"+(isToday&&!active?"rgba(255,255,255,0.7)":"transparent")+";margin-top:1px;display:block;"}));
+    var btn=el("button",{style:"padding:6px 10px;border-radius:8px;border:"+(isToday?"2px solid "+TAG_COLORS[tpl.tag]:"2px solid transparent")+";background:"+(active?TAG_COLORS[tpl.tag]:done&&!active?"#d8f0e4":isPast?"#e8e3db":"#f0ebe3")+";color:"+(active?"#fff":done&&!active?"#2d6a4a":isPast?"#8a7a6a":"#4a3f35")+";font-size:12px;white-space:nowrap;flex-shrink:0;line-height:1;",onclick:(function(idx){ return function(){ state.selectedDay=idx; state.hardMode=false; state.bonusRevealed=false; state.currentBonus=null; state.seenBonusIds=[]; state.refreshesLeft=2; state.editingCheckin=false; render(); }; })(i)});
     btn.appendChild(label);
     bar.appendChild(btn);
   }
@@ -727,12 +730,12 @@ function renderTensSuggestion(body, tag){
   } else {
     tens={ title:"TENS: Any tender area during savasana", note:"Yoga and rest days are ideal for TENS recovery. 10–30 min. Start at lowest intensity.", pads:"See Reference → TENS for pad placement by area" };
   }
-  var card=el("div",{style:"background:#eef4f8;border:1px solid #b8d4e4;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
+  var card=el("div",{style:"background:#eef4f0;border:1px solid #c8d8d0;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
   var top=el("div",{style:"display:flex;align-items:flex-start;gap:10px;"});
   top.appendChild(el("span",{style:"font-size:20px;flex-shrink:0;"},"⚡"));
   var txt=el("div",{style:"flex:1;"});
-  txt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#1a3a5a;margin-bottom:2px;"},tens.title));
-  txt.appendChild(el("div",{style:"font-size:12px;color:#3a5a6a;line-height:1.4;margin-bottom:4px;"},tens.note));
+  txt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},tens.title));
+  txt.appendChild(el("div",{style:"font-size:12px;color:#3a5a50;line-height:1.4;margin-bottom:4px;"},tens.note));
   txt.appendChild(el("div",{style:"font-size:10px;color:#7a9aaa;font-style:italic;"},tens.pads));
   top.appendChild(txt);
   card.appendChild(top);
@@ -758,53 +761,53 @@ function renderSession(body){
   if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:"+tagColor+";color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
   body.appendChild(dh);
 
-  // Pre-session energy + pain check-in (only if not yet completed and not a future day)
-  if(!dd.completed && !selectedIsFuture() && tag!=="rest"){
-    var ec=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:13px 15px;margin-bottom:14px;"});
-    ec.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"How’s your energy right now?"));
-    var er=el("div",{style:"display:flex;gap:8px;"});
-    ENERGY_OPTIONS.forEach(function(o){
-      var sl=dd.energyBefore===o.value;
-      er.appendChild(el("button",{style:"flex:1;padding:10px 4px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#f5f0ea")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ updateDayData({energyBefore:o.value}); }},[el("div",{style:"font-size:20px;"},o.emoji),el("div",{style:"font-size:11px;margin-top:2px;"},o.label)]));
-    });
-    ec.appendChild(er);
-    if(dd.energyBefore && dd.energyBefore<=2) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice — not a cop-out."));
-    if(dd.energyBefore && dd.energyBefore>=3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
-
-    // Pain flags
-    ec.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a5a5a;margin-top:12px;margin-bottom:7px;"},"Any pain or discomfort today?"));
-    var flagRow=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;"});
-    var currentFlags=getPainFlags();
-    PAIN_FLAGS.forEach(function(pf){
-      var on=currentFlags.indexOf(pf.id)!==-1;
-      flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#c4a0b0":"#d0c8bc")+";background:"+(on?"#f5ecef":"#f5f0ea")+";color:"+(on?"#7a4060":"#6a5a5a")+";font-size:11px;",onclick:function(){
-        var f=getPainFlags().slice();
-        var idx=f.indexOf(pf.id);
-        if(idx===-1) f.push(pf.id); else f.splice(idx,1);
-        updateDayData({painFlags:f});
-      }},pf.emoji+" "+pf.label));
-    });
-    ec.appendChild(flagRow);
-
-    // Triple flare detection
-    if(isTripleFlare()){
-      var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#f5ecef;border-radius:8px;border-left:3px solid #c4a0b0;"});
-      flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a4060;margin-bottom:4px;"},"🪻 Triple flare detected"));
-      flareAlert.appendChild(el("div",{style:"font-size:11px;color:#6a4a70;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
-      flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#6a3a58;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
-      ec.appendChild(flareAlert);
-    } else if(currentFlags.length>=2){
-      ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ecef;border-radius:8px;font-size:12px;color:#8a5068;border-left:3px solid #b0a0c4;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
+  // Check-in: full card if no energy yet (or user tapped Edit), collapsed banner once logged
+  if(!selectedIsFuture() && tag!=="rest"){
+    var showFullCheckin = (!dd.energyBefore || state.editingCheckin) && !dd.completed;
+    if(showFullCheckin){
+      var ec=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:13px 15px;margin-bottom:14px;"});
+      ec.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"How’s your energy right now?"));
+      var er=el("div",{style:"display:flex;gap:8px;"});
+      ENERGY_OPTIONS.forEach(function(o){
+        var sl=dd.energyBefore===o.value;
+        er.appendChild(el("button",{style:"flex:1;padding:10px 4px;border-radius:10px;border:2px solid "+(sl?tagColor:"#d0c8bc")+";background:"+(sl?tagColor:"#f5f0ea")+";color:"+(sl?"#fff":"#4a3a2e")+";text-align:center;",onclick:function(){ state.editingCheckin=false; updateDayData({energyBefore:o.value}); }},[el("div",{style:"font-size:20px;"},o.emoji),el("div",{style:"font-size:11px;margin-top:2px;"},o.label)]));
+      });
+      ec.appendChild(er);
+      if(dd.energyBefore && dd.energyBefore<=2) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice — not a cop-out."));
+      if(dd.energyBefore && dd.energyBefore>=3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
+      ec.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a5a5a;margin-top:12px;margin-bottom:7px;"},"Any pain or discomfort today?"));
+      var flagRow=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;"});
+      var currentFlags=getPainFlags();
+      PAIN_FLAGS.forEach(function(pf){
+        var on=currentFlags.indexOf(pf.id)!==-1;
+        flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#c4a0b0":"#d0c8bc")+";background:"+(on?"#f5ecef":"#f5f0ea")+";color:"+(on?"#7a4060":"#6a5a5a")+";font-size:11px;",onclick:function(){
+          var f=getPainFlags().slice(); var idx=f.indexOf(pf.id);
+          if(idx===-1) f.push(pf.id); else f.splice(idx,1);
+          updateDayData({painFlags:f});
+        }},pf.emoji+" "+pf.label));
+      });
+      ec.appendChild(flagRow);
+      if(isTripleFlare()){
+        var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#f5ecef;border-radius:8px;border-left:3px solid #c4a0b0;"});
+        flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a4060;margin-bottom:4px;"},"🪻 Triple flare detected"));
+        flareAlert.appendChild(el("div",{style:"font-size:11px;color:#6a4a70;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
+        flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#6a3a58;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
+        ec.appendChild(flareAlert);
+      } else if(currentFlags.length>=2){
+        ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ecef;border-radius:8px;font-size:12px;color:#8a5068;border-left:3px solid #b0a0c4;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
+      }
+      body.appendChild(ec);
+    } else if(dd.energyBefore){
+      // Collapsed summary banner — shows after energy logged, or after completion
+      var eo2=findOpt(ENERGY_OPTIONS,dd.energyBefore);
+      var summaryRow=el("div",{style:"display:flex;align-items:center;gap:8px;padding:9px 13px;background:#f5f0ea;border-radius:8px;margin-bottom:12px;font-size:12px;color:#7a6a5a;border:1px solid #e0d8cc;"});
+      summaryRow.appendChild(el("span",null,eo2.emoji));
+      summaryRow.appendChild(el("span",null,"Energy: "+eo2.label));
+      var completedFlags=getPainFlags();
+      if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#c4a0b0;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
+      if(!dd.completed) summaryRow.appendChild(el("button",{style:"margin-left:auto;padding:4px 10px;background:transparent;border:1px solid #d0c8bc;border-radius:12px;font-size:11px;color:#7a6a5a;",onclick:function(){ state.editingCheckin=true; render(); }},"Edit"));
+      body.appendChild(summaryRow);
     }
-    body.appendChild(ec);
-  } else if(dd.completed && dd.energyBefore){
-    var eo2=findOpt(ENERGY_OPTIONS,dd.energyBefore);
-    var summaryRow=el("div",{style:"display:flex;align-items:center;gap:8px;padding:8px 13px;background:#f5f0ea;border-radius:8px;margin-bottom:10px;font-size:12px;color:#7a6a5a;"});
-    summaryRow.appendChild(el("span",null,eo2.emoji));
-    summaryRow.appendChild(el("span",null,"Energy: "+eo2.label));
-    var completedFlags=getPainFlags();
-    if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#c4a0b0;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
-    body.appendChild(summaryRow);
   }
 
   // Ankle mob (daily, persistent, locked on future)
@@ -903,7 +906,7 @@ function renderSession(body){
 
   // Pre-strength TENS nudge (Wednesday, before session starts)
   if(tag==="strength" && !dd.completed && !selectedIsFuture()){
-    body.appendChild(el("div",{style:"background:#eef4f8;border:1px solid #b8d4e4;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:12px;color:#3a5a6a;line-height:1.4;"},"⚡ Optional: 10–15 min TENS on right scapula before scapula exercises. Start at lowest intensity. Don't use immediately before if that feels odd — after works too."));
+    body.appendChild(el("div",{style:"background:#eef4f0;border:1px solid #c8d8d0;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:12px;color:#3a5a50;line-height:1.4;"},"⚡ Optional: 10–15 min TENS on right scapula before scapula exercises. Start at lowest intensity. Don't use immediately before if that feels odd — after works too."));
   }
 
   // Template note
@@ -923,6 +926,16 @@ function renderSession(body){
   if(list.length){
     var isFutureDay=selectedIsFuture();
     var mw=el("div",{style:"margin-bottom:14px;"}); mw.appendChild(sectionLabel(state.hardMode?"Functional Session":"Main Session"));
+    if(!selectedIsFuture()){
+      var checkedCount=list.filter(function(_,i){ return isChecked(i); }).length;
+      var progressPct=list.length?(checkedCount/list.length*100):0;
+      var pbWrap=el("div",{style:"margin-bottom:10px;"});
+      var pbBg=el("div",{style:"background:#e8e3db;border-radius:4px;height:5px;overflow:hidden;"});
+      pbBg.appendChild(el("div",{style:"height:100%;width:"+progressPct+"%;background:"+tagColor+";border-radius:4px;"}));
+      pbWrap.appendChild(pbBg);
+      pbWrap.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;margin-top:3px;text-align:right;"},checkedCount+"/"+list.length));
+      mw.appendChild(pbWrap);
+    }
     list.forEach(function(item,i){
       var ex=item.ex; var done=isChecked(i); var dose=doseFor(ex);
       if(isFutureDay){
@@ -954,9 +967,9 @@ function renderSession(body){
     tpl.cooldown.forEach(function(id){
       var ex=DATA.exercises[id]; if(!ex) return;
       var dose=doseFor(ex);
-      var cd=el("div",{style:"padding:10px 12px;background:#eef4f8;border-radius:8px;font-size:13px;color:#3a4a5a;margin-bottom:5px;border-left:3px solid #7aadcc;"});
+      var cd=el("div",{style:"padding:10px 12px;background:#eef4f0;border-radius:8px;font-size:13px;color:#3a4a3e;margin-bottom:5px;border-left:3px solid #7ab0a0;"});
       cd.appendChild(el("div",{style:"font-weight:bold;margin-bottom:2px;"},ex.name+(dose?" — "+dose:"")));
-      if(ex.cues && ex.cues.length) cd.appendChild(el("div",{style:"font-size:11px;color:#6a8a9a;"},ex.cues[0]));
+      if(ex.cues && ex.cues.length) cd.appendChild(el("div",{style:"font-size:11px;color:#6a8a7a;"},ex.cues[0]));
       cw.appendChild(cd);
     });
     body.appendChild(cw);
@@ -1029,9 +1042,12 @@ function renderHistory(body){
     var allTicked=true;
     ph.unlockCriteria.forEach(function(crit,i){
       var k="unlock-"+ph.id+"-"+i; var on=!!store[k]; if(!on) allTicked=false;
-      var rowc=el("div",{style:"display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid #3a4a38;",onclick:function(){ store[k]=!store[k]; saveStore(store); render(); }});
-      rowc.appendChild(el("span",{style:"font-size:16px;flex-shrink:0;"},on?"\u2705":"\u2b1c"));
-      rowc.appendChild(el("span",{style:"font-size:12px;color:#d8e0d0;line-height:1.4;"+(on?"":"")},crit));
+      var rowc=el("div",{style:"display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid #3a4a38;cursor:pointer;",onclick:function(){ store[k]=!store[k]; saveStore(store); render(); }});
+      var chkBox=el("div",{style:on
+        ?"width:20px;height:20px;border-radius:50%;background:#5a9e8a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:bold;"
+        :"width:20px;height:20px;border-radius:50%;border:2px solid #4a5a3e;flex-shrink:0;background:transparent;"},on?"\u2713":"");
+      rowc.appendChild(chkBox);
+      rowc.appendChild(el("span",{style:"font-size:12px;color:#d8e0d0;line-height:1.4;"+(on?"opacity:0.5;text-decoration:line-through;":"")},crit));
       prog.appendChild(rowc);
     });
     if(allTicked){
@@ -1229,7 +1245,7 @@ function renderReference(body){
       card.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},p.area));
       card.appendChild(el("div",{style:"font-size:11px;color:#5a4a3a;"},p.place));
       var meta=el("div",{style:"display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;"});
-      meta.appendChild(el("span",{style:"font-size:10px;background:#eef4f8;color:#3a6a8a;padding:2px 8px;border-radius:10px;"},p.size));
+      meta.appendChild(el("span",{style:"font-size:10px;background:#eef4f0;color:#2d6a4a;padding:2px 8px;border-radius:10px;"},p.size));
       meta.appendChild(el("span",{style:"font-size:10px;color:#8a7a6a;font-style:italic;"},p.note));
       card.appendChild(meta);
       body.appendChild(card);
