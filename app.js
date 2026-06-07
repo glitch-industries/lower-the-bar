@@ -403,6 +403,67 @@ function doseFor(ex){
   return "";
 }
 
+/* ---------- timer ---------- */
+var _timerInterval = null;
+
+function parseDuration(dose){
+  if(!dose) return null;
+  // Skip rep-based doses that happen to mention seconds (e.g. "5 sec hold × 10 reps")
+  if(/[×x]\s*\d+\s*rep/i.test(dose)) return null;
+  var twoSided = /each side|each leg|both sides/i.test(dose);
+  var m;
+  // Minutes: "2 min", "2.5 min"
+  m = dose.match(/(\d+(?:\.\d+)?)\s*min/i);
+  if(m){ return { secs: Math.round(parseFloat(m[1])*60), twoSided: twoSided }; }
+  // Seconds: "30 sec", "20–30 sec" (take lower bound), "30 sec hold"
+  m = dose.match(/(\d+)(?:[–\-]\d+)?\s*sec/i);
+  if(m){ return { secs: parseInt(m[1]), twoSided: twoSided }; }
+  return null;
+}
+
+function fmtTimer(secsRemaining){
+  var s = Math.max(0, Math.ceil(secsRemaining));
+  var m = Math.floor(s/60); var r = s%60;
+  return m>0 ? m+":"+(r<10?"0":"")+r : s+"s";
+}
+
+function beepAndVibrate(){
+  try{
+    var ctx=new (window.AudioContext||window.webkitAudioContext)();
+    var osc=ctx.createOscillator(); var gain=ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value=880; osc.type="sine";
+    gain.gain.setValueAtTime(0.3,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+    osc.start(ctx.currentTime); osc.stop(ctx.currentTime+0.4);
+  }catch(e){}
+  try{ if(navigator.vibrate) navigator.vibrate([100,50,100]); }catch(e){}
+}
+
+function startExTimer(listIdx, durationSecs, twoSided, side){
+  clearInterval(_timerInterval);
+  state.activeTimer={listIdx:listIdx, startMs:Date.now(), durationSecs:durationSecs, twoSided:twoSided, side:side||1};
+  _timerInterval=setInterval(function(){
+    if(!state.activeTimer){ clearInterval(_timerInterval); return; }
+    var elapsed=(Date.now()-state.activeTimer.startMs)/1000;
+    if(elapsed>=state.activeTimer.durationSecs){
+      beepAndVibrate();
+      var t=state.activeTimer;
+      if(t.twoSided && t.side===1){
+        state.activeTimer={listIdx:t.listIdx, startMs:Date.now(), durationSecs:t.durationSecs, twoSided:t.twoSided, side:2};
+      } else {
+        clearInterval(_timerInterval); _timerInterval=null; state.activeTimer=null;
+        var c=getChecks(); var n={}; for(var k in c)n[k]=c[k]; n[t.listIdx]=true; store[checksKey()]=n; saveStore(store);
+        var tpl2=DATA.templates[templateIdForDate(INFO.todayKey)];
+        if(tpl2) maybeMarkComplete(exForPhase(tpl2.exercises||[]));
+      }
+      render();
+    }
+  },1000);
+}
+
+function cancelTimer(){ clearInterval(_timerInterval); _timerInterval=null; state.activeTimer=null; render(); }
+
 /* ---------- mutations ---------- */
 function update(key, obj){ var cur=store[key]||{}; var n={}; for(var k in cur)n[k]=cur[k]; for(var k2 in obj)n[k2]=obj[k2]; store[key]=n; saveStore(store); }
 function updateDayData(o){ update(dayKey(), o); render(); }
@@ -937,12 +998,27 @@ function renderSession(body){
         card.appendChild(txt);
         mw.appendChild(card);
       } else {
-        var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":"#e8a0b0")+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ toggleChecked(i); maybeMarkComplete(list); render(); }});
+        var dur=!done?parseDuration(dose):null;
+        var isTimingThis=state.activeTimer&&state.activeTimer.listIdx===i;
+        var secsRemaining=isTimingThis?Math.max(0,state.activeTimer.durationSecs-(Date.now()-state.activeTimer.startMs)/1000):null;
+        var card=el("div",{style:"padding:11px 13px;background:"+(done?"#ddf0e8":isTimingThis?"#fff9ee":"#fff")+";border-radius:8px;font-size:13px;color:"+(done?"#3a6a50":"#3a3028")+";margin-bottom:6px;border-left:4px solid "+(done?"#5a9e8a":isTimingThis?"#c87941":"#e8a0b0")+";display:flex;align-items:flex-start;gap:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"+(done?"opacity:0.75;":""),onclick:function(){ if(isTimingThis) cancelTimer(); else { toggleChecked(i); maybeMarkComplete(list); render(); } }});
         card.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},done?"\u2705":"\u2b1c"));
         var txt=el("div",{style:"flex:1;"});
         txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;"}, ex.name + (dose?" \u2014 "+dose:"")));
         if(ex.cues && ex.cues.length) txt.appendChild(el("div",{style:"font-size:11px;color:#8a7a6a;margin-top:2px;"}, ex.cues[0]));
         card.appendChild(txt);
+        // Timer button or countdown
+        if(!done){
+          if(isTimingThis){
+            var timerCol=el("div",{style:"display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;"});
+            timerCol.appendChild(el("div",{style:"font-size:18px;font-weight:bold;color:#c87941;font-variant-numeric:tabular-nums;min-width:40px;text-align:center;"},fmtTimer(secsRemaining)));
+            if(dur&&dur.twoSided) timerCol.appendChild(el("div",{style:"font-size:9px;color:#c87941;letter-spacing:0.08em;text-transform:uppercase;"},"Side "+state.activeTimer.side+" of 2"));
+            timerCol.appendChild(el("button",{style:"font-size:10px;color:#9a8a7a;background:transparent;border:none;padding:0;cursor:pointer;",onclick:function(e){ e.stopPropagation(); cancelTimer(); }},"\u2715 cancel"));
+            card.appendChild(timerCol);
+          } else if(dur){
+            (function(idx,d){ card.appendChild(el("button",{style:"flex-shrink:0;padding:4px 8px;border-radius:8px;border:1px solid #d0c8bc;background:#f5f0ea;font-size:14px;cursor:pointer;margin-top:1px;",onclick:function(e){ e.stopPropagation(); startExTimer(idx,d.secs,d.twoSided,1); }},"\u23f1")); })(i,dur);
+          }
+        }
         mw.appendChild(card);
       }
     });
