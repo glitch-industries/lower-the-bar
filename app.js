@@ -521,6 +521,13 @@ function el(tag, attrs, kids){
 }
 function findOpt(arr,v){ for(var i=0;i<arr.length;i++) if(arr[i].value===v) return arr[i]; return null; }
 function sectionLabel(t){ return el("div",{style:"font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#e8a0b0;margin-bottom:7px;font-weight:bold;"},t); }
+function sectionDivider(label){
+  var d=el("div",{style:"display:flex;align-items:center;gap:10px;margin:16px 0 10px;"});
+  d.appendChild(el("div",{style:"flex:1;height:1px;background:#e0d8d0;"}));
+  d.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:#b0a898;font-weight:bold;white-space:nowrap;"},label));
+  d.appendChild(el("div",{style:"flex:1;height:1px;background:#e0d8d0;"}));
+  return d;
+}
 
 /* ---------- render ---------- */
 var root;
@@ -910,22 +917,22 @@ function renderSession(body){
   var phOrder=String(INFO.phase.order);
   var openIds=(DATA.schedule.openRitual&&DATA.schedule.openRitual[phOrder])||["ankle-circles","leg-swings","cat-cow","wall-mobilisation"];
   var oDone=openRitualDone(), oFuture=selectedIsFuture();
-  var oWrap=el("div",{style:"margin-bottom:16px;"});
-  var oCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(oFuture?"background:#f0ece4;border:2px solid #ddd5c8;opacity:0.7;":(oDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;")),onclick:oFuture?null:toggleOpenRitual});
-  oCard.appendChild(el("span",{style:"font-size:22px;"},oFuture?"\ud83d\udd12":(oDone?"\u2705":"\ud83c\udf05")));
-  oCard.appendChild(el("div",{style:"flex:1;"},[
-    el("div",{style:"font-size:14px;font-weight:bold;color:"+(oFuture?"#8a8276":(oDone?"#2d6a4a":"#3a3028"))+";"},"Open ritual"),
-    el("div",{style:"font-size:11px;color:"+(oFuture?"#a39a8a":(oDone?"#4a8a64":"#9a8a7a"))+";"},oFuture?"Comes around when the day does.":(oDone?"Done. Good start.":"Every session \u2014 tap when complete."))
-  ]));
-  if(!oDone&&!oFuture) oCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#e8a0b0;font-weight:bold;"},"daily"));
+  var oWrap=el("div",{style:"margin-bottom:6px;"});
+  var oCard=el("div",{style:"padding:11px 13px;background:"+(oDone?"#e8f5ee":oFuture?"#f0ece4":"#fff")+";border-radius:"+((!oFuture&&!oDone)?"8px 8px 0 0":"8px")+";border-left:4px solid "+(oFuture?"#c8beb0":(oDone?"#5a9e8a":"#9ab090"))+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(oFuture?"opacity:0.55;":(oDone?"opacity:0.75;":"")),onclick:oFuture?null:toggleOpenRitual});
+  oCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},oDone?"\u2705":oFuture?"\ud83d\udd12":"\ud83c\udf05"));
+  var oTxt=el("div",{style:"flex:1;"});
+  oTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(oDone?"#3a6a50":oFuture?"#8a8276":"#3a3028")+";"+(oDone?"text-decoration:line-through;":"")},"Open ritual"));
+  oTxt.appendChild(el("div",{style:"font-size:11px;color:"+(oDone?"#4a8a64":oFuture?"#a39a8a":"#8a7a6a")+";margin-top:2px;"},oDone?"Done. Good start.":oFuture?"Comes around when the day does.":"Tap when complete."));
+  oCard.appendChild(oTxt);
+  if(!oDone&&!oFuture) oCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#b0a898;font-weight:bold;flex-shrink:0;"},"daily"));
   oWrap.appendChild(oCard);
   if(!oFuture && !oDone){
-    var oList=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+    var oList=el("div",{style:"border-left:4px solid #9ab090;background:#f8f5f0;border-radius:0 0 8px 8px;padding:8px 12px 10px 14px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"});
     openIds.forEach(function(id){
       var ex=DATA.exercises[id]; if(!ex) return;
-      var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
-      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
-      if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+      var row=el("div",{style:"display:flex;flex-direction:column;gap:1px;"});
+      row.appendChild(el("div",{style:"font-size:11px;font-weight:bold;color:#4a4038;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
+      if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;"},ex.cues[0]));
       oList.appendChild(row);
     });
     oWrap.appendChild(oList);
@@ -976,7 +983,8 @@ function renderSession(body){
   if(state.hardMode) list = list.slice(0, Math.max(2, Math.ceil(list.length/2))); // functional = first half, min 2
   if(list.length){
     var isFutureDay=selectedIsFuture();
-    var mw=el("div",{style:"margin-bottom:14px;"}); mw.appendChild(sectionLabel(state.hardMode?"Functional Session":"Main Session"));
+    body.appendChild(sectionDivider(state.hardMode?"Functional Session":"Main Session"));
+    var mw=el("div",{style:"margin-bottom:14px;"});
     if(!selectedIsFuture()){
       var checkedCount=list.filter(function(_,i){ return isChecked(i); }).length;
       var progressPct=list.length?(checkedCount/list.length*100):0;
@@ -1027,51 +1035,51 @@ function renderSession(body){
     body.appendChild(el("div",{style:"padding:11px 13px;background:#fff;border-radius:8px;font-size:13px;color:#7a6a5a;margin-bottom:14px;"},"No exercises listed for this phase."));
   }
 
-  // Day stretches (one-tap) + close ritual
-  if(tpl.cooldown && tpl.cooldown.length && !state.hardMode && !selectedIsFuture()){
-    var cdList=exForPhase(tpl.cooldown);
+  // Wind down divider + Day stretches + Close ritual
+  if(!selectedIsFuture() && !state.hardMode){
+    body.appendChild(sectionDivider("Wind Down"));
+    var cdList=tpl.cooldown&&tpl.cooldown.length?exForPhase(tpl.cooldown):[];
     if(cdList.length){
       var cdDone=cooldownDone();
-      var cdWrap=el("div",{style:"margin-bottom:14px;"});
-      var cdCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(cdDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #c0b8b0;"),onclick:toggleCooldown});
-      cdCard.appendChild(el("span",{style:"font-size:22px;"},cdDone?"\u2705":"\ud83e\uddd8"));
-      cdCard.appendChild(el("div",{style:"flex:1;"},[
-        el("div",{style:"font-size:14px;font-weight:bold;color:"+(cdDone?"#2d6a4a":"#3a3028")+";"},"Day stretches"),
-        el("div",{style:"font-size:11px;color:"+(cdDone?"#4a8a64":"#9a8a7a")+";"},cdDone?"Done.":"Tap when complete.")
-      ]));
+      var cdWrap=el("div",{style:"margin-bottom:6px;"});
+      var cdCard=el("div",{style:"padding:11px 13px;background:"+(cdDone?"#e8f5ee":"#fff")+";border-radius:"+(cdDone?"8px":"8px 8px 0 0")+";border-left:4px solid "+(cdDone?"#5a9e8a":"#9ab090")+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(cdDone?"opacity:0.75;":""),onclick:toggleCooldown});
+      cdCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},cdDone?"\u2705":"\ud83e\uddd8"));
+      var cdTxt=el("div",{style:"flex:1;"});
+      cdTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(cdDone?"#3a6a50":"#3a3028")+";"+(cdDone?"text-decoration:line-through;":"")},"Day stretches"));
+      cdTxt.appendChild(el("div",{style:"font-size:11px;color:"+(cdDone?"#4a8a64":"#8a7a6a")+";margin-top:2px;"},cdDone?"Done.":"Tap when complete."));
+      cdCard.appendChild(cdTxt);
       cdWrap.appendChild(cdCard);
-      var cdDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
-      cdList.forEach(function(item){
-        var ex=item.ex; var dose=doseFor(ex);
-        var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
-        row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(dose?" \u2014 "+dose:"")));
-        if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
-        cdDetail.appendChild(row);
-      });
-      cdWrap.appendChild(cdDetail);
+      if(!cdDone){
+        var cdDetail=el("div",{style:"border-left:4px solid #9ab090;background:#f8f5f0;border-radius:0 0 8px 8px;padding:8px 12px 10px 14px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"});
+        cdList.forEach(function(item){
+          var ex=item.ex; var dose=doseFor(ex);
+          var row=el("div",{style:"display:flex;flex-direction:column;gap:1px;"});
+          row.appendChild(el("div",{style:"font-size:11px;font-weight:bold;color:#4a4038;"},ex.name+(dose?" \u2014 "+dose:"")));
+          if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;"},ex.cues[0]));
+          cdDetail.appendChild(row);
+        });
+        cdWrap.appendChild(cdDetail);
+      }
       body.appendChild(cdWrap);
     }
-  }
-  // Close ritual (always same)
-  if(!selectedIsFuture() && !state.hardMode){
     var closeIds=(DATA.schedule.closeRitual)||["calf-stretch","supine-twist","savasana"];
     var clDone=closeRitualDone();
     var clWrap=el("div",{style:"margin-bottom:16px;"});
-    var clCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:13px 15px;border-radius:10px;"+(clDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #2d3a2e;"),onclick:toggleCloseRitual});
-    clCard.appendChild(el("span",{style:"font-size:22px;"},clDone?"\u2705":"\ud83c\udf19"));
-    clCard.appendChild(el("div",{style:"flex:1;"},[
-      el("div",{style:"font-size:14px;font-weight:bold;color:"+(clDone?"#2d6a4a":"#3a3028")+";"},"Close ritual"),
-      el("div",{style:"font-size:11px;color:"+(clDone?"#4a8a64":"#9a8a7a")+";"},clDone?"Done. Full session complete.":"Tap when complete.")
-    ]));
-    clCard.appendChild(el("span",{style:"font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9a8a7a;font-weight:bold;"},"DAILY"));
+    var clCard=el("div",{style:"padding:11px 13px;background:"+(clDone?"#e8f5ee":"#fff")+";border-radius:"+(clDone?"8px":"8px 8px 0 0")+";border-left:4px solid "+(clDone?"#5a9e8a":"#9ab090")+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(clDone?"opacity:0.75;":""),onclick:toggleCloseRitual});
+    clCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},clDone?"\u2705":"\ud83c\udf19"));
+    var clTxt=el("div",{style:"flex:1;"});
+    clTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(clDone?"#3a6a50":"#3a3028")+";"+(clDone?"text-decoration:line-through;":"")},"Close ritual"));
+    clTxt.appendChild(el("div",{style:"font-size:11px;color:"+(clDone?"#4a8a64":"#8a7a6a")+";margin-top:2px;"},clDone?"Done. Full session complete.":"Tap when complete."));
+    clCard.appendChild(clTxt);
+    clCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#b0a898;font-weight:bold;flex-shrink:0;"},"daily"));
     clWrap.appendChild(clCard);
     if(!clDone){
-      var clDetail=el("div",{style:"background:#f5f0ea;border:1px solid #d0c8bc;border-top:none;border-radius:0 0 10px 10px;padding:10px 14px;display:flex;flex-direction:column;gap:8px;"});
+      var clDetail=el("div",{style:"border-left:4px solid #9ab090;background:#f8f5f0;border-radius:0 0 8px 8px;padding:8px 12px 10px 14px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"});
       closeIds.forEach(function(id){
         var ex=DATA.exercises[id]; if(!ex) return;
-        var row=el("div",{style:"display:flex;flex-direction:column;gap:2px;"});
-        row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#3a3028;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
-        if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:11px;color:#9a8a7a;"},ex.cues[0]));
+        var row=el("div",{style:"display:flex;flex-direction:column;gap:1px;"});
+        row.appendChild(el("div",{style:"font-size:11px;font-weight:bold;color:#4a4038;"},ex.name+(doseFor(ex)?" \u2014 "+doseFor(ex):"")));
+        if(ex.cues&&ex.cues.length) row.appendChild(el("div",{style:"font-size:10px;color:#9a8a7a;"},ex.cues[0]));
         clDetail.appendChild(row);
       });
       clWrap.appendChild(clDetail);
