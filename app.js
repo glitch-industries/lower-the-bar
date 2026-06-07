@@ -342,6 +342,7 @@ function recomputeInfo(){
 var state = {
   selectedDay: 0,
   hardMode: false,
+  flareMode: false,
   view: "session",
   showIntentionPicker: false,
   writingOwn: false,
@@ -355,6 +356,19 @@ var state = {
   vacationDays: 7,
   vacationPickerOpen: false
 };
+
+var PAIN_FLAGS = [
+  { id:"lower_back",    label:"Lower back",     emoji:"🔴" },
+  { id:"right_hip",     label:"Right hip",      emoji:"🔴" },
+  { id:"right_scapula", label:"Right scapula",  emoji:"🔴" },
+  { id:"left_ankle",    label:"Left ankle",     emoji:"🟡" },
+  { id:"knees",         label:"Knees",          emoji:"🟡" }
+];
+function getPainFlags(){ return (dayData().painFlags)||[]; }
+function isTripleFlare(){
+  var f=getPainFlags();
+  return f.indexOf("lower_back")!==-1 && f.indexOf("right_hip")!==-1 && f.indexOf("right_scapula")!==-1;
+}
 
 /* date of the selected day in the rolling 7-day window (today = index 3) */
 function selectedDateKey(){
@@ -630,6 +644,102 @@ function renderVacationSession(body, tpl){
   }
 }
 
+function renderFlareProtocol(body){
+  var dd=dayData();
+  // Banner
+  var banner=el("div",{style:"background:#7a2030;color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px;"});
+  banner.appendChild(el("div",{style:"font-size:18px;margin-bottom:4px;"},"🔴"));
+  banner.appendChild(el("div",{style:"font-size:15px;font-weight:bold;margin-bottom:3px;"},"Triple flare protocol"));
+  banner.appendChild(el("div",{style:"font-size:12px;opacity:0.85;line-height:1.5;"},"Lower back + right hip + right scapula together. Likely ligament laxity. Modified session only — rest IS the work today."));
+  var exitBtn=el("button",{style:"margin-top:10px;padding:6px 14px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#fff;font-size:11px;",onclick:function(){ state.flareMode=false; render(); }},"← Back to normal session");
+  banner.appendChild(exitBtn);
+  body.appendChild(banner);
+
+  // Ankle mob — twice today
+  var aDone=ankleDone();
+  var aCard=el("div",{style:"display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:10px;margin-bottom:12px;"+(aDone?"background:#d4eddf;border:2px solid #5a9e8a;":"background:#fff;border:2px solid #e8b84b;"),onclick:toggleAnkle});
+  aCard.appendChild(el("span",{style:"font-size:20px;"},aDone?"✅":"🦶"));
+  aCard.appendChild(el("div",{style:"flex:1;"},[el("div",{style:"font-size:13px;font-weight:bold;color:"+(aDone?"#2d6a4a":"#5a4010")+";"},"Ankle mobilisation — twice today"),el("div",{style:"font-size:11px;color:"+(aDone?"#4a8a64":"#8a6a20")+";"},"Ligament laxity is highest. Do it morning and evening.")]));
+  body.appendChild(aCard);
+
+  // Do these — in order
+  body.appendChild(sectionLabel("Do these — in order"));
+  var flareSteps=[
+    { name:"Modified Savasana", dose:"5–10 min", cue:"Bolster under BENT knees. Arms relaxed. Breathe. Do this first." },
+    { name:"Gentle Cat-Cow", dose:"5–8 cycles, 50% range", cue:"Half your normal range. Inhale=Cow, Exhale=Cat. Never forced." },
+    { name:"Supine Twist", dose:"3–4 min/side, 50% range", cue:"Drop knees to side. Let gravity do the work. Never force rotation." },
+    { name:"Scapular Setting", dose:"10 reps, hold 3 sec", cue:"Blade lightly down and in. NO resistance, no bands, no weight." }
+  ];
+  flareSteps.forEach(function(item,i){
+    var done=isChecked(i);
+    var card=el("div",{style:"padding:11px 13px;background:"+(done?"#f5e8ea":"#fff")+";border-radius:8px;margin-bottom:6px;border-left:4px solid "+(done?"#7a2030":"#d4a0a8")+";display:flex;align-items:flex-start;gap:10px;",onclick:function(){ toggleChecked(i); render(); }});
+    card.appendChild(el("span",{style:"font-size:15px;flex-shrink:0;"},done?"✅":"⬜"));
+    var txt=el("div",{style:"flex:1;"});
+    txt.appendChild(el("div",{style:(done?"text-decoration:line-through;":"")+"font-weight:bold;color:#4a1a22;"},item.name+(item.dose?" — "+item.dose:"")));
+    txt.appendChild(el("div",{style:"font-size:11px;color:#8a5a5a;margin-top:2px;"},item.cue));
+    card.appendChild(txt);
+    body.appendChild(card);
+  });
+
+  // Skip today
+  body.appendChild(el("div",{style:"margin-top:14px;margin-bottom:8px;"}));
+  body.appendChild(sectionLabel("Skip today"));
+  var skipWrap=el("div",{style:"background:#fff8f8;border:1px solid #e8c0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  ["Any bridging or glute loading","All band or dumbbell scapula work","The bike","Any held standing poses"].forEach(function(s){
+    var row=el("div",{style:"font-size:12px;color:#7a3030;padding:3px 0 3px 14px;position:relative;"});
+    row.appendChild(el("span",{style:"position:absolute;left:0;color:#c4a0a0;"},"✕"));
+    row.appendChild(document.createTextNode(s));
+    skipWrap.appendChild(row);
+  });
+  body.appendChild(skipWrap);
+
+  // For the pain
+  body.appendChild(sectionLabel("For the pain"));
+  var painWrap=el("div",{style:"background:#fff5f5;border:1px solid #e8c0c0;border-radius:8px;padding:10px 14px;margin-bottom:14px;"});
+  ["🌡️  Heat pack on right rhomboid — 15–20 min","⚡  TENS on right scapula + lower back simultaneously during savasana","🛏️  Pillow between knees or under right hip if side-lying","💊  Magnesium supplement (discuss with GP — helps cycle-related tension)","🚨  Pain travelling DOWN the leg → contact PT or GP today"].forEach(function(p){
+    painWrap.appendChild(el("div",{style:"font-size:12px;color:#6a2a2a;padding:4px 0;line-height:1.4;"},p));
+  });
+  body.appendChild(painWrap);
+
+  // Completion
+  if(!dd.completed){
+    body.appendChild(el("button",{style:"width:100%;padding:14px;background:#7a2030;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:bold;margin-bottom:14px;",onclick:function(){ update(dayKey(),{completed:true,mode:"flare"}); render(); }},"Done — rested well ✓"));
+  } else {
+    var comp=el("div",{style:"background:#2d3a2e;color:#e8dfd0;border-radius:12px;padding:14px 18px;text-align:center;margin-bottom:14px;"});
+    comp.appendChild(el("div",{style:"font-size:22px;margin-bottom:4px;"},"🌿"));
+    comp.appendChild(el("div",{style:"font-size:15px;font-weight:bold;"},"Rest taken. That is the session."));
+    comp.appendChild(el("div",{style:"font-size:12px;color:#9ab090;margin-top:4px;"},"3+ consecutive bad days → contact PT before resuming."));
+    body.appendChild(comp);
+  }
+}
+
+function renderTensSuggestion(body, tag){
+  var tens=null;
+  var cycleFlare=weekData().cycleFlare;
+  if(cycleFlare){
+    tens={ title:"TENS: Scapula + lower back", note:"Both areas simultaneously during savasana. Ideal on cycle flare days. Start at lowest intensity.", pads:"Small 1.5\"×1.5\" on scapula · Middle 2\"×2\" on lower back" };
+  } else if(tag==="cardio"){
+    tens={ title:"TENS: Left ankle — post-ride", note:"Good recovery after bike. Either side of the ankle joint. Never use TENS before a ride.", pads:"Small 1.5\"×1.5\" pads, either side of ankle joint" };
+  } else if(tag==="strength"){
+    tens={ title:"TENS: Right scapula — optional", note:"If the scapula is tender after today's work. Above and below the medial border. Start at lowest intensity.", pads:"Small 1.5\"×1.5\" pads, above and below medial border of right shoulder blade" };
+  } else if(tag==="glute"){
+    tens={ title:"TENS: Right hip/glute — optional", note:"Post-session recovery on the glute muscle belly. Not on the joint itself. Great during a rest period.", pads:"Large 2\"×4\" pad on glute muscle belly" };
+  } else {
+    tens={ title:"TENS: Any tender area during savasana", note:"Yoga and rest days are ideal for TENS recovery. 10–30 min. Start at lowest intensity.", pads:"See Reference → TENS for pad placement by area" };
+  }
+  var card=el("div",{style:"background:#eef4f8;border:1px solid #b8d4e4;border-radius:10px;padding:12px 14px;margin-bottom:14px;"});
+  var top=el("div",{style:"display:flex;align-items:flex-start;gap:10px;"});
+  top.appendChild(el("span",{style:"font-size:20px;flex-shrink:0;"},"⚡"));
+  var txt=el("div",{style:"flex:1;"});
+  txt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#1a3a5a;margin-bottom:2px;"},tens.title));
+  txt.appendChild(el("div",{style:"font-size:12px;color:#3a5a6a;line-height:1.4;margin-bottom:4px;"},tens.note));
+  txt.appendChild(el("div",{style:"font-size:10px;color:#7a9aaa;font-style:italic;"},tens.pads));
+  top.appendChild(txt);
+  card.appendChild(top);
+  card.appendChild(el("div",{style:"font-size:10px;color:#9ab0ba;margin-top:6px;padding-top:6px;border-top:1px solid #c8dce8;"},"Optional — Reference tab has full pad placement guide and contraindications"));
+  body.appendChild(card);
+}
+
 function renderSession(body){
   var sel=selectedTemplate(); var tpl=sel.tpl; var tag=tpl.tag; var tagColor=TAG_COLORS[tag];
   var isToday=(selectedDateKey()===INFO.todayKey);
@@ -638,6 +748,9 @@ function renderSession(body){
   // Hand off to vacation renderer if this is a vacation day
   if(tag==="vacation"){ renderVacationSession(body,tpl); return; }
 
+  // Hand off to flare protocol if active
+  if(state.flareMode && !selectedIsFuture()){ renderFlareProtocol(body); return; }
+
   var selDayName=DAY_FULL[DAY_NAMES[new Date(selectedDateKey()+"T12:00:00").getDay()]];
   var dh=el("div",{style:"display:flex;align-items:center;gap:10px;margin-bottom:14px;"});
   dh.appendChild(el("span",{style:"font-size:24px;"},tpl.icon));
@@ -645,7 +758,7 @@ function renderSession(body){
   if(isToday) dh.appendChild(el("div",{style:"margin-left:auto;background:"+tagColor+";color:#fff;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:bold;text-transform:uppercase;"},"Today"));
   body.appendChild(dh);
 
-  // Pre-session energy check-in (only if not yet completed and not a future day)
+  // Pre-session energy + pain check-in (only if not yet completed and not a future day)
   if(!dd.completed && !selectedIsFuture() && tag!=="rest"){
     var ec=el("div",{style:"background:#fff;border:2px solid #d0c8bc;border-radius:10px;padding:13px 15px;margin-bottom:14px;"});
     ec.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#4a3a2e;margin-bottom:10px;"},"How’s your energy right now?"));
@@ -657,10 +770,41 @@ function renderSession(body){
     ec.appendChild(er);
     if(dd.energyBefore && dd.energyBefore<=2) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#f5ece6;border-radius:8px;font-size:12px;color:#7a4a30;border-left:3px solid #c49a8a;"},"Low energy noted. Functional mode is a valid choice — not a cop-out."));
     if(dd.energyBefore && dd.energyBefore>=3) ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#e8f5ee;border-radius:8px;font-size:12px;color:#2d6a4a;border-left:3px solid #5a9e8a;"},"Good energy. Stick to prescribed reps — no need to do extra."));
+
+    // Pain flags
+    ec.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#7a5a5a;margin-top:12px;margin-bottom:7px;"},"Any pain or discomfort today?"));
+    var flagRow=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;"});
+    var currentFlags=getPainFlags();
+    PAIN_FLAGS.forEach(function(pf){
+      var on=currentFlags.indexOf(pf.id)!==-1;
+      flagRow.appendChild(el("button",{style:"padding:5px 10px;border-radius:20px;border:2px solid "+(on?"#c4506a":"#d0c8bc")+";background:"+(on?"#fde8ee":"#f5f0ea")+";color:"+(on?"#8a2040":"#6a5a5a")+";font-size:11px;",onclick:function(){
+        var f=getPainFlags().slice();
+        var idx=f.indexOf(pf.id);
+        if(idx===-1) f.push(pf.id); else f.splice(idx,1);
+        updateDayData({painFlags:f});
+      }},pf.emoji+" "+pf.label));
+    });
+    ec.appendChild(flagRow);
+
+    // Triple flare detection
+    if(isTripleFlare()){
+      var flareAlert=el("div",{style:"margin-top:10px;padding:10px 12px;background:#fde8ee;border-radius:8px;border-left:3px solid #c4506a;"});
+      flareAlert.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#8a2040;margin-bottom:4px;"},"🔴 Triple flare detected"));
+      flareAlert.appendChild(el("div",{style:"font-size:11px;color:#7a3050;margin-bottom:8px;line-height:1.4;"},"Lower back + right hip + right scapula together. Likely ligament laxity. There’s a specific protocol for this."));
+      flareAlert.appendChild(el("button",{style:"width:100%;padding:9px;background:#7a2030;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:bold;",onclick:function(){ state.flareMode=true; render(); }},"Switch to flare protocol →"));
+      ec.appendChild(flareAlert);
+    } else if(currentFlags.length>=2){
+      ec.appendChild(el("div",{style:"margin-top:10px;padding:9px 12px;background:#fff0f0;border-radius:8px;font-size:12px;color:#8a4040;border-left:3px solid #d4a0a0;"},"Multiple areas flagged. Consider functional mode — half reps, reduced range. Your call."));
+    }
     body.appendChild(ec);
   } else if(dd.completed && dd.energyBefore){
     var eo2=findOpt(ENERGY_OPTIONS,dd.energyBefore);
-    body.appendChild(el("div",{style:"display:flex;align-items:center;gap:8px;padding:8px 13px;background:#f5f0ea;border-radius:8px;margin-bottom:10px;font-size:12px;color:#7a6a5a;"},[el("span",null,eo2.emoji),el("span",null,"Energy logged: "+eo2.label)]));
+    var summaryRow=el("div",{style:"display:flex;align-items:center;gap:8px;padding:8px 13px;background:#f5f0ea;border-radius:8px;margin-bottom:10px;font-size:12px;color:#7a6a5a;"});
+    summaryRow.appendChild(el("span",null,eo2.emoji));
+    summaryRow.appendChild(el("span",null,"Energy: "+eo2.label));
+    var completedFlags=getPainFlags();
+    if(completedFlags.length) summaryRow.appendChild(el("span",{style:"margin-left:4px;color:#c4506a;"},"· "+completedFlags.map(function(f){ var pf=PAIN_FLAGS.filter(function(p){return p.id===f;})[0]; return pf?pf.label:f; }).join(", ")));
+    body.appendChild(summaryRow);
   }
 
   // Ankle mob (daily, persistent, locked on future)
@@ -748,6 +892,11 @@ function renderSession(body){
     body.appendChild(cfBanner);
   }
 
+  // Pre-strength TENS nudge (Wednesday, before session starts)
+  if(tag==="strength" && !dd.completed && !selectedIsFuture()){
+    body.appendChild(el("div",{style:"background:#eef4f8;border:1px solid #b8d4e4;border-radius:8px;padding:9px 13px;margin-bottom:14px;font-size:12px;color:#3a5a6a;line-height:1.4;"},"⚡ Optional: 10–15 min TENS on right scapula before scapula exercises. Start at lowest intensity. Don't use immediately before if that feels odd — after works too."));
+  }
+
   // Template note
   if(tpl.note) body.appendChild(el("div",{style:"padding:9px 13px;margin-bottom:14px;background:#f3efe7;border-radius:8px;font-size:12px;color:#6a5a4a;border-left:3px solid "+tagColor+";line-height:1.5;"},tpl.note));
 
@@ -810,6 +959,9 @@ function renderSession(body){
         comp.appendChild(fr);
       } else if(dayData().feelAfter){ var fo=findOpt(FEEL_OPTIONS,dayData().feelAfter); comp.appendChild(el("div",{style:"font-size:13px;color:#9ab090;"},"Logged: "+fo.emoji+" "+fo.label)); }
       body.appendChild(comp);
+
+      // TENS suggestion post-completion
+      if(tag!=="rest") renderTensSuggestion(body, tag);
 
       if(tag!=="rest"){
         var bw=el("div",{style:"margin-bottom:14px;"});
@@ -987,7 +1139,7 @@ function renderHistory(body){
   body.appendChild(el("div",{style:"margin-top:12px;padding:12px 14px;background:#ede8e0;border-radius:8px;font-size:11px;color:#9a8a7a;text-align:center;line-height:1.5;"},"Saved on this device. Functional beats perfect."));
 }
 
-var REF_FILTERS = ["today","all","glute","ankle","core","cardio","strength","mobility"];
+var REF_FILTERS = ["today","all","glute","ankle","core","cardio","strength","mobility","tens"];
 
 function renderReference(body){
   var ph=INFO.phase;
@@ -1012,7 +1164,7 @@ function renderReference(body){
   var chips=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"});
   REF_FILTERS.forEach(function(f){
     var active=state.refFilter===f;
-    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f.charAt(0).toUpperCase()+f.slice(1);
+    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f==="tens"?"⚡ TENS":f.charAt(0).toUpperCase()+f.slice(1);
     chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},label));
   });
   body.appendChild(chips);
@@ -1022,6 +1174,69 @@ function renderReference(body){
   pnote.appendChild(el("span",{style:"font-weight:bold;color:"+ph.color+";"},"Phase "+ph.order+": "+ph.label+" — "));
   pnote.appendChild(document.createTextNode("Exercises marked with a phase badge are locked until that phase."));
   body.appendChild(pnote);
+
+  // TENS guide (dedicated view when filter = tens)
+  if(state.refFilter==="tens"){
+    body.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"⚡ TENS Unit Guide"));
+    body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"Etekcity 4-channel unit · FSA/HSA eligible · 8 electrode pads"));
+
+    body.appendChild(sectionLabel("When to use"));
+    var whenData=[
+      { when:"After bike session", rec:"Left ankle — either side of ankle joint. Not before a ride." },
+      { when:"Pre-strength (Wed)", rec:"Optional: 10–15 min on right scapula before scapula exercises." },
+      { when:"Post any session", rec:"Any tender area during savasana or cool-down. 10–30 min." },
+      { when:"Bad day / flare", rec:"Scapula + lower back simultaneously during savasana." },
+      { when:"Cycle flare", rec:"Lower back + scapula during savasana. Both channels." }
+    ];
+    whenData.forEach(function(w){
+      var row=el("div",{style:"background:#fff;border-radius:8px;padding:10px 13px;margin-bottom:6px;border:1px solid #e0d8cc;"});
+      row.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},w.when));
+      row.appendChild(el("div",{style:"font-size:11px;color:#5a4a3a;line-height:1.4;"},w.rec));
+      body.appendChild(row);
+    });
+
+    body.appendChild(el("div",{style:"margin-top:16px;"}));
+    body.appendChild(sectionLabel("Pad placement by area"));
+    var padData=[
+      { area:"Right scapula / rhomboid", place:"Above and below medial border of right shoulder blade", size:"Small 1.5\"×1.5\"", note:"Ask PT to mark spots" },
+      { area:"Lower back", place:"Either side of spine at lumbar level", size:"Middle 2\"×2\"", note:"NEVER directly on spine" },
+      { area:"Left ankle", place:"Either side of ankle joint", size:"Small 1.5\"×1.5\"", note:"Good post-bike" },
+      { area:"Right hip / glute", place:"On glute muscle belly", size:"Large 2\"×4\"", note:"Not on the joint itself" }
+    ];
+    padData.forEach(function(p){
+      var card=el("div",{style:"background:#fff;border-radius:8px;padding:11px 13px;margin-bottom:6px;border:1px solid #e0d8cc;"});
+      card.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},p.area));
+      card.appendChild(el("div",{style:"font-size:11px;color:#5a4a3a;"},p.place));
+      var meta=el("div",{style:"display:flex;gap:8px;margin-top:4px;flex-wrap:wrap;"});
+      meta.appendChild(el("span",{style:"font-size:10px;background:#eef4f8;color:#3a6a8a;padding:2px 8px;border-radius:10px;"},p.size));
+      meta.appendChild(el("span",{style:"font-size:10px;color:#8a7a6a;font-style:italic;"},p.note));
+      card.appendChild(meta);
+      body.appendChild(card);
+    });
+
+    body.appendChild(el("div",{style:"margin-top:16px;"}));
+    body.appendChild(sectionLabel("Usage"));
+    var usageWrap=el("div",{style:"background:#fff;border-radius:8px;padding:11px 13px;border:1px solid #e0d8cc;font-size:12px;color:#5a4a3a;line-height:1.6;"});
+    ["Start at the lowest intensity level","Increase slowly — most users never exceed level 3","Session duration: 10–30 min (use the built-in timer)","For scapula: start very conservative due to hypermobility"].forEach(function(u){
+      var r=el("div",{style:"padding:2px 0 2px 12px;position:relative;"});
+      r.appendChild(el("span",{style:"position:absolute;left:0;color:#9ab090;"},"·"));
+      r.appendChild(document.createTextNode(u));
+      usageWrap.appendChild(r);
+    });
+    body.appendChild(usageWrap);
+
+    body.appendChild(el("div",{style:"margin-top:16px;"}));
+    body.appendChild(sectionLabel("⚠️ Contraindications — never do these"));
+    var warnWrap=el("div",{style:"background:#fff8f0;border:2px solid #e8c090;border-radius:8px;padding:11px 13px;font-size:12px;color:#6a4a20;line-height:1.6;"});
+    ["NEVER use immediately before a bike session","NEVER place pads directly on the spine","NEVER use during sleep","NEVER use on broken, irritated, or inflamed skin","NEVER place over the front or sides of the neck","Do not use with a cardiac pacemaker","Do not use while the device is charging","Stop if skin becomes irritated or red"].forEach(function(w){
+      var r=el("div",{style:"padding:2px 0 2px 14px;position:relative;"});
+      r.appendChild(el("span",{style:"position:absolute;left:0;color:#c4906a;"},"✕"));
+      r.appendChild(document.createTextNode(w));
+      warnWrap.appendChild(r);
+    });
+    body.appendChild(warnWrap);
+    return;
+  }
 
   // Exercise cards
   var exList=Object.keys(DATA.exercises);
