@@ -1139,7 +1139,7 @@ function renderHistory(body){
   body.appendChild(el("div",{style:"margin-top:12px;padding:12px 14px;background:#ede8e0;border-radius:8px;font-size:11px;color:#9a8a7a;text-align:center;line-height:1.5;"},"Saved on this device. Functional beats perfect."));
 }
 
-var REF_FILTERS = ["today","all","glute","ankle","core","cardio","strength","mobility","tens"];
+var REF_FILTERS = ["today","all","glute","ankle","core","cardio","strength","mobility","tens","recovery","safety"];
 
 function renderReference(body){
   var ph=INFO.phase;
@@ -1164,7 +1164,7 @@ function renderReference(body){
   var chips=el("div",{style:"display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;"});
   REF_FILTERS.forEach(function(f){
     var active=state.refFilter===f;
-    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f==="tens"?"⚡ TENS":f.charAt(0).toUpperCase()+f.slice(1);
+    var label=f==="today"?"Today — "+(todayTpl?todayTpl.label:"Rest"):f==="tens"?"⚡ TENS":f==="recovery"?"🛠 Recovery":f==="safety"?"⚠️ Safety":f.charAt(0).toUpperCase()+f.slice(1);
     chips.appendChild(el("button",{style:"padding:5px 12px;border-radius:20px;border:2px solid "+(active?ph.color:"#d0c8bc")+";background:"+(active?ph.color:"#fff")+";color:"+(active?"#fff":"#5a4a3a")+";font-size:12px;",onclick:function(){ state.refFilter=f; render(); }},label));
   });
   body.appendChild(chips);
@@ -1235,6 +1235,80 @@ function renderReference(body){
       warnWrap.appendChild(r);
     });
     body.appendChild(warnWrap);
+    return;
+  }
+
+  // Recovery toolkit guide
+  if(state.refFilter==="recovery"){
+    body.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"🛠 Recovery Toolkit"));
+    body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"What to reach for and when."));
+
+    var tools=[
+      { emoji:"🌡️", name:"Moist heat pack", bestFor:"Low back, scapula, flare days", timing:"Anytime — first response to pain or stiffness", notes:[] },
+      { emoji:"⚡", name:"TENS unit", bestFor:"Scapula, lower back, ankle", timing:"During rest or savasana. Never immediately before bike.", notes:["See ⚡ TENS tab for full pad placement guide"] },
+      { emoji:"💊", name:"Aspercreme roll-on (topical lidocaine)", bestFor:"Ankle, knee, any accessible spot", timing:"Can't reach your own scapula — use heat or TENS there instead", notes:[] },
+      { emoji:"🔫", name:"Percussion gun", bestFor:"Glute, low back muscles", timing:"Day AFTER exercise — not during or after a flare", notes:["Left ankle: calf and peroneals only, small attachment, gentle/low speed","Right scapula: low speed, light pressure on muscle belly — never on joint","NOT during a flare — wait until the day after"] },
+      { emoji:"💊", name:"Voltaren / diclofenac gel", bestFor:"Ankle joint, knee", timing:"Post-exercise acute soreness", notes:[] }
+    ];
+    tools.forEach(function(t){
+      var card=el("div",{style:"background:#fff;border-radius:10px;border:1px solid #e0d8cc;padding:12px 14px;margin-bottom:8px;"});
+      var top=el("div",{style:"display:flex;align-items:flex-start;gap:10px;margin-bottom:6px;"});
+      top.appendChild(el("span",{style:"font-size:22px;flex-shrink:0;"},t.emoji));
+      var txt=el("div",{style:"flex:1;"});
+      txt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:#2d3a2e;margin-bottom:2px;"},t.name));
+      txt.appendChild(el("div",{style:"font-size:11px;color:#7a6a5a;"},"Best for: "+t.bestFor));
+      txt.appendChild(el("div",{style:"font-size:11px;color:#7a6a5a;"},"Timing: "+t.timing));
+      top.appendChild(txt);
+      card.appendChild(top);
+      if(t.notes.length){
+        var noteWrap=el("div",{style:"background:#f5f0ea;border-radius:6px;padding:7px 10px;"});
+        t.notes.forEach(function(n){
+          var r=el("div",{style:"font-size:11px;color:#5a4a3a;padding:2px 0 2px 10px;position:relative;"});
+          r.appendChild(el("span",{style:"position:absolute;left:0;color:#9a8a7a;"},"·"));
+          r.appendChild(document.createTextNode(n));
+          noteWrap.appendChild(r);
+        });
+        card.appendChild(noteWrap);
+      }
+      body.appendChild(card);
+    });
+    return;
+  }
+
+  // Safety warnings guide
+  if(state.refFilter==="safety"){
+    body.appendChild(el("div",{style:"font-size:15px;font-weight:bold;color:#2d3a2e;margin-bottom:3px;"},"⚠️ Safety Reminders"));
+    body.appendChild(el("div",{style:"font-size:12px;color:#8a7a6a;margin-bottom:14px;"},"Stop signals for your specific conditions."));
+
+    // Always-on rules
+    var alwaysWrap=el("div",{style:"background:#fff8e6;border:2px solid #e8c84b;border-radius:10px;padding:12px 14px;margin-bottom:16px;"});
+    alwaysWrap.appendChild(el("div",{style:"font-size:12px;font-weight:bold;color:#6a4a10;margin-bottom:8px;"},"Always — every session"));
+    ["Consult PT before advancing phases","Pain-free range only for all scapula exercises","Stop immediately if a knee slips","Stop immediately if you feel sharp or radiating pain anywhere"].forEach(function(r){
+      var row=el("div",{style:"font-size:12px;color:#6a4a10;padding:3px 0 3px 12px;position:relative;"});
+      row.appendChild(el("span",{style:"position:absolute;left:0;"},"·"));
+      row.appendChild(document.createTextNode(r));
+      alwaysWrap.appendChild(row);
+    });
+    body.appendChild(alwaysWrap);
+
+    // Stop signals by condition
+    body.appendChild(sectionLabel("Stop immediately if —"));
+    var signals=[
+      { condition:"Knees", signal:"Knee slips or feels unstable", color:"#c4506a" },
+      { condition:"Left ankle", signal:"Sharp ankle pain or feeling of giving way", color:"#c4506a" },
+      { condition:"Right glute", signal:"Low back takes over — reduce load, don't push through", color:"#c49a30" },
+      { condition:"Low back", signal:"Pain radiating down the leg", color:"#c4506a" },
+      { condition:"Right scapula", signal:"Sharp or radiating pain into arm or neck", color:"#c4506a" },
+      { condition:"Hypermobility", signal:"Any joint gives way or feels unstable", color:"#c4506a" }
+    ];
+    signals.forEach(function(s){
+      var card=el("div",{style:"background:#fff;border-radius:9px;border:1px solid #e0d8cc;border-left:4px solid "+s.color+";padding:10px 13px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;"});
+      card.appendChild(el("div",{style:"font-size:11px;font-weight:bold;color:#2d3a2e;min-width:90px;padding-top:1px;"},s.condition));
+      card.appendChild(el("div",{style:"font-size:12px;color:#5a3a3a;line-height:1.4;"},s.signal));
+      body.appendChild(card);
+    });
+
+    body.appendChild(el("div",{style:"margin-top:14px;padding:10px 13px;background:#f5ece6;border-radius:8px;font-size:11px;color:#7a4a30;line-height:1.5;border-left:3px solid #c49a8a;"},"If radiating pain (leg or arm), 3+ consecutive bad days, or any sudden worsening → contact PT or GP before resuming exercise."));
     return;
   }
 
