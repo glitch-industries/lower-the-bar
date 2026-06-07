@@ -1036,20 +1036,21 @@ function renderSession(body){
   }
 
   // Wind down divider + Day stretches + Close ritual
-  if(!selectedIsFuture() && !state.hardMode){
+  if(!state.hardMode){
+    var isFutureWD=selectedIsFuture();
     body.appendChild(sectionDivider("Wind Down"));
     var cdList=tpl.cooldown&&tpl.cooldown.length?exForPhase(tpl.cooldown):[];
     if(cdList.length){
-      var cdDone=cooldownDone();
-      var cdWrap=el("div",{style:"margin-bottom:6px;"});
-      var cdCard=el("div",{style:"padding:11px 13px;background:"+(cdDone?"#e8f5ee":"#fff")+";border-radius:"+(cdDone?"8px":"8px 8px 0 0")+";border-left:4px solid "+(cdDone?"#5a9e8a":"#9ab090")+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(cdDone?"opacity:0.75;":""),onclick:toggleCooldown});
-      cdCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},cdDone?"\u2705":"\ud83e\uddd8"));
+      var cdDone=!isFutureWD&&cooldownDone();
+      var cdWrap=el("div",{style:"margin-bottom:6px;"+(isFutureWD?"opacity:0.55;":"")});
+      var cdCard=el("div",{style:"padding:11px 13px;background:"+(cdDone?"#e8f5ee":"#fff")+";border-radius:"+((!isFutureWD&&!cdDone)?"8px 8px 0 0":"8px")+";border-left:4px solid "+(isFutureWD?"#c8beb0":(cdDone?"#5a9e8a":"#9ab090"))+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(cdDone?"opacity:0.75;":""),onclick:isFutureWD?null:toggleCooldown});
+      cdCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},isFutureWD?"\ud83d\udd12":(cdDone?"\u2705":"\ud83e\uddd8")));
       var cdTxt=el("div",{style:"flex:1;"});
-      cdTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(cdDone?"#3a6a50":"#3a3028")+";"+(cdDone?"text-decoration:line-through;":"")},"Day stretches"));
-      cdTxt.appendChild(el("div",{style:"font-size:11px;color:"+(cdDone?"#4a8a64":"#8a7a6a")+";margin-top:2px;"},cdDone?"Done.":"Tap when complete."));
+      cdTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(cdDone?"#3a6a50":isFutureWD?"#8a8276":"#3a3028")+";"+(cdDone?"text-decoration:line-through;":"")},"Day stretches"));
+      cdTxt.appendChild(el("div",{style:"font-size:11px;color:"+(cdDone?"#4a8a64":isFutureWD?"#a39a8a":"#8a7a6a")+";margin-top:2px;"},isFutureWD?"Comes around when the day does.":(cdDone?"Done.":"Tap when complete.")));
       cdCard.appendChild(cdTxt);
       cdWrap.appendChild(cdCard);
-      if(!cdDone){
+      if(!isFutureWD&&!cdDone){
         var cdDetail=el("div",{style:"border-left:4px solid #9ab090;background:#f8f5f0;border-radius:0 0 8px 8px;padding:8px 12px 10px 14px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"});
         cdList.forEach(function(item){
           var ex=item.ex; var dose=doseFor(ex);
@@ -1063,17 +1064,17 @@ function renderSession(body){
       body.appendChild(cdWrap);
     }
     var closeIds=(DATA.schedule.closeRitual)||["calf-stretch","supine-twist","savasana"];
-    var clDone=closeRitualDone();
-    var clWrap=el("div",{style:"margin-bottom:16px;"});
-    var clCard=el("div",{style:"padding:11px 13px;background:"+(clDone?"#e8f5ee":"#fff")+";border-radius:"+(clDone?"8px":"8px 8px 0 0")+";border-left:4px solid "+(clDone?"#5a9e8a":"#9ab090")+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(clDone?"opacity:0.75;":""),onclick:toggleCloseRitual});
-    clCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},clDone?"\u2705":"\ud83c\udf19"));
+    var clDone=!isFutureWD&&closeRitualDone();
+    var clWrap=el("div",{style:"margin-bottom:16px;"+(isFutureWD?"opacity:0.55;":"")});
+    var clCard=el("div",{style:"padding:11px 13px;background:"+(clDone?"#e8f5ee":"#fff")+";border-radius:"+((!isFutureWD&&!clDone)?"8px 8px 0 0":"8px")+";border-left:4px solid "+(isFutureWD?"#c8beb0":(clDone?"#5a9e8a":"#9ab090"))+";box-shadow:0 1px 3px rgba(0,0,0,0.06);display:flex;align-items:flex-start;gap:10px;"+(clDone?"opacity:0.75;":""),onclick:isFutureWD?null:toggleCloseRitual});
+    clCard.appendChild(el("span",{style:"font-size:15px;margin-top:1px;flex-shrink:0;"},isFutureWD?"\ud83d\udd12":(clDone?"\u2705":"\ud83c\udf19")));
     var clTxt=el("div",{style:"flex:1;"});
-    clTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(clDone?"#3a6a50":"#3a3028")+";"+(clDone?"text-decoration:line-through;":"")},"Close ritual"));
-    clTxt.appendChild(el("div",{style:"font-size:11px;color:"+(clDone?"#4a8a64":"#8a7a6a")+";margin-top:2px;"},clDone?"Done. Full session complete.":"Tap when complete."));
+    clTxt.appendChild(el("div",{style:"font-size:13px;font-weight:bold;color:"+(clDone?"#3a6a50":isFutureWD?"#8a8276":"#3a3028")+";"+(clDone?"text-decoration:line-through;":"")},"Close ritual"));
+    clTxt.appendChild(el("div",{style:"font-size:11px;color:"+(clDone?"#4a8a64":isFutureWD?"#a39a8a":"#8a7a6a")+";margin-top:2px;"},isFutureWD?"Comes around when the day does.":(clDone?"Done. Full session complete.":"Tap when complete.")));
     clCard.appendChild(clTxt);
-    clCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#b0a898;font-weight:bold;flex-shrink:0;"},"daily"));
+    if(!clDone&&!isFutureWD) clCard.appendChild(el("div",{style:"font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:#b0a898;font-weight:bold;flex-shrink:0;"},"daily"));
     clWrap.appendChild(clCard);
-    if(!clDone){
+    if(!isFutureWD&&!clDone){
       var clDetail=el("div",{style:"border-left:4px solid #9ab090;background:#f8f5f0;border-radius:0 0 8px 8px;padding:8px 12px 10px 14px;display:flex;flex-direction:column;gap:5px;box-shadow:0 1px 3px rgba(0,0,0,0.06);"});
       closeIds.forEach(function(id){
         var ex=DATA.exercises[id]; if(!ex) return;
